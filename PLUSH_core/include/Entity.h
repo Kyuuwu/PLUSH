@@ -19,7 +19,6 @@ namespace PLUSH {
             Entity(std::string name, std::shared_ptr<OPENGL_management::Model> model, EntityStatus status = EntityStatus());
             Entity(std::string name, std::string modelname, EntityStatus status = EntityStatus());
 
-
             std::string getName();
 
             void addInternalUniform(OPENGL_management::ShaderUniform uniform);
@@ -71,4 +70,8 @@ namespace PLUSH {
 
             EntityStatus status;
     };
+
+    std::shared_ptr<Entity> generateBasicEntity(std::string name, std::string modelname, glm::vec3 pos, glm::vec3 scale);
+    std::shared_ptr<Entity> generateBasicTexturedEntity(std::string name, std::string modelname, std::string texturename, glm::vec3 pos, glm::vec3 scale);
+    std::shared_ptr<Entity> generateBasicTexturedSquareEntity(std::string name, std::string texturename, glm::vec3 pos, glm::vec3 scale);
 }

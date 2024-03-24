@@ -3,7 +3,7 @@
 #include "OPENGL_management_includes.h"
 
 #include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Helpers.h"
 
@@ -36,7 +36,7 @@ namespace PLUSH {
         scaleUpdated = false;
         rotation->resetUpdateCheck();
 
-        modelMatrix =  glm::translate(rotation->getRotationMatrix()*glm::scale(scale), position);
+        modelMatrix =  glm::translate(rotation->getRotationMatrix()*glm::scale( glm::mat4( 1.0f ) ,scale), position);
     }
 
     glm::mat4 Entity::getModelMatrix(){
@@ -156,5 +156,24 @@ namespace PLUSH {
 
     void Entity::setStatus(EntityStatus newstatus){
         status = newstatus;
+    }
+    std::shared_ptr<Entity> generateBasicEntity(std::string name, std::string modelname, glm::vec3 pos, glm::vec3 scale){
+    std::shared_ptr<Entity> ent(new Entity(name, modelname));
+        ent->getStatusPointer()->visible = true;
+        ent->setScale(scale);
+        ent->setPosition(pos);    
+
+        return ent;
+    }
+    
+    std::shared_ptr<Entity> generateBasicTexturedEntity(std::string name, std::string modelname, std::string texturename, glm::vec3 pos, glm::vec3 scale){
+        std::shared_ptr<Entity> ent =  generateBasicEntity(name, modelname, pos, scale);
+        ent->setTexture2DUniform("primaryTexture", texturename);
+
+        return ent;
+    }
+
+    std::shared_ptr<Entity> generateBasicTexturedSquareEntity(std::string name, std::string texturename, glm::vec3 pos, glm::vec3 scale){
+        return generateBasicTexturedEntity(name, "square2D.vx", texturename, pos, scale);
     }
 }

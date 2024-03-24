@@ -19,6 +19,8 @@ namespace PLUSH {
 
             void setClearColor(float r, float g, float b);
 
+            void setDepthTest(bool depthTest);
+
             void draw();
 
             bool ShouldClose();

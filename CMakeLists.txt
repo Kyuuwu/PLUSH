@@ -89,7 +89,7 @@ target_link_libraries(PLUSH_core_wrappers PUBLIC PLUSH_core)
 #Setup executable 
 
 add_executable(PLUSH main.cpp
-PLUSH_game/Example_Tile_Game.cpp
+PLUSH_game/DiceGame.cpp
 )
 target_include_directories(PLUSH PUBLIC PLUSH_game/include)
 

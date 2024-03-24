@@ -1,6 +1,6 @@
 #include <memory>
 #include <vector>
-
+#include <string>
 
 namespace PLUSH{
     class Entity;
@@ -19,7 +19,16 @@ namespace PLUSH{
 
         void addEntity(std::shared_ptr<Entity> ent);
 
+        std::shared_ptr<Entity> getEntity(std::string name);
+
+        bool hasEntity(std::string name);
+        std::shared_ptr<Entity> getLastEntitySearched();
+
+        uint removeEntity(std::string name);
+
         private:
         std::vector<std::shared_ptr<Entity>> entities;
+
+        std::shared_ptr<Entity> lastEntitySearched;
     };
 }

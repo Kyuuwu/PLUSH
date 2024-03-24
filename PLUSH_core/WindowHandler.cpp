@@ -41,7 +41,6 @@ namespace PLUSH {
             layer->draw(window_uniforms);
         }
 
-
         window->swapBuffers();
     }
 
@@ -49,6 +48,14 @@ namespace PLUSH {
         clearColor[0] = r;
         clearColor[1] = g;
         clearColor[2] = b;
+    }
+
+    void WindowHandler::setDepthTest(bool depthTest){
+        if (depthTest){
+            OPENGL_management::enableDepthTest(window.get());
+        } else{
+            OPENGL_management::disableDepthTest(window.get());
+        }
     }
 
     PLUSH_helpers::KeyboardStatus* WindowHandler::getKeyboardStatusPointer(){

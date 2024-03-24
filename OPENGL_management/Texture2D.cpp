@@ -32,7 +32,14 @@ namespace OPENGL_management {
         combostream >> std::boolalpha >> useAlpha;
 
         if(!combostream){
+            std::cout << "Error in texture combo file: " << comboPath << std::endl;
             std::cout << "Error: texture combo file incomplete" << std::endl;
+            std::cout << "Contents listed:" << std::endl 
+                << "Name: " << name << std::endl 
+                << "Path: " << path << std::endl 
+                << "Width: " << width << std::endl
+                << "Height: " << height << std::endl
+                << "Use Alpha?: " << std::boolalpha << useAlpha << std::endl;
             throw(PLUSH_helpers::FILE_INCOMPLETE);
         } // for now check this way before because pain editing combo files
 
