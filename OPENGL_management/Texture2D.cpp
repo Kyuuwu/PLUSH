@@ -19,8 +19,11 @@ namespace OPENGL_management {
 
         std::string name;
         std::string path;
-        int width, height;
+        unsigned int width, height;
         bool useAlpha;
+        bool is_grid;
+        int grid_w;
+        int grid_h;
 
         combostream >> name;
         combostream >> path;
@@ -29,8 +32,26 @@ namespace OPENGL_management {
         combostream >> std::boolalpha >> useAlpha;
 
         if(!combostream){
+            std::cout << "Error: texture combo file incomplete" << std::endl;
             throw(PLUSH_helpers::FILE_INCOMPLETE);
+        } // for now check this way before because pain editing combo files
+
+        combostream >> std::boolalpha >> is_grid;
+
+        if(!combostream){
+            std::cout << "Warning: texture combo file omits grid specs, default to non-grid texture" << std::endl;
+            is_grid = false;
+            // throw(PLUSH_helpers::FILE_INCOMPLETE);
         }
+
+        if(is_grid){
+            combostream >> grid_w;
+            combostream >> grid_h;
+            setIsGrid(true);
+            setGridDimensions(grid_w, grid_h);
+        }
+
+        // std::cout << name << std::endl << isGrid << std::endl << texture_grid_width << " " << texture_grid_height << std::endl << std::endl;
 
         initializeTexture(name, path.c_str(), width, height, useAlpha);
     }
@@ -63,7 +84,9 @@ namespace OPENGL_management {
         texture_height = height;
         texture_num_channels = (useAlpha ? 4: 3);
 
-        unsigned char* data = stbi_load(fullTexturePath.c_str(), &width, &height, &texture_num_channels, 0);
+        int texnumch = texture_num_channels;
+
+        unsigned char* data = stbi_load(fullTexturePath.c_str(), &width, &height, &texnumch, 0);
 
         if (data)
         {
@@ -89,6 +112,27 @@ namespace OPENGL_management {
 
     std::string Texture2D::getName(){
         return name;
+    }
+
+    int Texture2D::getGridHeight(){
+        return texture_grid_height;
+    }
+
+    int Texture2D::getGridWidth(){
+        return texture_grid_width;
+    }
+
+    void Texture2D::setIsGrid(bool isgrid){
+        isGrid = isgrid;
+    }
+
+    bool Texture2D::getIsGrid(){
+        return isGrid;
+    }
+
+    void Texture2D::setGridDimensions(int w, int h){
+        texture_grid_width = w;
+        texture_grid_height = h;
     }
 
 }

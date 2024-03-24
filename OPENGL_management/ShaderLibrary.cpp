@@ -19,11 +19,16 @@ namespace OPENGL_management {
         std::shared_ptr<Shader> tile(ShaderGeneration::generateShaderFromComboFile("Tile.combo"));
         std::shared_ptr<Shader> tilemove(ShaderGeneration::generateShaderFromComboFile("TileMoveable.combo"));
 
+        std::shared_ptr<Shader> ent_2d(ShaderGeneration::generateShaderFromComboFile("entity_2D.combo"));
+        std::shared_ptr<Shader> ent_2da(ShaderGeneration::generateShaderFromComboFile("entity_2D_animated.combo"));
+
         newShaderList.push_back(tile);
         newShaderList.push_back(tilemove);
         newShaderList.push_back(shader);
         newShaderList.push_back(shadercolor);
         newShaderList.push_back(shadertex);
+        newShaderList.push_back(ent_2d);
+        newShaderList.push_back(ent_2da);
 
         shaderList = newShaderList;
         isInitialized = true;

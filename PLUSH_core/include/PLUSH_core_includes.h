@@ -6,6 +6,11 @@
 #include "TileGrid.h"
 #include "TileGridLayer.h"
 
+#include "Entity_2D_Layer.h"
+#include "Entity_2D_Animated_Layer.h"
+
+#include "Entity_Collections.h"
+
 #include "WindowHandler.h"
 
 #include "Drawable.h"

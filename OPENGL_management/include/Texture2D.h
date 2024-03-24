@@ -15,6 +15,13 @@ namespace OPENGL_management {
 
             std::string getName();
 
+            int getGridWidth();
+            int getGridHeight();
+
+            void setIsGrid(bool isgrid);
+            bool getIsGrid();
+            void setGridDimensions(int w, int h);
+
         private:
             void initializeTexture(std::string name, const char* texturePath, int width, int height, bool useAlpha);
 
@@ -23,8 +30,12 @@ namespace OPENGL_management {
             unsigned int textureID;
             // unsigned int currentTextureUnit = 0;
 
-            int texture_width;
-            int texture_height;
-            int texture_num_channels;
+            unsigned int texture_width;
+            unsigned int texture_height;
+            unsigned int texture_num_channels;
+
+            bool isGrid = false;
+            unsigned int texture_grid_width = 0;
+            unsigned int texture_grid_height = 0;
     };
 }

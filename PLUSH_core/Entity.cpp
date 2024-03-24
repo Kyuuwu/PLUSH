@@ -11,8 +11,8 @@
 
 namespace PLUSH {
     Entity::Entity(std::string name, std::shared_ptr<OPENGL_management::Model> model, EntityStatus status):
-        rotation(new RotationHandler()), 
-        model(model)
+        model(model),
+        rotation(new RotationHandler())
     {
         this->name = name;
         this->status = status;
@@ -26,16 +26,17 @@ namespace PLUSH {
     }
 
     void Entity::generateModelMatrixIfNeeded(){
-        if (positionUpdated || rotation->wasUpdated()){
+        if (positionUpdated || scaleUpdated || rotation->wasUpdated()){
             generateModelMatrix();
         }
     }
 
     void Entity::generateModelMatrix(){
         positionUpdated = false;
+        scaleUpdated = false;
         rotation->resetUpdateCheck();
 
-        modelMatrix =  glm::translate(rotation->getRotationMatrix(), position);
+        modelMatrix =  glm::translate(rotation->getRotationMatrix()*glm::scale(scale), position);
     }
 
     glm::mat4 Entity::getModelMatrix(){
@@ -61,6 +62,15 @@ namespace PLUSH {
 
         // external_uniforms.insert(external_uniforms.begin(), texture_uniforms.begin(), texture_uniforms.end());
 
+        //add animation uniforms
+        if (status.animated){
+            OPENGL_management::ShaderUniform animation_index;
+            animation_index.target.name = "textureGridIndex";
+            animation_index.target.type = OPENGL_management::OPENGL_UINT;
+            animation_index.value.u = status.animation_index;
+            
+            external_uniforms.push_back(animation_index);
+        }
 
         // std::cout << "Constructing uniform list time: ";
         // PLUSH_helpers::outputTimeElapsed();
@@ -125,6 +135,15 @@ namespace PLUSH {
 
     glm::vec3 Entity::getPosition(){
         return position;
+    }
+
+    void Entity::setScale(glm::vec3 newScale){
+        scale = newScale;
+        scaleUpdated = true;
+    }
+
+    glm::vec3 Entity::getScale(){
+        return scale;
     }
 
     EntityStatus Entity::getStatus(){

@@ -16,12 +16,16 @@ namespace OPENGL_management {
 
         std::shared_ptr<Model> tile(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("tile.vx"));
 
+        std::shared_ptr<Model> square2D(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("square2D.vx"));
+
         tile->addTexture2D("primaryTexture", "AwesomeFace");
         tringle->addTexture2D("primaryTexture", "AwesomeFace");
         square->addTexture2D("primaryTexture", "AwesomeFace");
+        square2D->addTexture2D("primaryTexture", "AwesomeFace");
 
         newModelList.push_back(tringle);
         newModelList.push_back(square);
+        newModelList.push_back(square2D);
         newModelList.push_back(tile);
 
         modelList = newModelList;

@@ -67,12 +67,24 @@ PLUSH_core/TileGrid.cpp
 PLUSH_core/TileGridLayer.cpp
 PLUSH_core/WindowHandler.cpp
 PLUSH_core/Drawable.cpp
+PLUSH_core/Entity_2D_Layer.cpp
+PLUSH_core/Entity_2D_Animated_Layer.cpp
+PLUSH_core/Entity_2D_Collection.cpp
 )
 
 target_include_directories(PLUSH_core PUBLIC PLUSH_core/include)
 
 target_link_libraries(PLUSH_core PUBLIC OPENGL_management)
 target_link_libraries(PLUSH_core PUBLIC PLUSH_helpers)
+
+#PLUSH wrappers include
+add_library(PLUSH_core_wrappers
+PLUSH_core_wrappers/test
+)
+
+target_include_directories(PLUSH_core_wrappers PUBLIC PLUSH_core_wrappers/include)
+target_link_libraries(PLUSH_core_wrappers PUBLIC PLUSH_helpers)
+target_link_libraries(PLUSH_core_wrappers PUBLIC PLUSH_core)
 
 #Setup executable 
 
@@ -103,6 +115,7 @@ add_custom_command(TARGET COPY_SHADERS POST_BUILD
 target_link_libraries(PLUSH PUBLIC OPENGL_management)
 target_link_libraries(PLUSH PUBLIC OPENGL_libraries)
 target_link_libraries(PLUSH PUBLIC PLUSH_core)
+target_link_libraries(PLUSH PUBLIC PLUSH_core_wrappers)
 target_link_libraries(PLUSH PUBLIC PLUSH_helpers)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

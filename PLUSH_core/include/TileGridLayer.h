@@ -62,8 +62,8 @@ namespace PLUSH {
             glm::vec2 tileDimensions = glm::vec2(0.1f, 0.15f);
             glm::vec2 offset = glm::vec2(0.0f, 0.0f);
 
-            void generateUniforms();
             std::vector<OPENGL_management::ShaderUniform> uniforms;
             bool uniforms_up_to_date = false;
+            virtual void generateUniforms();
     };
 }

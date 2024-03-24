@@ -20,8 +20,8 @@ namespace PLUSH {
         this->width = width;
         this->height = height;
 
-        for(int i = 0; i < width; i ++){
-            for(int j = 0; j < height; j++){
+        for(uint i = 0; i < width; i ++){
+            for(uint j = 0; j < height; j++){
                 // tiles.push_back(entity);
                 tiles.push_back(entity->copy());
             }
@@ -40,15 +40,15 @@ namespace PLUSH {
 
     void TileGrid::draw(OPENGL_management::Shader* shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms, unsigned int min_i, unsigned int max_i, unsigned int min_j, unsigned int max_j){
 
-        if(min_i < 0){
-            min_i = 0;
-        }
+        // if(min_i < 0){
+        //     min_i = 0;
+        // }
         if(max_i > width){
             max_i = width;
         }
-        if(min_j < 0){
-            min_j = 0;
-        }
+        // if(min_j < 0){
+        //     min_j = 0;
+        // }
         if(max_j > height){
             max_j = height;
         }

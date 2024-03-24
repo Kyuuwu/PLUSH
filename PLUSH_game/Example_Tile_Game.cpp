@@ -658,6 +658,8 @@ void TileGame::stompTile(int i, int j){
         case ASH:
             setTile(PACKED_ASH, i, j);
             return;
+        default:
+            return;
     }
 }
 
@@ -696,6 +698,8 @@ void TileGame::burnTile(int i, int j){
         case STONE:
             setTile(LAVA, i, j);
             return;
+        default:
+            return;
     }
 }
 
@@ -726,6 +730,8 @@ void TileGame::magifyTile(int i, int j){
             return;
         case HEATERMOVER_MATERIAL:
             setTile(HEATERMOVER, i, j, -1);
+        default:
+            return;
     }
 }
 
@@ -741,6 +747,8 @@ void TileGame::coolTile(int i, int j){
         case MOLTEN_TITANITE:
             transformNeighbors(i , j, MOLTEN_TITANITE);
             setTile(EARTH, i, j);
+            return;
+        default:
             return;
     }
 }
@@ -911,6 +919,8 @@ bool TileGame::placeCombineTile(int i, int j, Tile_ID combineTile, int orientati
                 case GEMS:
                     setTile(MOVER_MATERIAL, i, j);
                     return true;
+                default:
+                    break;
             }
         case AMBER:
             if(combineTile == COALCHROME){
@@ -932,6 +942,8 @@ bool TileGame::placeCombineTile(int i, int j, Tile_ID combineTile, int orientati
                 setTile(HEATERMOVER_MATERIAL, i, j);
                 return true;
             }
+        default:
+            break;
     }
 
     return false;

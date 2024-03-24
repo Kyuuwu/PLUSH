@@ -60,9 +60,14 @@ namespace OPENGL_management {
         // std::cout << std::endl;
 
         // std::cout << "Setting unset uniforms to default for model " << name << std::endl;
-        if (resetSetChecks){
-            shader->setUnsetUniformsToDefault();
-        }
+
+        // if (resetSetChecks){
+        //     shader->setUnsetUniformsToDefault();
+        // } // This check was a mistake??
+
+        shader->setUnsetUniformsToDefault();
+
+
         // std::cout << "Unset uniforms set to default for model " << name << std::endl << std::endl;
 
         // std::cout << "Defaulting uniforms time: ";
@@ -151,7 +156,24 @@ namespace OPENGL_management {
     }
 
     void Model::useTexture2D(Shader* shader, TextureNamePair texture, unsigned int texture_unit){
-        TextureLibrary::getTexture2DByName(texture.texturename)->use(texture_unit);
+        Texture2D* textureptr = TextureLibrary::getTexture2DByName(texture.texturename).get();
+        
+        textureptr->use(texture_unit);
+
+        if (textureptr->getIsGrid()){
+            ShaderUniform texgridwidth, texgridheight;
+            texgridwidth.target.name = "textureGridWidth";
+            texgridheight.target.name = "textureGridHeight";
+
+            texgridwidth.target.type = OPENGL_UINT;
+            texgridheight.target.type = OPENGL_UINT;
+
+            texgridwidth.value.u = textureptr->getGridWidth();
+            texgridheight.value.u = textureptr->getGridHeight();
+
+            shader->setUniform(texgridwidth.value, texgridwidth.target);
+            shader->setUniform(texgridheight.value, texgridheight.target);
+        }
 
         ShaderUniform texture_uniform;
         texture_uniform.target.name = texture.uniformname;
