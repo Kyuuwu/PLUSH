@@ -16,12 +16,18 @@ namespace PLUSH {
 
     class Standard_Layer{
         public:
+            Standard_Layer(std::string name, glm::vec2 layer_com, glm::vec2 layer_halfdimensions);
+
             void draw(std::vector<OPENGL_management::ShaderUniform> external_uniforms = std::vector<OPENGL_management::ShaderUniform>());
 
             void setLayerDimensions(float x, float y);
+            void setLayerDimensions(glm::vec2 dimensions);
+
             void setLayerHalfDimensions(float x, float y);
+            void setLayerHalfDimensions(glm::vec2 halfdimensions);
 
             void setLayerPositionCOM(float x, float y);
+            void setLayerPositionCOM(glm::vec2 layer_com);
 
             void addInstance(std::weak_ptr<Instance> newInstance, int group = -1);
 
@@ -38,8 +44,6 @@ namespace PLUSH {
 
             glm::vec2 layer_position_COM = glm::vec2(0.0f, 0.0f);
             glm::vec2 layer_halfdimensions = glm::vec2(0.4f, 0.4f);
-            glm::vec2 layer_internal_shift = glm::vec2(0.0f, 0.0f);
-
 
             std::vector<OPENGL_management::ShaderUniform> uniforms;
             bool uniforms_up_to_date = false;

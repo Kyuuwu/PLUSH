@@ -3,6 +3,14 @@
 
 namespace PLUSH
 {
+    Standard_Layer::Standard_Layer(std::string name, glm::vec2 layer_com, glm::vec2 layer_halfdimensions)
+    {
+        setName(name);
+        setLayerPositionCOM(layer_com);
+        setLayerHalfDimensions(layer_halfdimensions);
+        collection = std::shared_ptr<InstanceCollection>(new InstanceCollection());
+    }
+
     void Standard_Layer::draw(std::vector<OPENGL_management::ShaderUniform> external_uniforms)
     {
         if(!uniforms_up_to_date){
@@ -23,25 +31,41 @@ namespace PLUSH
             }
         }
 
-        
+        std::vector<Instance_Group_Pair> instancesList = collection->getSortedInstanceGroupPairs();
 
+        //TODO rest of render handling
 
     }
     
     void Standard_Layer::setLayerDimensions(float x, float y)
     {
-        setLayerHalfDimensions(x/2.0, y/2.0);
+        setLayerHalfDimensions(x/2.0f, y/2.0f);
+    }
+    
+    void Standard_Layer::setLayerDimensions(glm::vec2 dimensions)
+    {
+        setLayerHalfDimensions(dimensions / 2.0f);
     }
     
     void Standard_Layer::setLayerHalfDimensions(float x, float y)
     {
-        layer_halfdimensions = glm::vec2(x,y);
+        setLayerHalfDimensions(glm::vec2(x,y));
+    }
+    
+    void Standard_Layer::setLayerHalfDimensions(glm::vec2 halfdimensions)
+    {
+        layer_halfdimensions = halfdimensions;
         uniforms_up_to_date = false;
     }
     
     void Standard_Layer::setLayerPositionCOM(float x, float y)
     {
-        layer_position_COM = glm::vec2(x,y);
+        setLayerPositionCOM(glm::vec2(x,y));
+    }
+    
+    void Standard_Layer::setLayerPositionCOM(glm::vec2 layer_com)
+    {
+        layer_position_COM = layer_com;
         uniforms_up_to_date = false;
     }
     
@@ -72,10 +96,6 @@ namespace PLUSH
         layer_position_uniform.target.name = "layerPosition";
         layer_position_uniform.target.type = OPENGL_management::OPENGL_FLOAT_VEC_2;
         layer_position_uniform.value.fptr = &layer_position_COM[0];
-
-        layer_internal_shift_uniform.target.name = "layerOffset";
-        layer_internal_shift_uniform.target.type = OPENGL_management::OPENGL_FLOAT_VEC_2;
-        layer_internal_shift_uniform.value.fptr = &layer_internal_shift[0];
 
         std::vector<OPENGL_management::ShaderUniform> newUniformList;
         newUniformList.push_back(layer_halfdimensions_uniform);

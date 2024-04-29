@@ -5,15 +5,22 @@
 #include <memory>
 
 namespace PLUSH {
+
     class Instance;
+    
+    struct Instance_Group_Pair{
+        std::shared_ptr<Instance> instance;
+        size_t group = 0; 
+    };
 
     class InstanceCollection{
         public:
-            void addInstance(std::weak_ptr<Instance> newInstance, int group = -1);
+            void addInstance(std::weak_ptr<Instance> newInstance, size_t group);
+
+            std::vector<Instance_Group_Pair> getSortedInstanceGroupPairs();
 
         private:
-            std::vector<std::weak_ptr<Instance>> defaultGroup;
-            std::vector<std::vector<std::weak_ptr<Instance>>> extraGroups;
+            std::vector<std::vector<std::weak_ptr<Instance>>> groups;
 
 
     };
