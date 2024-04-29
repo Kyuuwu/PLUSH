@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "EntityStatus.h"
+#include "Instance.h"
 
 #include "RotationHandler.h"
 

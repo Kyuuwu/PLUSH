@@ -42,6 +42,16 @@ namespace PLUSH {
         }
         standard_layers.push_back(newLayer);
     }
+    
+    std::weak_ptr<Standard_Layer> WindowHandler::getStandardLayer(std::string name)
+    {
+        for(std::shared_ptr<Standard_Layer> layer: standard_layers){
+            if (layer->getName() == name){
+                return layer;
+            }
+        }
+        throw(LAYER_NOT_FOUND);
+    }
 
     void WindowHandler::draw(){
         OPENGL_management::clearWindow(window.get(), clearColor[0], clearColor[1], clearColor[2]);

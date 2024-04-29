@@ -3,7 +3,8 @@
 namespace PLUSH {
     enum Exception{
         ENTITY_NOT_FOUND,
-        INSTANCE_NOT_FOUND
+        INSTANCE_NOT_FOUND,
+        LAYER_NOT_FOUND
     };
 }
 

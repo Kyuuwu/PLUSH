@@ -62,6 +62,7 @@ target_link_libraries(OPENGL_management PUBLIC PLUSH_helpers)
 
 add_library(PLUSH_core
 PLUSH_core/Entity.cpp
+PLUSH_core/Instance.cpp
 PLUSH_core/RotationHandler.cpp
 PLUSH_core/TileGrid.cpp
 PLUSH_core/TileGridLayer.cpp

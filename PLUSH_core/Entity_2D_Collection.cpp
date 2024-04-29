@@ -1,5 +1,4 @@
-#include "Entity_Collections.h"
-#include "Entity.h"
+#include "PLUSH_core_includes.h"
 #include "PLUSH_core_Exceptions.h"
 
 namespace PLUSH {
@@ -41,7 +40,7 @@ namespace PLUSH {
     uint Entity_2D_Collection::removeEntity(std::string name){
         uint num_deleted = 0;
 
-        for(uint i = entities.size()-1; i >= 0; i--){
+        for(int i = entities.size()-1; i >= 0; i--){
             if (entities.at(i)->getName() == name){
                 entities.erase(entities.begin() + i);
                 num_deleted++;

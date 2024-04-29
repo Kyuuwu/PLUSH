@@ -1,5 +1,6 @@
 #include "OPENGL_management_includes.h"
 #include "PLUSH_core_includes.h"
+#include <iostream>
 
 namespace PLUSH
 {
@@ -9,6 +10,8 @@ namespace PLUSH
         setLayerPositionCOM(layer_com);
         setLayerHalfDimensions(layer_halfdimensions);
         collection = std::shared_ptr<InstanceCollection>(new InstanceCollection());
+
+        defaultShader = OPENGL_management::ShaderLibrary::getShaderByName("Entity_2D_Shader");
     }
 
     void Standard_Layer::draw(std::vector<OPENGL_management::ShaderUniform> external_uniforms)
@@ -34,6 +37,39 @@ namespace PLUSH
         std::vector<Instance_Group_Pair> instancesList = collection->getSortedInstanceGroupPairs();
 
         //TODO rest of render handling
+
+        std::vector<OPENGL_management::ShaderUniform> entity_uniforms;
+        OPENGL_management::ShaderUniform EntityX, EntityY, EntityScaleX, EntityScaleY;
+
+        EntityX.target.name = "EntityX";
+        EntityX.target.type = OPENGL_management::OPENGL_FLOAT;
+        EntityY.target.name = "EntityY";
+        EntityY.target.type = OPENGL_management::OPENGL_FLOAT;
+
+        EntityScaleX.target.name = "EntityScaleX";
+        EntityScaleX.target.type = OPENGL_management::OPENGL_FLOAT;
+        EntityScaleY.target.name = "EntityScaleY";
+        EntityScaleY.target.type = OPENGL_management::OPENGL_FLOAT;
+
+        entity_uniforms.push_back(EntityX);
+        entity_uniforms.push_back(EntityY);
+        entity_uniforms.push_back(EntityScaleX);
+        entity_uniforms.push_back(EntityScaleY);
+
+        for(Instance_Group_Pair instpair : instancesList){
+            std::shared_ptr<Instance> ent = instpair.instance;
+            glm::vec3 position = ent->getPosition();
+            entity_uniforms[0].value.f = position.x;
+            entity_uniforms[1].value.f = position.y;
+
+            glm::vec3 scale = ent->getScale();
+            entity_uniforms[2].value.f = scale.x;
+            entity_uniforms[3].value.f = scale.y;
+
+           
+            ent->drawWithShader(defaultShader.get(), entity_uniforms, false);
+        }
+
 
     }
     

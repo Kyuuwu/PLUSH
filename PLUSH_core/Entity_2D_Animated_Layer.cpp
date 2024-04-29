@@ -1,6 +1,4 @@
-#include "Entity_2D_Animated_Layer.h"
-#include "Entity_Collections.h"
-#include "Entity.h"
+#include "PLUSH_core_includes.h"
 #include "OPENGL_management_includes.h"
 
 #include <iostream>

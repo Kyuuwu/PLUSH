@@ -1,10 +1,10 @@
 #include "Instance_Collection.h"
+#include <iostream>
 
 namespace PLUSH
 {
     void InstanceCollection::addInstance(std::weak_ptr<Instance> newInstance, size_t group)
     {
-        
         if (groups.size() < group + 1){
             for (size_t i = groups.size(); i < group + 1; i++){
                 groups.push_back(std::vector<std::weak_ptr<Instance>>());

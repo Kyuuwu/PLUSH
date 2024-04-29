@@ -29,7 +29,7 @@ namespace PLUSH {
             void setLayerPositionCOM(float x, float y);
             void setLayerPositionCOM(glm::vec2 layer_com);
 
-            void addInstance(std::weak_ptr<Instance> newInstance, int group = -1);
+            void addInstance(std::weak_ptr<Instance> newInstance, int group = 0);
 
             void setName(std::string newName);
             std::string getName();

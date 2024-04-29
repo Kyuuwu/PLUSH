@@ -17,7 +17,9 @@ namespace PLUSH {
             WindowHandler(std::string name);
 
             void addDrawableLayer(std::shared_ptr<DrawableLayer> newLayer);
+
             void addStandardLayer(std::shared_ptr<Standard_Layer> newLayer);
+            std::weak_ptr<Standard_Layer> getStandardLayer(std::string name);
 
             void setClearColor(float r, float g, float b);
 
