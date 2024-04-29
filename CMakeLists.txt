@@ -70,6 +70,8 @@ PLUSH_core/Drawable.cpp
 PLUSH_core/Entity_2D_Layer.cpp
 PLUSH_core/Entity_2D_Animated_Layer.cpp
 PLUSH_core/Entity_2D_Collection.cpp
+PLUSH_core/Standard_Layer.cpp
+PLUSH_core/Instance_Collection.cpp
 )
 
 target_include_directories(PLUSH_core PUBLIC PLUSH_core/include)

@@ -11,7 +11,7 @@ namespace OPENGL_management{
 
 namespace PLUSH {
     class TileGrid;
-    class Entity;
+    class Instance;
 
     struct CoordPair{
         int i = 0;
@@ -38,8 +38,8 @@ namespace PLUSH {
             float getOffsetX();
             float getOffsetY();
 
-            void addMoveable(std::shared_ptr<Entity> moveable);
-            std::vector<std::shared_ptr<Entity>> getMoveables();
+            void addMoveable(std::shared_ptr<Instance> moveable);
+            std::vector<std::shared_ptr<Instance>> getMoveables();
             void setMoveablePosition(std::string moveableName, glm::vec2 position);
             void setMoveablePosition(std::string moveableName, float x, float y);
 
@@ -53,7 +53,7 @@ namespace PLUSH {
 
             std::shared_ptr<TileGrid> tilegrid;
 
-            std::vector<std::shared_ptr<Entity>> moveables;
+            std::vector<std::shared_ptr<Instance>> moveables;
 
             std::vector<CoordPair> highlights;
 

@@ -15,6 +15,8 @@ namespace OPENGL_management {
 
             void setUniform(ShaderUniformValue &value, ShaderUniformTarget &target);
 
+            void setUniform(ShaderUniform &uniform);
+
             std::vector<ShaderInput> getInputs();
             std::vector<ShaderUniformSlot> getUniformSlots();
 

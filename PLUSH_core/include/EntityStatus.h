@@ -2,7 +2,7 @@
 #define PLUSH_ENTITY_STATUS
 
 namespace PLUSH {
-    struct EntityStatus{
+    struct InstanceStatus{
         bool visible = false;
         int ID = 0;
         float time = 0.0f;

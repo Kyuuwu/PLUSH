@@ -2,7 +2,8 @@
 #define PLUSH_CORE_EXCEPTIONS
 namespace PLUSH {
     enum Exception{
-        ENTITY_NOT_FOUND
+        ENTITY_NOT_FOUND,
+        INSTANCE_NOT_FOUND
     };
 }
 

@@ -31,13 +31,28 @@ namespace PLUSH {
         }
         layers.push_back(newLayer);
     }
+    
+    void WindowHandler::addStandardLayer(std::shared_ptr<Standard_Layer> newLayer)
+    {
+        for (std::shared_ptr<Standard_Layer> layer : standard_layers){
+            if (layer->getName() == newLayer->getName()){
+                std::cout << "Error: Didn't add layer, because layer with matching name was found in layer list." << std::endl;
+                return;
+            }
+        }
+        standard_layers.push_back(newLayer);
+    }
 
     void WindowHandler::draw(){
         OPENGL_management::clearWindow(window.get(), clearColor[0], clearColor[1], clearColor[2]);
 
         std::vector<OPENGL_management::ShaderUniform> window_uniforms = window->getWindowUniforms();
 
-        for(std::shared_ptr<DrawableLayer> layer : layers){
+        // for(std::shared_ptr<DrawableLayer> layer : layers){
+        //     layer->draw(window_uniforms);
+        // }
+
+        for(std::shared_ptr<Standard_Layer> layer : standard_layers){
             layer->draw(window_uniforms);
         }
 

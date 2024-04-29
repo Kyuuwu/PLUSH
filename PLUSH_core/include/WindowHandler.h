@@ -10,12 +10,14 @@ namespace OPENGL_management {
 
 namespace PLUSH {
     class DrawableLayer;
+    class Standard_Layer;
 
     class WindowHandler{
         public:
             WindowHandler(std::string name);
 
             void addDrawableLayer(std::shared_ptr<DrawableLayer> newLayer);
+            void addStandardLayer(std::shared_ptr<Standard_Layer> newLayer);
 
             void setClearColor(float r, float g, float b);
 
@@ -43,5 +45,6 @@ namespace PLUSH {
             float clearColor[3] = {0.5f, 0.5f, 0.5f};
 
             std::vector<std::shared_ptr<DrawableLayer>> layers;
+            std::vector<std::shared_ptr<Standard_Layer>> standard_layers;
     };
 }

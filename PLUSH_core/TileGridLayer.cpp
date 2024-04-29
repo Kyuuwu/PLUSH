@@ -33,7 +33,7 @@ namespace PLUSH {
             tilegrid->drawHighlight(tilegridshader.get(), external_uniforms, coords.i, coords.j);
         }
 
-        for(std::shared_ptr<Entity> moveable : moveables){
+        for(std::shared_ptr<Instance> moveable : moveables){
             moveable->drawWithShader(moveableshader.get(), external_uniforms);
         }
     }
@@ -119,11 +119,11 @@ namespace PLUSH {
         position[1] = y;
     }
 
-    void TileGridLayer::addMoveable(std::shared_ptr<Entity> moveable){
+    void TileGridLayer::addMoveable(std::shared_ptr<Instance> moveable){
         moveables.push_back(moveable);
     }
 
-    std::vector<std::shared_ptr<Entity>> TileGridLayer::getMoveables(){
+    std::vector<std::shared_ptr<Instance>> TileGridLayer::getMoveables(){
         return moveables;
     }
 
@@ -142,7 +142,7 @@ namespace PLUSH {
         positionuniforms.push_back(posX);
         positionuniforms.push_back(posY);
 
-        for(std::shared_ptr<Entity> moveable : moveables){
+        for(std::shared_ptr<Instance> moveable : moveables){
             if(moveable->getName() == moveableName){
                 moveable->setInternalUniforms(positionuniforms);
             }

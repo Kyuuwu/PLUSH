@@ -6,17 +6,17 @@
 #include <iostream>
 
 namespace PLUSH {
-    TileGrid::TileGrid(std::shared_ptr<Entity> entity, unsigned int width, unsigned int height){
+    TileGrid::TileGrid(std::shared_ptr<Instance> entity, unsigned int width, unsigned int height){
         initializeGrid(entity, width, height);
     }
 
     TileGrid::TileGrid(unsigned int width, unsigned int height){
-        std::shared_ptr<Entity> defaulttile(new Entity("Tile", OPENGL_management::ModelLibrary::getModelByName("tile.vx")));
+        std::shared_ptr<Instance> defaulttile(new Instance("Tile", OPENGL_management::ModelLibrary::getModelByName("tile.vx")));
         defaulttile->getStatusPointer()->visible=true;
         initializeGrid(defaulttile, width, height);
     }
 
-    void TileGrid::initializeGrid(std::shared_ptr<Entity> entity, unsigned int width, unsigned int height){
+    void TileGrid::initializeGrid(std::shared_ptr<Instance> entity, unsigned int width, unsigned int height){
         this->width = width;
         this->height = height;
 
@@ -27,7 +27,7 @@ namespace PLUSH {
             }
         }
 
-        std::shared_ptr<Entity> newhighlighter(new Entity("Highlighter", "tile.vx"));
+        std::shared_ptr<Instance> newhighlighter(new Instance("Highlighter", "tile.vx"));
         newhighlighter->getStatusPointer()->visible = true;
         newhighlighter->setTexture2DUniform("primaryTexture", "HighlighterThick");
 
@@ -126,7 +126,7 @@ namespace PLUSH {
 
     }
 
-    std::shared_ptr<Entity> TileGrid::getTile(unsigned int i, unsigned int j){
+    std::shared_ptr<Instance> TileGrid::getTile(unsigned int i, unsigned int j){
         if (i >= width || j >= height){
             throw(PLUSH_helpers::OUT_OF_RANGE);
         }

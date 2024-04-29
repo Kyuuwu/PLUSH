@@ -71,7 +71,7 @@ namespace PLUSH{
             shader->setUniform(uni.value, uni.target);
         }
 
-        std::vector<std::shared_ptr<Entity>> entities = entity_collection->getEntitiesToRender();
+        std::vector<std::shared_ptr<Instance>> entities = entity_collection->getEntitiesToRender();
 
         std::vector<OPENGL_management::ShaderUniform> entity_uniforms;
 
@@ -92,7 +92,7 @@ namespace PLUSH{
         entity_uniforms.push_back(EntityScaleX);
         entity_uniforms.push_back(EntityScaleY);
 
-        for(std::shared_ptr<Entity> ent : entities){
+        for(std::shared_ptr<Instance> ent : entities){
             glm::vec3 position = ent->getPosition();
             entity_uniforms[0].value.f = position.x;
             entity_uniforms[1].value.f = position.y;

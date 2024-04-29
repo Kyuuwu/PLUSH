@@ -124,6 +124,12 @@ namespace OPENGL_management {
         }
     
     }
+
+    void Shader::setUniform(ShaderUniform &uniform)
+    {
+        setUniform(uniform.value, uniform.target);
+    }
+
     void Shader::setUniform(ShaderUniformValue &value, int index){
         use();
         switch(uniforms[index].type){

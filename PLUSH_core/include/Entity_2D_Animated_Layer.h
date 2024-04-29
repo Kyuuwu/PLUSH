@@ -10,7 +10,7 @@ namespace OPENGL_management{
 }
 
 namespace PLUSH{
-    class Entity;
+    class Instance;
     class EntityCollection;
 
     class Entity_2D_Animated_Layer : public DrawableLayer{

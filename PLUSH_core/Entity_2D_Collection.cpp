@@ -3,20 +3,20 @@
 #include "PLUSH_core_Exceptions.h"
 
 namespace PLUSH {
-    std::vector<std::shared_ptr<Entity>> Entity_2D_Collection::getEntitiesToRender(){
+    std::vector<std::shared_ptr<Instance>> Entity_2D_Collection::getEntitiesToRender(){
         return entities;
     }
 
     void Entity_2D_Collection::clearEntities(){
-        entities = std::vector<std::shared_ptr<Entity>>();
+        entities = std::vector<std::shared_ptr<Instance>>();
     }
 
-    void Entity_2D_Collection::addEntity(std::shared_ptr<Entity> ent){
+    void Entity_2D_Collection::addEntity(std::shared_ptr<Instance> ent){
         entities.push_back(ent);
     }
 
-    std::shared_ptr<Entity> Entity_2D_Collection::getEntity(std::string name){
-        for(std::shared_ptr<Entity> ent : entities){
+    std::shared_ptr<Instance> Entity_2D_Collection::getEntity(std::string name){
+        for(std::shared_ptr<Instance> ent : entities){
             if (ent->getName() == name){
                 return ent;
             }
@@ -25,7 +25,7 @@ namespace PLUSH {
     }
 
     bool Entity_2D_Collection::hasEntity(std::string name){
-        for(std::shared_ptr<Entity> ent : entities){
+        for(std::shared_ptr<Instance> ent : entities){
             if (ent->getName() == name){
                 lastEntitySearched = ent;
                 return true;
@@ -34,7 +34,7 @@ namespace PLUSH {
         return false;
     }
 
-    std::shared_ptr<Entity> Entity_2D_Collection::getLastEntitySearched(){
+    std::shared_ptr<Instance> Entity_2D_Collection::getLastEntitySearched(){
         return lastEntitySearched;
     }
 

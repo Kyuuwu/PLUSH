@@ -7,10 +7,12 @@
 
 #include "Helpers.h"
 
+#include "Standard_Layer.h"
+
 #include <iostream>
 
 namespace PLUSH {
-    Entity::Entity(std::string name, std::shared_ptr<OPENGL_management::Model> model, EntityStatus status):
+    Instance::Instance(std::string name, std::shared_ptr<OPENGL_management::Model> model, InstanceStatus status):
         model(model),
         rotation(new RotationHandler())
     {
@@ -18,20 +20,20 @@ namespace PLUSH {
         this->status = status;
     }
 
-    Entity::Entity(std::string name, std::string modelname, EntityStatus status):
-    Entity(name, OPENGL_management::ModelLibrary::getModelByName(modelname), status){}
+    Instance::Instance(std::string name, std::string modelname, InstanceStatus status):
+    Instance(name, OPENGL_management::ModelLibrary::getModelByName(modelname), status){}
 
-    std::string Entity::getName(){
+    std::string Instance::getName(){
         return name;
     }
 
-    void Entity::generateModelMatrixIfNeeded(){
+    void Instance::generateModelMatrixIfNeeded(){
         if (positionUpdated || scaleUpdated || rotation->wasUpdated()){
             generateModelMatrix();
         }
     }
 
-    void Entity::generateModelMatrix(){
+    void Instance::generateModelMatrix(){
         positionUpdated = false;
         scaleUpdated = false;
         rotation->resetUpdateCheck();
@@ -39,12 +41,12 @@ namespace PLUSH {
         modelMatrix =  glm::translate(rotation->getRotationMatrix()*glm::scale( glm::mat4( 1.0f ) ,scale), position);
     }
 
-    glm::mat4 Entity::getModelMatrix(){
+    glm::mat4 Instance::getModelMatrix(){
         generateModelMatrixIfNeeded();
         return modelMatrix;
     }
 
-    void Entity::drawWithShader(OPENGL_management::Shader *shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms, bool resetChecks){
+    void Instance::drawWithShader(OPENGL_management::Shader *shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms, bool resetChecks){
         if(!status.visible){
             return;
         }
@@ -82,23 +84,23 @@ namespace PLUSH {
         // std::cout << std::endl;     
     }
 
-    std::shared_ptr<RotationHandler> Entity::getRotationHandler(){
+    std::shared_ptr<RotationHandler> Instance::getRotationHandler(){
         return rotation;
     }
 
-    void Entity::setInternalUniforms(std::vector<OPENGL_management::ShaderUniform> uniforms){
+    void Instance::setInternalUniforms(std::vector<OPENGL_management::ShaderUniform> uniforms){
         internal_uniforms = uniforms;
     }
 
-    void Entity::addInternalUniform(OPENGL_management::ShaderUniform uniform){
+    void Instance::addInternalUniform(OPENGL_management::ShaderUniform uniform){
         internal_uniforms.push_back(uniform);
     }
 
-    std::vector<OPENGL_management::ShaderUniform> Entity::getInternalUniforms(){
+    std::vector<OPENGL_management::ShaderUniform> Instance::getInternalUniforms(){
         return internal_uniforms;
     }
 
-    void Entity::setTexture2DUniform(std::string uniformname, std::string texturename){
+    void Instance::setTexture2DUniform(std::string uniformname, std::string texturename){
         OPENGL_management::TextureNamePair tex;
         tex.uniformname = uniformname;
         tex.texturename = texturename;
@@ -112,8 +114,8 @@ namespace PLUSH {
         texture2D_name_pairs.push_back(tex);
     }
 
-    std::shared_ptr<Entity> Entity::copy(){
-        std::shared_ptr<Entity> copied(new Entity(name, model, status));
+    std::shared_ptr<Instance> Instance::copy(){
+        std::shared_ptr<Instance> copied(new Instance(name, model, status));
         copied->setPosition(position);
 
         std::shared_ptr<RotationHandler> rotationcopy = rotation->copy();
@@ -123,42 +125,58 @@ namespace PLUSH {
         return copied;
     }
 
-    void Entity::setRotationHandler(std::shared_ptr<RotationHandler> rotationHandler){
+    void Instance::setRotationHandler(std::shared_ptr<RotationHandler> rotationHandler){
 
         rotation = rotationHandler;
     }
 
-    void Entity::setPosition(glm::vec3 newPosition){
+    void Instance::setPosition(glm::vec3 newPosition){
         position = newPosition;
         positionUpdated = true;
     }
 
-    glm::vec3 Entity::getPosition(){
+    glm::vec3 Instance::getPosition(){
         return position;
     }
 
-    void Entity::setScale(glm::vec3 newScale){
+    void Instance::setScale(glm::vec3 newScale){
         scale = newScale;
         scaleUpdated = true;
     }
 
-    glm::vec3 Entity::getScale(){
+    glm::vec3 Instance::getScale(){
         return scale;
     }
 
-    EntityStatus Entity::getStatus(){
+    InstanceStatus Instance::getStatus(){
         return status;
     }
 
-    EntityStatus* Entity::getStatusPointer(){
+    InstanceStatus* Instance::getStatusPointer(){
         return &status;
     }
 
-    void Entity::setStatus(EntityStatus newstatus){
+    void Instance::setStatus(InstanceStatus newstatus){
         status = newstatus;
     }
-    std::shared_ptr<Entity> generateBasicEntity(std::string name, std::string modelname, glm::vec3 pos, glm::vec3 scale){
-    std::shared_ptr<Entity> ent(new Entity(name, modelname));
+    
+    void Instance::setParentEntity(std::shared_ptr<Entity> parent)
+    {
+        parentEntity = parent;
+    }
+    
+    std::shared_ptr<Entity> Instance::getParentEntity()
+    {
+        return parentEntity.lock();
+    }
+    
+    void Instance::addContainingCollection(std::weak_ptr<InstanceCollection> collection)
+    {
+        containingCollections.push_back(collection);
+    }
+
+    std::shared_ptr<Instance> generateBasicEntity(std::string name, std::string modelname, glm::vec3 pos, glm::vec3 scale){
+    std::shared_ptr<Instance> ent(new Instance(name, modelname));
         ent->getStatusPointer()->visible = true;
         ent->setScale(scale);
         ent->setPosition(pos);    
@@ -166,14 +184,63 @@ namespace PLUSH {
         return ent;
     }
     
-    std::shared_ptr<Entity> generateBasicTexturedEntity(std::string name, std::string modelname, std::string texturename, glm::vec3 pos, glm::vec3 scale){
-        std::shared_ptr<Entity> ent =  generateBasicEntity(name, modelname, pos, scale);
+    std::shared_ptr<Instance> generateBasicTexturedEntity(std::string name, std::string modelname, std::string texturename, glm::vec3 pos, glm::vec3 scale){
+        std::shared_ptr<Instance> ent =  generateBasicEntity(name, modelname, pos, scale);
         ent->setTexture2DUniform("primaryTexture", texturename);
 
         return ent;
     }
 
-    std::shared_ptr<Entity> generateBasicTexturedSquareEntity(std::string name, std::string texturename, glm::vec3 pos, glm::vec3 scale){
+    std::shared_ptr<Instance> generateBasicTexturedSquareEntity(std::string name, std::string texturename, glm::vec3 pos, glm::vec3 scale){
         return generateBasicTexturedEntity(name, "square2D.vx", texturename, pos, scale);
     }
+    
+    std::weak_ptr<Instance> Entity::getInstance(int index)
+    {
+        return instances[index];
+    }
+    
+    std::weak_ptr<Instance> Entity::getInstance(std::string instanceName)
+    {
+        for (std::shared_ptr<Instance> inst : instances){
+            if (inst->getName() == instanceName){
+                return inst;
+            }
+        }
+        throw(INSTANCE_NOT_FOUND);
+    }
+    
+    unsigned int Entity::getNumInstances()
+    {
+        return instances.size();
+    }
+    
+    std::vector<std::weak_ptr<Instance>> Entity::getInstances()
+    {
+        std::vector<std::weak_ptr<Instance>> weak_instances;
+
+        for (std::shared_ptr<Instance> inst: instances){
+            weak_instances.push_back(inst);
+        }
+
+        return weak_instances;
+    }
+    
+    std::weak_ptr<Instance> Entity::addInstance(std::string name, std::string modelname)
+    {
+        std::shared_ptr<Instance> newInstance(new Instance(name, modelname));
+        instances.push_back(newInstance);
+        return newInstance;
+    }
+    
+    void Entity::addInstanceToLayer(std::string instanceName, std::shared_ptr<Standard_Layer> layer, int group)
+    {
+        layer->addInstance(getInstance(instanceName), group);
+    }
+    
+    void Entity::createInstanceInLayer(std::string instanceName, std::string modelName, std::shared_ptr<Standard_Layer> layer, int group)
+    {
+        layer->addInstance(addInstance(instanceName, modelName));
+    }
+    
 }

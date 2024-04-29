@@ -7,14 +7,14 @@ namespace OPENGL_management {
 }
 
 namespace PLUSH {
-    class Entity;
+    class Instance;
 
     class TileGrid{
         public:
-            TileGrid(std::shared_ptr<Entity> entity, unsigned int width = 1, unsigned int height = 1);
+            TileGrid(std::shared_ptr<Instance> entity, unsigned int width = 1, unsigned int height = 1);
             TileGrid( unsigned int width = 1, unsigned int height = 1);
 
-            void initializeGrid(std::shared_ptr<Entity> entity, unsigned int width = 1, unsigned int height = 1);
+            void initializeGrid(std::shared_ptr<Instance> entity, unsigned int width = 1, unsigned int height = 1);
 
             void draw(OPENGL_management::Shader* shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms);
             void draw(OPENGL_management::Shader* shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms, unsigned int min_i, unsigned int max_i, unsigned int min_j, unsigned int max_j);
@@ -24,14 +24,14 @@ namespace PLUSH {
             unsigned int getWidth();
             unsigned int getHeight();
             
-            std::shared_ptr<Entity> getTile(unsigned int i, unsigned int j);
+            std::shared_ptr<Instance> getTile(unsigned int i, unsigned int j);
 
         private:
             unsigned int width;
             unsigned int height;
 
-            std::vector<std::shared_ptr<Entity>> tiles;
+            std::vector<std::shared_ptr<Instance>> tiles;
 
-            std::shared_ptr<Entity> highlighter;
+            std::shared_ptr<Instance> highlighter;
     };
 }
