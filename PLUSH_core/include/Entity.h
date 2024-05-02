@@ -24,6 +24,9 @@ namespace PLUSH {
             std::weak_ptr<Instance> getInstance(int index = 0);
             std::weak_ptr<Instance> getInstance(std::string instanceName);
 
+            std::shared_ptr<Instance> getInstanceAsSharedPtr(int index = 0);
+            std::shared_ptr<Instance> getInstanceAsSharedPtr(std::string instanceName);
+
             unsigned int getNumInstances();
             std::vector<std::weak_ptr<Instance>> getInstances();
 

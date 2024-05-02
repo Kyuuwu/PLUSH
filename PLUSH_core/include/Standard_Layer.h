@@ -34,6 +34,8 @@ namespace PLUSH {
             void setName(std::string newName);
             std::string getName();
 
+            std::shared_ptr<InstanceCollection> DEBUG_GET_COLLECTION();
+
         private:
             std::shared_ptr<OPENGL_management::Shader> defaultShader;
             std::vector<std::shared_ptr<OPENGL_management::Shader>> alternativeShaders;

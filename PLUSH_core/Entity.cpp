@@ -53,6 +53,16 @@ namespace PLUSH {
         throw(INSTANCE_NOT_FOUND);
     }
     
+    std::shared_ptr<Instance> Entity::getInstanceAsSharedPtr(int index)
+    {
+        return getInstance(index).lock();
+    }
+    
+    std::shared_ptr<Instance> Entity::getInstanceAsSharedPtr(std::string instanceName)
+    {
+        return getInstance(instanceName).lock();
+    }
+    
     unsigned int Entity::getNumInstances()
     {
         return instances.size();

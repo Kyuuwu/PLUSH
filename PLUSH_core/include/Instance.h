@@ -41,6 +41,13 @@ namespace PLUSH {
             glm::vec3 getPosition();
             void setPosition(glm::vec3 newPosition);
 
+            int32_t getLayerOrder() const;
+            void setLayerOrder(int32_t new_layerorder);
+
+            static bool compareLayerOrder(const Instance& a, const Instance& b);
+            static bool compareLayerOrderShared(const std::shared_ptr<Instance>& a, const std::shared_ptr<Instance>& b);
+            static bool compareLayerOrderWeak(const std::weak_ptr<Instance>& a, const std::weak_ptr<Instance>& b);
+
             glm::vec3 getScale();
             void setScale(glm::vec3 newScale);
 
@@ -82,6 +89,8 @@ namespace PLUSH {
             
             glm::mat4 modelMatrix = glm::mat4(1.0f);
             bool scaleUpdated = true;
+
+            int32_t layerOrder = 0;
 
             InstanceStatus status;
     };

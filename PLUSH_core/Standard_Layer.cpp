@@ -121,6 +121,11 @@ namespace PLUSH
         return name;
     }
     
+    std::shared_ptr<InstanceCollection> Standard_Layer::DEBUG_GET_COLLECTION()
+    {
+        return collection;
+    }
+    
     void Standard_Layer::generateUniforms()
     {
         OPENGL_management::ShaderUniform layer_halfdimensions_uniform, layer_position_uniform, layer_internal_shift_uniform;

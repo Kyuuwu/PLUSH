@@ -61,6 +61,7 @@ target_link_libraries(OPENGL_management PUBLIC PLUSH_helpers)
 #PLUSH core include
 
 add_library(PLUSH_core
+PLUSH_core/PLUSH_core_Exceptions.cpp
 PLUSH_core/Entity.cpp
 PLUSH_core/Instance.cpp
 PLUSH_core/RotationHandler.cpp

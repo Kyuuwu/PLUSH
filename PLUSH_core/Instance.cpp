@@ -127,6 +127,31 @@ namespace PLUSH {
         position = newPosition;
         positionUpdated = true;
     }
+    
+    int32_t Instance::getLayerOrder() const
+    {
+        return layerOrder;
+    }
+    
+    void Instance::setLayerOrder(int32_t new_layerorder)
+    {
+        layerOrder = new_layerorder;
+    }
+    
+    bool Instance::compareLayerOrder(const Instance& a, const Instance& b) 
+    {
+        return a.getLayerOrder() < b.getLayerOrder();
+    }
+    
+    bool Instance::compareLayerOrderShared(const std::shared_ptr<Instance>& a, const std::shared_ptr<Instance>& b) 
+    {
+        return a->getLayerOrder() < b->getLayerOrder();
+    }
+    
+    bool Instance::compareLayerOrderWeak(const std::weak_ptr<Instance>& a, const std::weak_ptr<Instance>& b) 
+    {
+        return a.lock()->getLayerOrder() < b.lock()->getLayerOrder();
+    }
 
     glm::vec3 Instance::getPosition(){
         return position;
