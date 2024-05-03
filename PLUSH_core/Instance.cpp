@@ -39,7 +39,7 @@ namespace PLUSH {
         return modelMatrix;
     }
 
-    void Instance::drawWithShader(OPENGL_management::Shader *shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms, bool resetChecks){
+    void Instance::drawWithShader(OPENGL_management::Shader *shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms, bool resetPerInstanceChecks){
         if(!status.visible){
             return;
         }
@@ -70,8 +70,9 @@ namespace PLUSH {
         // std::cout << "Constructing uniform list time: ";
         // PLUSH_helpers::outputTimeElapsed();
         // std::cout << std::endl;
+        
 
-        model->drawWithShader(shader, external_uniforms, resetChecks, texture2D_name_pairs);   
+        model->drawWithShader(shader, external_uniforms, resetPerInstanceChecks, texture2D_name_pairs);   
         // std::cout << "Drawing entity time: ";
         // PLUSH_helpers::outputTimeElapsed();
         // std::cout << std::endl;     

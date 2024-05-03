@@ -29,7 +29,7 @@ DiceGame::DiceGame(){
                 "LayerForeground", 
                 glm::vec2(0.0f, 0.0f), 
                 glm::vec2(1.0f, 1.0f))));
-
+                
     std::shared_ptr<PLUSH::Entity> backdrop_entity = PLUSH::generateBasicTexturedSquareEntity(
         "Backdrop", "BlackRectangle", 
         vZero(), vScreenfiller());
@@ -38,10 +38,10 @@ DiceGame::DiceGame(){
         "Ground", "OrangeSquare", 
         -1.2f*vY(), vScreenfiller());
 
-    backdrop_entity->addInstanceToLayer("Default", window->getStandardLayer("LayerBackground").lock());
-    ground_entity->addInstanceToLayer("Default", window->getStandardLayer("LayerBackground").lock());
+    backdrop_entity->addDefaultInstanceToLayer(window->getStandardLayer("LayerBackground").lock());
+    ground_entity->addDefaultInstanceToLayer(window->getStandardLayer("LayerBackground").lock());
 
-    ground_entity->getInstanceAsSharedPtr("Default")->setLayerOrder(10);
+    ground_entity->getInstanceAsSharedPtr()->setLayerOrder(10);
 
     entities.push_back(backdrop_entity);
     entities.push_back(ground_entity);
@@ -49,6 +49,7 @@ DiceGame::DiceGame(){
 }
 
 void DiceGame::run(){
+    // return;
     float currentTime = PLUSH_helpers::GetTime();
 
     float time_float_prev = currentTime;

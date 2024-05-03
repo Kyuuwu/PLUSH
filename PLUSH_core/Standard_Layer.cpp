@@ -20,9 +20,9 @@ namespace PLUSH
             generateUniforms();
         }
 
-        defaultShader->resetUniformSetChecks();
+        defaultShader->resetPerLayerUniformSetChecks();
         for (std::shared_ptr<OPENGL_management::Shader> shader : alternativeShaders){
-            shader->resetUniformSetChecks();
+            shader->resetPerLayerUniformSetChecks();
         }
 
         external_uniforms.insert(external_uniforms.begin(), uniforms.begin(), uniforms.end());
@@ -67,10 +67,8 @@ namespace PLUSH
             entity_uniforms[3].value.f = scale.y;
 
            
-            ent->drawWithShader(defaultShader.get(), entity_uniforms, false);
+            ent->drawWithShader(defaultShader.get(), entity_uniforms, true);
         }
-
-
     }
     
     void Standard_Layer::setLayerDimensions(float x, float y)
@@ -102,6 +100,17 @@ namespace PLUSH
     void Standard_Layer::setLayerPositionCOM(glm::vec2 layer_com)
     {
         layer_position_COM = layer_com;
+        uniforms_up_to_date = false;
+    }
+    
+    void Standard_Layer::setLayerOffset(float x, float y)
+    {
+        setLayerOffset(glm::vec2(x,y));
+    }
+    
+    void Standard_Layer::setLayerOffset(glm::vec2 new_layeroffset)
+    {
+        layer_offset = new_layeroffset;
         uniforms_up_to_date = false;
     }
     
@@ -137,6 +146,10 @@ namespace PLUSH
         layer_position_uniform.target.name = "layerPosition";
         layer_position_uniform.target.type = OPENGL_management::OPENGL_FLOAT_VEC_2;
         layer_position_uniform.value.fptr = &layer_position_COM[0];
+
+        layer_internal_shift_uniform.target.name = "layerOffset";
+        layer_internal_shift_uniform.target.type = OPENGL_management::OPENGL_FLOAT_VEC_2;
+        layer_internal_shift_uniform.value.fptr = &layer_offset[0];
 
         std::vector<OPENGL_management::ShaderUniform> newUniformList;
         newUniformList.push_back(layer_halfdimensions_uniform);

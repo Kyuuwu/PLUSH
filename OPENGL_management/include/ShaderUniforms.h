@@ -35,10 +35,18 @@ namespace OPENGL_management {
         GL_type type;
     };
 
+    enum SlotSetCheckPolicy{
+        CHECK_NOT_NEEDED,
+        RESET_MANUALLY,
+        RESET_PER_LAYER,
+        RESET_PER_INSTANCE
+    };
+
     struct ShaderUniformSlot{
         std::string name;
         int location;
         GL_type type;
+        SlotSetCheckPolicy check_policy = RESET_PER_INSTANCE;
         bool isSet = false;
         ShaderUniformValue defaultValue;
     };
@@ -69,7 +77,8 @@ namespace OPENGL_management {
     };
 
     enum Vec2_Default{
-        VEC2_ZERO
+        VEC2_ZERO,
+        VEC2_ONES
     };
 
     enum Vec3_Default{
@@ -92,6 +101,8 @@ namespace OPENGL_management {
             static ShaderUniformValue getMat4DefaultValue(Mat4_Default defaultCode);
 
         private:
+            inline static glm::vec2 ones2 = glm::vec2(1.0f);
+
             inline static glm::vec2 zero2 = glm::vec2(0.0f);
             inline static glm::vec3 zero3 = glm::vec3(0.0f);
 

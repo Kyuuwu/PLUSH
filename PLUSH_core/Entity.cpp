@@ -15,8 +15,8 @@ namespace PLUSH {
     std::shared_ptr<Entity> generateBasicEntity(std::string name, std::string modelname, glm::vec3 pos, glm::vec3 scale){
         
         std::shared_ptr<Entity> entity(new Entity());
-        entity->addInstance("Default", modelname);
-        std::shared_ptr<Instance> inst = entity->getInstance("Default").lock();
+        entity->addDefaultInstance( modelname);
+        std::shared_ptr<Instance> inst = entity->getDefaultInstance().lock();
         
         inst->getStatusPointer()->visible=true;
         inst->setScale(scale);
@@ -29,7 +29,7 @@ namespace PLUSH {
         
         std::shared_ptr<Entity> ent =  generateBasicEntity(name, modelname, pos, scale);
 
-        ent->getInstance("Default").lock()->setTexture2DUniform("primaryTexture", texturename);
+        ent->getDefaultInstance().lock()->setTexture2DUniform("primaryTexture", texturename);
 
         return ent;
     }
@@ -53,6 +53,11 @@ namespace PLUSH {
         throw(INSTANCE_NOT_FOUND);
     }
     
+    std::weak_ptr<Instance> Entity::getDefaultInstance()
+    {
+        return getInstance("Default");
+    }
+    
     std::shared_ptr<Instance> Entity::getInstanceAsSharedPtr(int index)
     {
         return getInstance(index).lock();
@@ -61,6 +66,11 @@ namespace PLUSH {
     std::shared_ptr<Instance> Entity::getInstanceAsSharedPtr(std::string instanceName)
     {
         return getInstance(instanceName).lock();
+    }
+    
+    std::shared_ptr<Instance> Entity::getDefaultInstanceAsSharedPtr()
+    {
+        return getDefaultInstance().lock();
     }
     
     unsigned int Entity::getNumInstances()
@@ -79,11 +89,22 @@ namespace PLUSH {
         return weak_instances;
     }
     
+    bool Entity::hasDefaultInstance()
+    {
+        return bool_hasDefaultInstance;
+    }
+    
     std::weak_ptr<Instance> Entity::addInstance(std::string name, std::string modelname)
     {
         std::shared_ptr<Instance> newInstance(new Instance(name, modelname));
         instances.push_back(newInstance);
         return newInstance;
+    }
+    
+    std::weak_ptr<Instance> Entity::addDefaultInstance(std::string modelname)
+    {
+        bool_hasDefaultInstance = true;
+        return addInstance("Default", modelname);
     }
     
     void Entity::addInstanceToLayer(std::string instanceName, std::shared_ptr<Standard_Layer> layer, int group)
@@ -94,6 +115,11 @@ namespace PLUSH {
     void Entity::createInstanceInLayer(std::string instanceName, std::string modelName, std::shared_ptr<Standard_Layer> layer, int group)
     {
         layer->addInstance(addInstance(instanceName, modelName));
+    }
+    
+    void Entity::addDefaultInstanceToLayer(std::shared_ptr<Standard_Layer> layer, int group)
+    {
+        addInstanceToLayer("Default", layer, group);
     }
     
 }

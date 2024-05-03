@@ -75,6 +75,7 @@ namespace OPENGL_management {
             }
 
             default:
+                std::cout << "Invalid uniform type. Type code: " << (int) type <<", default code: " << defaultCode << std::endl;
                 throw(INVALID_UNIFORM_TYPE);            
         }
     }
@@ -97,7 +98,11 @@ namespace OPENGL_management {
         ShaderUniformValue value;
         switch(defaultCode){
             case VEC2_ZERO:
-                value.fptr = &zero3[0];
+                value.fptr = &zero2[0];
+                break;
+
+            case VEC2_ONES:
+                value.fptr = &ones2[0];
                 break;
 
             default:

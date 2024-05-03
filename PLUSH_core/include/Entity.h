@@ -21,23 +21,33 @@ namespace PLUSH {
 
     class Entity{
         public:
-            std::weak_ptr<Instance> getInstance(int index = 0);
+            std::weak_ptr<Instance> getInstance(int index = 0);  // dubious reason to ever do this
             std::weak_ptr<Instance> getInstance(std::string instanceName);
+            std::weak_ptr<Instance> getDefaultInstance();
 
-            std::shared_ptr<Instance> getInstanceAsSharedPtr(int index = 0);
+            std::shared_ptr<Instance> getInstanceAsSharedPtr(int index = 0); // dubious reason to ever do this
             std::shared_ptr<Instance> getInstanceAsSharedPtr(std::string instanceName);
+            std::shared_ptr<Instance> getDefaultInstanceAsSharedPtr();
 
             unsigned int getNumInstances();
             std::vector<std::weak_ptr<Instance>> getInstances();
 
+            bool hasDefaultInstance();
+
             std::weak_ptr<Instance> addInstance(std::string name, std::string modelname);
+            std::weak_ptr<Instance> addDefaultInstance(std::string modelname);
+
 
             void addInstanceToLayer(std::string instanceName, std::shared_ptr<Standard_Layer> layer, int group = 0);
             void createInstanceInLayer(std::string instanceName, std::string modelName, std::shared_ptr<Standard_Layer> layer, int group = 0);
+
+            void addDefaultInstanceToLayer(std::shared_ptr<Standard_Layer> layer, int group = 0);
             
+        private:
             std::vector<std::shared_ptr<Instance>> instances;
 
-        private:
+            bool bool_hasDefaultInstance = false;
+
     };
 
     std::shared_ptr<Entity> generateBasicEntity(std::string name, std::string modelname, glm::vec3 pos, glm::vec3 scale);

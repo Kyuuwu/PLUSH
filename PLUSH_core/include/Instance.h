@@ -51,7 +51,7 @@ namespace PLUSH {
             glm::vec3 getScale();
             void setScale(glm::vec3 newScale);
 
-            void drawWithShader(OPENGL_management::Shader* shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms = std::vector<OPENGL_management::ShaderUniform>(), bool resetChecks = true);
+            void drawWithShader(OPENGL_management::Shader* shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms = std::vector<OPENGL_management::ShaderUniform>(), bool resetPerInstanceChecks = true);
 
             std::shared_ptr<Instance> copy();
 

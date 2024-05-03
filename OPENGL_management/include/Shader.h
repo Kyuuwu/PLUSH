@@ -28,8 +28,13 @@ namespace OPENGL_management {
 
             void setBeingUsed(bool value);
 
-            void resetUniformSetChecks();
+            void resetAllUniformSetChecks();
+            void resetPerLayerUniformSetChecks();
+            void resetPerInstanceUniformSetChecks();
+
             void setUnsetUniformsToDefault();
+
+            void DEBUG_LIST_UNIFORM_SLOTS();
 
         private:
             void generateInputs(std::string vertexInputPath);
@@ -39,6 +44,8 @@ namespace OPENGL_management {
 
             ShaderUniformSlot getSlotForTarget(ShaderUniformTarget target);
             int getSlotIndexForTarget(ShaderUniformTarget &target);
+
+            void addSlot(ShaderUniformSlot slot);
 
             void checkCompileErrors(unsigned int shader, std::string type);
 

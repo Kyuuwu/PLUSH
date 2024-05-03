@@ -34,17 +34,17 @@ namespace OPENGL_management {
         // std::cout << std::endl;
 
         if(resetSetChecks){
-            shader->resetUniformSetChecks();
+            shader->resetPerInstanceUniformSetChecks();
         }
 
         // std::cout << "Reset uniform checks for model " << name << std::endl;
 
         for (ShaderUniform uniform : external_uniforms){
-            shader->setUniform(uniform.value, uniform.target);
+            shader->setUniform(uniform);
         }
 
         for (ShaderUniform uniform : internal_uniforms){
-            shader->setUniform(uniform.value, uniform.target);
+            shader->setUniform(uniform);
         }
 
         for(unsigned int i = 0 ; i < texture2D_name_pairs.size() + external_textures.size(); i++){

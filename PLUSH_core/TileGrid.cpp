@@ -55,7 +55,7 @@ namespace PLUSH {
 
         // std::cout << "Drawing tilegrid" << std::endl;
 
-        shader->resetUniformSetChecks();
+        shader->resetAllUniformSetChecks();
 
         for (OPENGL_management::ShaderUniform uniform: external_uniforms){
             shader->setUniform(uniform.value, uniform.target);

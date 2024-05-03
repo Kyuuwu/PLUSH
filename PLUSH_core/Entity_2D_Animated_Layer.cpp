@@ -72,8 +72,8 @@ namespace PLUSH{
             generateUniforms();
         }
 
-        shader_still->resetUniformSetChecks();
-        shader_animated->resetUniformSetChecks();
+        shader_still->resetAllUniformSetChecks();
+        shader_animated->resetAllUniformSetChecks();
 
         external_uniforms.insert(external_uniforms.begin(), uniforms.begin(), uniforms.end());
 

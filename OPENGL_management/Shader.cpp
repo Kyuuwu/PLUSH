@@ -90,6 +90,17 @@ namespace OPENGL_management {
 
         return -1;
     }
+    
+    void Shader::addSlot(ShaderUniformSlot slot)
+    {
+        for(ShaderUniformSlot existingslot : uniforms){
+            if(slot.name == existingslot.name && slot.location == existingslot.location){
+                return; // TODO: IMPLEMENT MORE CAREFUL CHECKS FOR OVERLAP AND STUFF
+            }
+        }
+
+        uniforms.push_back(slot);
+    }
 
     void Shader::setBeingUsed(bool value){
         beingUsed = value;
@@ -99,6 +110,8 @@ namespace OPENGL_management {
         int index = getSlotIndexForTarget(target);
         
         if (index == -1){
+            // std::cout << "Failed to find matching uniform. Uniform name: " << target.name << std::endl;
+            // throw(MATCHING_UNIFORM_SLOT_NOT_FOUND);
             return;
         }
 
@@ -117,12 +130,11 @@ namespace OPENGL_management {
     }
 
     void Shader::setUniform(ShaderUniformValue &value, ShaderUniformSlot &uniform){
-        for(int i = 0 ; i < uniforms.size(); i++){
+        for(size_t i = 0 ; i < uniforms.size(); i++){
             if (isSameSlot(uniforms[i], uniform)){
                 setUniform(value, i);
             }
         }
-    
     }
 
     void Shader::setUniform(ShaderUniform &uniform)
@@ -174,6 +186,7 @@ namespace OPENGL_management {
                 break;
 
             default:
+                std::cout << "Invalid uniform type. Type code: " << (int) uniforms[index].type << ", name: " << uniforms[index].name << std::endl;
                 throw(INVALID_UNIFORM_TYPE);
         }
 
@@ -259,7 +272,7 @@ namespace OPENGL_management {
             addUniformSlots(fragmentuniformpath);
         } catch (Exception e){
             switch(e){
-                case SHADER_MISSING_UNIFORM_SLOT:
+                case SHADER_COMPILE_MISSING_UNIFORM_SLOT:
                     std::cout << "Missing uniform slot." << std::endl;
                     break;
                     // throw(e);
@@ -306,6 +319,7 @@ namespace OPENGL_management {
         }
 
         std::string slot_type;
+        size_t policy;
 
         for(int i = 0; i < num_uniforms ; i++){
             ShaderUniformSlot slot;
@@ -339,13 +353,16 @@ namespace OPENGL_management {
                 }
             }
 
+            uniformStream >> policy;
+            slot.check_policy = (SlotSetCheckPolicy) policy;
+
             slot.location = glGetUniformLocation(ShaderID, slot.name.c_str());
 
             if(slot.location == -1){
-                throw(SHADER_MISSING_UNIFORM_SLOT);
+                throw(SHADER_COMPILE_MISSING_UNIFORM_SLOT);
             }
 
-            uniforms.push_back(slot);
+            addSlot(slot);
         }
 
     }
@@ -393,11 +410,29 @@ namespace OPENGL_management {
         return name;
     }
 
-    void Shader::resetUniformSetChecks(){
+    void Shader::resetAllUniformSetChecks(){
         // std::cout << "Reset called" << std::endl;
 
         for (int i = 0; i < uniforms.size(); i++){
             uniforms.at(i).isSet = false;
+        }
+    }
+    
+    void Shader::resetPerLayerUniformSetChecks()
+    {
+        for (int i = 0; i < uniforms.size(); i++){
+            if(uniforms[i].check_policy == RESET_PER_LAYER){
+                uniforms[i].isSet = false;
+            }
+        }
+    }
+    
+    void Shader::resetPerInstanceUniformSetChecks()
+    {
+        for (int i = 0; i < uniforms.size(); i++){
+            if(uniforms[i].check_policy == RESET_PER_INSTANCE){
+                uniforms[i].isSet = false;
+            }
         }
     }
 
@@ -408,6 +443,15 @@ namespace OPENGL_management {
                 std::cout << "Uniform " << slot.name << " was not set." << std::endl;
                 setUniform(slot.defaultValue, slot);
             }
+        }
+    }
+    
+    void Shader::DEBUG_LIST_UNIFORM_SLOTS()
+    {
+        for(ShaderUniformSlot slot : uniforms){
+            std::cout << "Shader name: " << slot.name << std::endl;
+            std::cout << "Shader check policy: " << slot.check_policy << std::endl;
+            std::cout << "Shader location: " << slot.location << std::endl<<std::endl;
         }
     }
 }
