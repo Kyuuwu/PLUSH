@@ -35,7 +35,7 @@ namespace OPENGL_management {
         std::vector<std::shared_ptr<Shader>> newShaderList = std::vector<std::shared_ptr<Shader>>();
 
         for(std::string shaderComboPath : shaderComboPath){
-            newShaderList.push_back(ShaderGeneration::generateShaderSharedPtrFromComboFile(shaderComboPath));
+            newShaderList.push_back(std::shared_ptr<Shader>(new Shader(shaderComboPath)));
         }
         
         newShaderList.at(0)->DEBUG_LIST_UNIFORM_SLOTS();
@@ -49,15 +49,6 @@ namespace OPENGL_management {
         if (!isInitialized){
             reInitializeShaderLibrary();
         }
-    }
-    
-    void ShaderLibrary::addShader(std::string combopath)
-    {
-        std::vector<std::shared_ptr<Shader>> newShaderList = shaderList;
-
-        newShaderList.push_back(ShaderGeneration::generateShaderSharedPtrFromComboFile(combopath));
-
-        shaderList = newShaderList;
     }
 
     std::shared_ptr<Shader> ShaderLibrary::getShaderByName(std::string name){

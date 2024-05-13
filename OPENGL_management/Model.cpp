@@ -34,7 +34,7 @@ namespace OPENGL_management {
         // std::cout << std::endl;
 
         if(resetSetChecks){
-            shader->resetPerInstanceUniformSetChecks();
+            // shader->resetPerInstanceUniformSetChecks();
         }
 
         // std::cout << "Reset uniform checks for model " << name << std::endl;
@@ -65,7 +65,7 @@ namespace OPENGL_management {
         //     shader->setUnsetUniformsToDefault();
         // } // This check was a mistake??
 
-        shader->setUnsetUniformsToDefault();
+        // shader->setUnsetUniformsToDefault();
 
 
         // std::cout << "Unset uniforms set to default for model " << name << std::endl << std::endl;
@@ -79,6 +79,12 @@ namespace OPENGL_management {
         // std::cout << "Drawing model time: ";
         // PLUSH_helpers::outputTimeElapsed();
         // std::cout << std::endl;
+    }
+    
+    void Model::newDrawWithShader(std::shared_ptr<Shader> shader)
+    {
+        shader->use();
+        draw();
     }
 
     void Model::draw(){
@@ -129,6 +135,20 @@ namespace OPENGL_management {
     std::string Model::getName(){
         return name;
     }
+    
+    void Model::useDefaultTexture2D(Shader* shader, std::string uniformname)
+    {
+        TextureNamePair namepair;
+        namepair.texturename = defaultTextureName;
+        namepair.uniformname = uniformname;
+
+        useTexture2D(shader, namepair, TextureLibrary::getNextEntityReservedTextureUnit());
+    }
+    
+    void Model::setDefaultTexture(std::string newDefaultTexture)
+    {
+        defaultTextureName = newDefaultTexture;
+    }
 
     void Model::setTexture2DUniform(std::string uniformname, std::string texturename){
         ShaderUniform texUniform;
@@ -156,9 +176,9 @@ namespace OPENGL_management {
     }
 
     void Model::useTexture2D(Shader* shader, TextureNamePair texture, unsigned int texture_unit){
-        Texture2D* textureptr = TextureLibrary::getTexture2DByName(texture.texturename).get();
+        shader->setTexture2DUniform(texture, texture_unit);
         
-        textureptr->use(texture_unit);
+        Texture2D* textureptr = TextureLibrary::getTexture2DByName(texture.texturename).get();
 
         if (textureptr->getIsGrid()){
             ShaderUniform texgridwidth, texgridheight;
@@ -174,13 +194,6 @@ namespace OPENGL_management {
             shader->setUniform(texgridwidth.value, texgridwidth.target);
             shader->setUniform(texgridheight.value, texgridheight.target);
         }
-
-        ShaderUniform texture_uniform;
-        texture_uniform.target.name = texture.uniformname;
-        texture_uniform.target.type = OPENGL_SAMPLER2D;
-        texture_uniform.value.i = (int)texture_unit;
-
-        shader->setUniform(texture_uniform.value, texture_uniform.target);
     }
 
     void Model::setTextures2D(std::vector<TextureNamePair> textures){

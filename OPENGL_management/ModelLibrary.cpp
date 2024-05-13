@@ -10,23 +10,24 @@ namespace OPENGL_management {
     void ModelLibrary::reInitializeModelLibrary(){
         std::vector<std::shared_ptr<Model>> newModelList;
 
-        std::shared_ptr<Model> tringle(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("tringle.vx"));
+        // std::shared_ptr<Model> tringle(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("tringle.vx"));
 
-        std::shared_ptr<Model> square(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("square.vx"));
+        // std::shared_ptr<Model> square(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("square.vx"));
 
-        std::shared_ptr<Model> tile(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("tile.vx"));
+        // std::shared_ptr<Model> tile(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("tile.vx"));
 
         std::shared_ptr<Model> square2D(OPENGL_management::ModelGeneration::createModelFromFile_Basic_EBO("square2D.vx"));
 
-        tile->addTexture2D("primaryTexture", "AwesomeFace");
-        tringle->addTexture2D("primaryTexture", "AwesomeFace");
-        square->addTexture2D("primaryTexture", "AwesomeFace");
+        // tile->addTexture2D("primaryTexture", "AwesomeFace");
+        // tringle->addTexture2D("primaryTexture", "AwesomeFace");
+        // square->addTexture2D("primaryTexture", "AwesomeFace");
         square2D->addTexture2D("primaryTexture", "AwesomeFace");
+        square2D->setDefaultTexture( "AwesomeFace");
 
-        newModelList.push_back(tringle);
-        newModelList.push_back(square);
+        // newModelList.push_back(tringle);
+        // newModelList.push_back(square);
         newModelList.push_back(square2D);
-        newModelList.push_back(tile);
+        // newModelList.push_back(tile);
 
         modelList = newModelList;
         isInitialized = true;

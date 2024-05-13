@@ -52,6 +52,7 @@ namespace PLUSH {
             void setScale(glm::vec3 newScale);
 
             void drawWithShader(OPENGL_management::Shader* shader, std::vector<OPENGL_management::ShaderUniform> external_uniforms = std::vector<OPENGL_management::ShaderUniform>(), bool resetPerInstanceChecks = true);
+            void newDrawWithShader(std::shared_ptr<OPENGL_management::Shader> shader);
 
             std::shared_ptr<Instance> copy();
 
@@ -64,9 +65,16 @@ namespace PLUSH {
 
             void addContainingCollection(std::weak_ptr<InstanceCollection> collection);
 
+            OPENGL_management::Pair_Unfulfilled_Overriden_UniformTarget fulfillShaderRequirements( 
+                std::shared_ptr<OPENGL_management::Shader> shader,
+                std::vector<OPENGL_management::ShaderUniformTarget> unfulfilledTargets,
+                std::vector<OPENGL_management::ShaderUniformTarget> fulfilledTargets);
+
         private:
             void generateModelMatrixIfNeeded();
             void generateModelMatrix();
+
+            std::vector<OPENGL_management::ShaderUniform> uniforms;
 
             std::vector<OPENGL_management::ShaderUniform> internal_uniforms;
             // std::vector<OPENGL_management::ShaderUniform> texture_uniforms; // BAD DONT USE
@@ -93,6 +101,8 @@ namespace PLUSH {
             int32_t layerOrder = 0;
 
             InstanceStatus status;
+
+            bool tryToFulfillUniform(std::shared_ptr<OPENGL_management::Shader> shader, OPENGL_management::ShaderUniformTarget target);
     };
 }
 #endif // __INSTANCE_H__

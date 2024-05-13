@@ -63,7 +63,7 @@ namespace PLUSH {
         // }
 
         for(std::shared_ptr<Standard_Layer> layer : standard_layers){
-            layer->draw(window_uniforms);
+            layer->draw(this, window_uniforms);
         }
 
         window->swapBuffers();

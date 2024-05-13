@@ -20,7 +20,7 @@ namespace OPENGL_management {
     };
 
     inline void elaborateException(Exception e){
-        std::cout << "Code: " << (int) e << std::endl;
+        std::cout << "Crashed: OPENGL_MANAGEMENT_EXCEPTION: Code: " << (int) e << std::endl;
     }
 }
 

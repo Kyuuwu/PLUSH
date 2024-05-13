@@ -6,6 +6,32 @@ namespace OPENGL_management {
     bool TextureLibrary::isTextureLibraryInitialized(){
         return isInitialized;
     }
+    
+    uint32_t TextureLibrary::getNextEntityReservedTextureUnit()
+    {
+        uint32_t return_value = nextEntityReservedTextureUnit;
+
+        nextEntityReservedTextureUnit++;
+
+        if (nextEntityReservedTextureUnit >= numEntityReservedTextureUnits){
+            nextEntityReservedTextureUnit = 0;
+        }
+
+        return return_value;
+    }
+    
+    uint32_t TextureLibrary::getNextLayerReservedTextureUnit()
+    {
+        uint32_t return_value = nextLayerReservedTextureUnit;
+
+        nextLayerReservedTextureUnit++;
+
+        if (nextLayerReservedTextureUnit >= numTextureUnits){
+            nextLayerReservedTextureUnit = numEntityReservedTextureUnits;
+        }
+
+        return return_value;
+    }
 
     void TextureLibrary::reInitializeTextureLibrary(){
 

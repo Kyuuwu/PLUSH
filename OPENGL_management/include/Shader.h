@@ -9,7 +9,9 @@ namespace OPENGL_management {
 
     class Shader{
         public:
-            Shader(const char* vertexPath, const char* fragmentPath, const char *name);
+            Shader(std::string comboPath);
+
+            // Shader(const char* vertexPath, const char* fragmentPath, const char *name);
 
             void use();
 
@@ -17,45 +19,55 @@ namespace OPENGL_management {
 
             void setUniform(ShaderUniform &uniform);
 
+            void setTexture2DUniform(TextureNamePair namepair, uint32_t textureunit);
+
             std::vector<ShaderInput> getInputs();
             std::vector<ShaderUniformSlot> getUniformSlots();
-
-            void addUniformSlots(std::string path);
+            std::vector<ShaderUniformTarget> getUniformTargets();
 
             unsigned int getID();
 
             std::string getName();
 
-            void setBeingUsed(bool value);
-
-            void resetAllUniformSetChecks();
-            void resetPerLayerUniformSetChecks();
-            void resetPerInstanceUniformSetChecks();
-
-            void setUnsetUniformsToDefault();
-
             void DEBUG_LIST_UNIFORM_SLOTS();
 
+
+
+            // void addUniformSlots(std::string path);
+
+            // void setBeingUsed(bool value);
+
+            // void resetAllUniformSetChecks();
+            // void resetPerLayerUniformSetChecks();
+            // void resetPerInstanceUniformSetChecks();
+
+            // void setUnsetUniformsToDefault();
+
         private:
-            void generateInputs(std::string vertexInputPath);
-
-            void setUniform(ShaderUniformValue &value, ShaderUniformSlot &uniform);
-            void setUniform(ShaderUniformValue &value, int index);
-
-            ShaderUniformSlot getSlotForTarget(ShaderUniformTarget target);
-            int getSlotIndexForTarget(ShaderUniformTarget &target);
+            void checkCompileErrors(unsigned int shader, std::string type);
 
             void addSlot(ShaderUniformSlot slot);
 
-            void checkCompileErrors(unsigned int shader, std::string type);
+            void setUniform(ShaderUniformValue &value, int index);
+
+            std::vector<ShaderUniformSlot> uniform_slots;
+            std::vector<ShaderUniformTarget> uniform_targets;
+            std::vector<ShaderInput> inputs;
 
             std::string name;
 
             unsigned int ShaderID;
 
-            bool beingUsed = false;
+            ShaderUniformSlot getSlotForTarget(ShaderUniformTarget target);
+            int getSlotIndexForTarget(ShaderUniformTarget &target);
 
-            std::vector<ShaderUniformSlot> uniforms;
-            std::vector<ShaderInput> inputs;
+            void generateTargetList();
+
+
+            // void setUniform(ShaderUniformValue &value, ShaderUniformSlot &uniform);
+
+            // void generateInputs(std::string vertexInputPath);
+
+            // bool beingUsed = false;
     };
 }

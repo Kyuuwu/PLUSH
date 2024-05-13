@@ -33,6 +33,86 @@ namespace PLUSH {
 
         modelMatrix =  glm::translate(rotation->getRotationMatrix()*glm::scale( glm::mat4( 1.0f ) ,scale), position);
     }
+    
+    bool Instance::tryToFulfillUniform(std::shared_ptr<OPENGL_management::Shader> shader, OPENGL_management::ShaderUniformTarget target)
+    {
+        bool isfulfilled = false;
+
+        StandardUniformCode code = getStandardUniformCode(target);
+
+        switch (code) {
+            case ENTITY_POSITION_2D_X:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.f = position.x;
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            case ENTITY_POSITION_2D_Y:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.f = position.y;
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            case ENTITY_SCALE_2D_X:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.f = scale.x;
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            case ENTITY_SCALE_2D_Y:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.f = scale.y;
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            case ENTITY_PRIMARY_TEXTURE:{
+                bool foundMatchingInstanceTexture = false;
+                for(OPENGL_management::TextureNamePair pair : texture2D_name_pairs){
+                    if (pair.uniformname == target.name){
+                        shader->setTexture2DUniform(pair, OPENGL_management::TextureLibrary::getNextEntityReservedTextureUnit());
+                        foundMatchingInstanceTexture = true;
+                        break;
+                    }
+                }
+
+                if (!foundMatchingInstanceTexture){
+                    model->useDefaultTexture2D(shader.get(), target.name);
+                }
+                isfulfilled = true;
+                break;
+            }
+
+            default:
+                break;
+        }
+
+        // if(isfulfilled){
+        //     return true;
+        // }
+
+        // for(OPENGL_management::ShaderUniform uniform : uniforms){
+        //     if(uniform.target.name == target.name && uniform.target.type == target.type){
+        //         shader->setUniform(uniform);
+        //         return true;
+        //     }
+        // }
+
+        //TODO: try with plugins
+
+        return isfulfilled;
+    }
 
     glm::mat4 Instance::getModelMatrix(){
         generateModelMatrixIfNeeded();
@@ -76,6 +156,11 @@ namespace PLUSH {
         // std::cout << "Drawing entity time: ";
         // PLUSH_helpers::outputTimeElapsed();
         // std::cout << std::endl;     
+    }
+    
+    void Instance::newDrawWithShader(std::shared_ptr<OPENGL_management::Shader> shader)
+    {
+        model->newDrawWithShader(shader);
     }
 
     std::shared_ptr<RotationHandler> Instance::getRotationHandler(){
@@ -192,5 +277,38 @@ namespace PLUSH {
     void Instance::addContainingCollection(std::weak_ptr<InstanceCollection> collection)
     {
         containingCollections.push_back(collection);
+    }
+    
+    OPENGL_management::Pair_Unfulfilled_Overriden_UniformTarget Instance::fulfillShaderRequirements(
+        std::shared_ptr<OPENGL_management::Shader> shader,
+        std::vector<OPENGL_management::ShaderUniformTarget> unfulfilledTargets,
+        std::vector<OPENGL_management::ShaderUniformTarget> fulfilledTargets)
+    {
+        OPENGL_management::Pair_Unfulfilled_Overriden_UniformTarget returnList;
+
+        for(size_t i = 0; i < fulfilledTargets.size();){
+            OPENGL_management::ShaderUniformTarget target = fulfilledTargets[i];
+            bool successfullyFilled = tryToFulfillUniform(shader, target);
+            if(successfullyFilled){
+                returnList.overridenTargets.push_back(target);
+            }else{
+                i++;
+            }
+        }
+
+        for(size_t i = 0; i < unfulfilledTargets.size();){
+            OPENGL_management::ShaderUniformTarget target = unfulfilledTargets[i];
+            bool successfullyFilled = tryToFulfillUniform(shader, target);
+            if(successfullyFilled){
+                fulfilledTargets.push_back(target); //unnecessary but keeping for now
+                unfulfilledTargets.erase(unfulfilledTargets.begin() + i);
+            }else{
+                i++;
+            }
+        }
+
+        returnList.unfulfilledTargets = unfulfilledTargets;
+
+        return returnList;
     }
 }

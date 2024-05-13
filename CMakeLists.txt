@@ -65,12 +65,12 @@ PLUSH_core/PLUSH_core_Exceptions.cpp
 PLUSH_core/Entity.cpp
 PLUSH_core/Instance.cpp
 PLUSH_core/RotationHandler.cpp
-PLUSH_core/TileGrid.cpp
-PLUSH_core/TileGridLayer.cpp
+# PLUSH_core/TileGrid.cpp
+# PLUSH_core/TileGridLayer.cpp
 PLUSH_core/WindowHandler.cpp
 PLUSH_core/Drawable.cpp
-PLUSH_core/Entity_2D_Layer.cpp
-PLUSH_core/Entity_2D_Animated_Layer.cpp
+# PLUSH_core/Entity_2D_Layer.cpp
+# PLUSH_core/Entity_2D_Animated_Layer.cpp
 PLUSH_core/Entity_2D_Collection.cpp
 PLUSH_core/Standard_Layer.cpp
 PLUSH_core/Instance_Collection.cpp

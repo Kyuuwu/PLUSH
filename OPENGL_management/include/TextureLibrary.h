@@ -11,7 +11,18 @@ namespace OPENGL_management {
             static void reInitializeTextureLibrary();
             static bool isTextureLibraryInitialized();
 
+            static uint32_t getNextEntityReservedTextureUnit();
+            static uint32_t getNextLayerReservedTextureUnit();
+
         private:
+            inline static uint32_t nextEntityReservedTextureUnit = 0;
+
+            static const uint32_t numEntityReservedTextureUnits = 4;
+
+            inline static uint32_t nextLayerReservedTextureUnit = numEntityReservedTextureUnits;
+
+            static const uint32_t numTextureUnits = 16;
+
             static void initializeTextureLibraryIfNeeded();
             static std::shared_ptr<Texture2D> generateTexture2D(std::string comboFile);
 

@@ -17,6 +17,8 @@ namespace OPENGL_management {
 
             void drawWithShader(Shader* shader, std::vector<ShaderUniform> external_uniforms = std::vector<ShaderUniform>(), bool resetSetChecks = true, std::vector<TextureNamePair> external_textures = std::vector<TextureNamePair>());
 
+            void newDrawWithShader(std::shared_ptr<Shader> shader);
+
             void addInternalUniform(ShaderUniform uniform);
             void setInternalUniforms(std::vector<ShaderUniform> uniforms);
 
@@ -33,16 +35,21 @@ namespace OPENGL_management {
 
             std::string getName();
 
-        protected:
-            void draw();
+            void useDefaultTexture2D(Shader* shader, std::string uniformname);
+            void setDefaultTexture(std::string newDefaultTexture);
 
+        protected:
             void useTexture2D(Shader* shader, TextureNamePair texture, unsigned int texture_unit);
+
+            void draw();
 
             std::string name;
 
             std::vector<std::shared_ptr<Texture2D>> textures_2D; // BAD DONT USE
 
-            std::vector<TextureNamePair> texture2D_name_pairs;
+            std::vector<TextureNamePair> texture2D_name_pairs; // BAD DONT USE
+
+            std::string defaultTextureName;
 
             std::vector<ShaderInput> vertex_inputs;
 

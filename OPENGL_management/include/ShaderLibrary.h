@@ -14,8 +14,6 @@ namespace OPENGL_management {
         private:
             static void initializeShaderLibraryIfNeeded();
 
-            static void addShader(std::string combopath);
-
             inline static std::vector<std::shared_ptr<Shader>> shaderList;
             inline static bool isInitialized = false;
 

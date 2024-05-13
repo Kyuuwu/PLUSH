@@ -13,62 +13,226 @@ namespace PLUSH
 
         defaultShader = OPENGL_management::ShaderLibrary::getShaderByName("Entity_2D_Shader");
     }
-
-    void Standard_Layer::draw(std::vector<OPENGL_management::ShaderUniform> external_uniforms)
+    
+    OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget Standard_Layer::fulfillShaderRequirements(
+        std::shared_ptr<OPENGL_management::Shader> shader,
+        std::shared_ptr<Instance> instance, 
+        std::vector<OPENGL_management::ShaderUniformTarget> unfulfilledTargets,
+        std::vector<OPENGL_management::ShaderUniformTarget> fulfilledTargets)
     {
+        
+        for(size_t i = 0; i < unfulfilledTargets.size();){
+            OPENGL_management::ShaderUniformTarget target = unfulfilledTargets[i];
+            bool successfullyFilled = tryToFulfillUniform(shader, target);
+            if(successfullyFilled){
+                fulfilledTargets.push_back(target);
+                unfulfilledTargets.erase(unfulfilledTargets.begin() + i);
+            }else{
+                i++;
+            }
+        }
+
+        OPENGL_management::Pair_Unfulfilled_Overriden_UniformTarget returned_list = 
+            instance->fulfillShaderRequirements(
+                shader,
+                unfulfilledTargets, 
+                fulfilledTargets);
+        
+        // std::vector<OPENGL_management::ShaderUniformTarget> unfulfilledTargetsAfterInstance = returned_list.unfulfilledTargets;
+        
+        //TODO handle unfulfilled
+
+        OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget returnvalues;
+
+        unfulfilledTargets.insert(
+            unfulfilledTargets.begin(), 
+            returned_list.overridenTargets.begin(), 
+            returned_list.overridenTargets.end());
+
+        for(OPENGL_management::ShaderUniformTarget overridenTarget : returned_list.overridenTargets){
+            for(size_t i = 0; i < fulfilledTargets.size();){
+                if(overridenTarget.name == fulfilledTargets[i].name && overridenTarget.type == fulfilledTargets[i].type){
+                    fulfilledTargets.erase(fulfilledTargets.begin() + i);
+                }else{
+                    i++;
+                }
+            }
+        }
+
+        returnvalues.unfulfilledTargets = unfulfilledTargets;
+        returnvalues.fulfilledTargets = fulfilledTargets;
+
+        
+        return returnvalues;
+    }
+    
+    bool Standard_Layer::tryToFulfillUniform(std::shared_ptr<OPENGL_management::Shader> shader, OPENGL_management::ShaderUniformTarget target)
+    {
+        bool isfulfilled = false;
+
+        StandardUniformCode code = getStandardUniformCode(target);
+
+        switch (code){
+            case WINDOW_ASPECT_RATIO:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.f = windowBeingDrawnIn->getAspectRatio();
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            case LAYER_POSITION:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.fptr = &layer_position_COM;
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            case LAYER_HALF_DIMENSIONS:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.fptr = &layer_halfdimensions;
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            case LAYER_OFFSET:{
+                OPENGL_management::ShaderUniform uniform;
+                uniform.target = target;
+                uniform.value.fptr = &layer_offset;
+                shader->setUniform(uniform);
+                isfulfilled = true;
+                break;
+            }
+
+            default:
+                break;
+        }
+
+        // for(OPENGL_management::ShaderUniform uniform : uniforms){
+        //     if(uniform.target.name == target.name && uniform.target.type == target.type){
+        //         shader->setUniform(uniform);
+        //         return true;
+        //     }
+        // }
+
+        //TODO: try with plugins
+
+        return isfulfilled;
+    }
+    
+    void Standard_Layer::draw(
+        WindowHandler* window,
+        std::vector<OPENGL_management::ShaderUniform> external_uniforms)
+    {
+        windowBeingDrawnIn = window;
+
         if(!uniforms_up_to_date){
             generateUniforms();
         }
 
-        defaultShader->resetPerLayerUniformSetChecks();
-        for (std::shared_ptr<OPENGL_management::Shader> shader : alternativeShaders){
-            shader->resetPerLayerUniformSetChecks();
-        }
+        OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget default_target_list; 
+        default_target_list.unfulfilledTargets = defaultShader->getUniformTargets();
 
-        external_uniforms.insert(external_uniforms.begin(), uniforms.begin(), uniforms.end());
+        std::vector<OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget> target_lists;
 
-        for (OPENGL_management::ShaderUniform uni : external_uniforms){
-            defaultShader->setUniform(uni);
-            for (std::shared_ptr<OPENGL_management::Shader> shader : alternativeShaders){
-                shader->setUniform(uni);
-            }
+        for(std::shared_ptr<OPENGL_management::Shader> altshader : alternativeShaders){
+            OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget new_target_list;
+            new_target_list.unfulfilledTargets=altshader->getUniformTargets();
+            target_lists.push_back(new_target_list);
         }
 
         std::vector<Instance_Group_Pair> instancesList = collection->getSortedInstanceGroupPairs();
 
+        for(Instance_Group_Pair pair: instancesList){
+            std::shared_ptr<OPENGL_management::Shader> shaderToUse;
+            
+            if(pair.group == 0){
+                OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget newPair = 
+                    fulfillShaderRequirements(
+                        defaultShader, 
+                        pair.instance, 
+                        default_target_list.unfulfilledTargets, 
+                        default_target_list.fulfilledTargets);
+                default_target_list = newPair;
+                shaderToUse = defaultShader;
+            }else{
+                size_t altshader_num = pair.group - 1;
+                if(altshader_num < alternativeShaders.size()){
+                    OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget newPair = 
+                        fulfillShaderRequirements(
+                            alternativeShaders[altshader_num], 
+                            pair.instance, 
+                            target_lists[altshader_num].unfulfilledTargets, 
+                            target_lists[altshader_num].fulfilledTargets);
+                    target_lists.erase(target_lists.begin()+altshader_num);
+                    target_lists.insert(target_lists.begin()+altshader_num, newPair);
+                }
+                else{
+                    OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget newPair = 
+                        fulfillShaderRequirements(
+                            defaultShader, 
+                            pair.instance, 
+                            default_target_list.unfulfilledTargets, 
+                            default_target_list.fulfilledTargets);
+                    default_target_list = newPair;
+                    shaderToUse = defaultShader;
+                }
+            }
+            pair.instance->newDrawWithShader(shaderToUse);
+        }
+
+        // defaultShader->resetPerLayerUniformSetChecks();
+        // for (std::shared_ptr<OPENGL_management::Shader> shader : alternativeShaders){
+        //     shader->resetPerLayerUniformSetChecks();
+        // }
+
+        // external_uniforms.insert(external_uniforms.begin(), uniforms.begin(), uniforms.end());
+
+        // for (OPENGL_management::ShaderUniform uni : external_uniforms){
+        //     defaultShader->setUniform(uni);
+        //     for (std::shared_ptr<OPENGL_management::Shader> shader : alternativeShaders){
+        //         shader->setUniform(uni);
+        //     }
+        // }
+
         //TODO rest of render handling
 
-        std::vector<OPENGL_management::ShaderUniform> entity_uniforms;
-        OPENGL_management::ShaderUniform EntityX, EntityY, EntityScaleX, EntityScaleY;
+        // std::vector<OPENGL_management::ShaderUniform> entity_uniforms;
+        // OPENGL_management::ShaderUniform EntityX, EntityY, EntityScaleX, EntityScaleY;
 
-        EntityX.target.name = "EntityX";
-        EntityX.target.type = OPENGL_management::OPENGL_FLOAT;
-        EntityY.target.name = "EntityY";
-        EntityY.target.type = OPENGL_management::OPENGL_FLOAT;
+        // EntityX.target.name = "EntityX";
+        // EntityX.target.type = OPENGL_management::OPENGL_FLOAT;
+        // EntityY.target.name = "EntityY";
+        // EntityY.target.type = OPENGL_management::OPENGL_FLOAT;
 
-        EntityScaleX.target.name = "EntityScaleX";
-        EntityScaleX.target.type = OPENGL_management::OPENGL_FLOAT;
-        EntityScaleY.target.name = "EntityScaleY";
-        EntityScaleY.target.type = OPENGL_management::OPENGL_FLOAT;
+        // EntityScaleX.target.name = "EntityScaleX";
+        // EntityScaleX.target.type = OPENGL_management::OPENGL_FLOAT;
+        // EntityScaleY.target.name = "EntityScaleY";
+        // EntityScaleY.target.type = OPENGL_management::OPENGL_FLOAT;
 
-        entity_uniforms.push_back(EntityX);
-        entity_uniforms.push_back(EntityY);
-        entity_uniforms.push_back(EntityScaleX);
-        entity_uniforms.push_back(EntityScaleY);
+        // entity_uniforms.push_back(EntityX);
+        // entity_uniforms.push_back(EntityY);
+        // entity_uniforms.push_back(EntityScaleX);
+        // entity_uniforms.push_back(EntityScaleY);
 
-        for(Instance_Group_Pair instpair : instancesList){
-            std::shared_ptr<Instance> ent = instpair.instance;
-            glm::vec3 position = ent->getPosition();
-            entity_uniforms[0].value.f = position.x;
-            entity_uniforms[1].value.f = position.y;
+        // for(Instance_Group_Pair instpair : instancesList){
+        //     std::shared_ptr<Instance> ent = instpair.instance;
+        //     glm::vec3 position = ent->getPosition();
+        //     entity_uniforms[0].value.f = position.x;
+        //     entity_uniforms[1].value.f = position.y;
 
-            glm::vec3 scale = ent->getScale();
-            entity_uniforms[2].value.f = scale.x;
-            entity_uniforms[3].value.f = scale.y;
+        //     glm::vec3 scale = ent->getScale();
+        //     entity_uniforms[2].value.f = scale.x;
+        //     entity_uniforms[3].value.f = scale.y;
 
            
-            ent->drawWithShader(defaultShader.get(), entity_uniforms, true);
-        }
+        //     ent->drawWithShader(defaultShader.get(), entity_uniforms, true);
+        // }
     }
     
     void Standard_Layer::setLayerDimensions(float x, float y)

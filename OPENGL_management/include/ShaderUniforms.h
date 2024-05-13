@@ -3,6 +3,7 @@
 
 #include <string>
 #include <glm/glm.hpp>
+#include <vector>
 
 namespace OPENGL_management {
     enum GL_type{
@@ -33,6 +34,16 @@ namespace OPENGL_management {
     struct ShaderUniformTarget{
         std::string name;
         GL_type type;
+    };
+
+    struct Pair_Unfulfilled_Overriden_UniformTarget{
+        std::vector<ShaderUniformTarget> unfulfilledTargets;
+        std::vector<ShaderUniformTarget> overridenTargets;
+    };
+
+    struct Pair_Unfulfilled_Fulfilled_UniformTarget{
+        std::vector<ShaderUniformTarget> unfulfilledTargets;
+        std::vector<ShaderUniformTarget> fulfilledTargets;
     };
 
     enum SlotSetCheckPolicy{

@@ -13,12 +13,15 @@ namespace OPENGL_management{
 namespace PLUSH {
     class Instance;
     class InstanceCollection;
+    class WindowHandler;
 
     class Standard_Layer{
         public:
             Standard_Layer(std::string name, glm::vec2 layer_com, glm::vec2 layer_halfdimensions);
 
-            void draw(std::vector<OPENGL_management::ShaderUniform> external_uniforms = std::vector<OPENGL_management::ShaderUniform>());
+            void draw(
+                WindowHandler* window,
+                std::vector<OPENGL_management::ShaderUniform> external_uniforms = std::vector<OPENGL_management::ShaderUniform>());
 
             void setLayerDimensions(float x, float y);
             void setLayerDimensions(glm::vec2 dimensions);
@@ -40,6 +43,8 @@ namespace PLUSH {
             std::shared_ptr<InstanceCollection> DEBUG_GET_COLLECTION();
 
         private:
+            WindowHandler* windowBeingDrawnIn;
+
             std::shared_ptr<OPENGL_management::Shader> defaultShader;
             std::vector<std::shared_ptr<OPENGL_management::Shader>> alternativeShaders;
 
@@ -53,7 +58,17 @@ namespace PLUSH {
 
             std::vector<OPENGL_management::ShaderUniform> uniforms;
             bool uniforms_up_to_date = false;
-            virtual void generateUniforms();
+            void generateUniforms();
+
+
+            OPENGL_management::Pair_Unfulfilled_Fulfilled_UniformTarget fulfillShaderRequirements( 
+                std::shared_ptr<OPENGL_management::Shader> shader,
+                std::shared_ptr<Instance> instance, 
+                std::vector<OPENGL_management::ShaderUniformTarget> unfulfilledTargets,
+                std::vector<OPENGL_management::ShaderUniformTarget> fulfilledTargets);
+                // returns instance-fulfilled targets + instance-overriden targets
+
+            bool tryToFulfillUniform(std::shared_ptr<OPENGL_management::Shader> shader, OPENGL_management::ShaderUniformTarget target);
     };
 }
 
