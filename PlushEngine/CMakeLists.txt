@@ -1,0 +1,1 @@
+ADD_LIBRARY(PlushEngine_src src/test.cpp)

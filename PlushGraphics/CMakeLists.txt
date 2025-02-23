@@ -1,0 +1,1 @@
+ADD_LIBRARY(PlushGraphics_src src/test.cpp)

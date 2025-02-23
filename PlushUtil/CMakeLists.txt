@@ -1,0 +1,1 @@
+ADD_LIBRARY(PlushUtil_src src/test.cpp)
