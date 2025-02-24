@@ -12,9 +12,11 @@ namespace PlushGraphics {
     class GraphicsLayer; // Layer to draw drawables onto within Window
     class Drawable; // Previously Instance, the drawable data, incl. model, that a game-engine-level entity needs 
 
-    class ShaderIdentifier; 
+    class ShaderSpec; // specification for loading a shader
+    class ShaderIdentifier; // identifier for retrieving a compiled shader
     class Shader; // container for a compiled shader
-    class ShaderLibrary; // holds all compiled shaders needed
+    class ShaderRegistry; // holds all compiled shaders needed
+    class ManagedShader; // wrapper for smart pointer to shaders, inherits ManagedObject interface from PlushUtil
 
     namespace ShaderMetadata {
         class ShaderInputValue;
@@ -32,18 +34,21 @@ namespace PlushGraphics {
         class Vertex;
     }
 
+    class TextureRegistry; // holds all textures
     class Texture2D;
-    class TextureLibrary; // holds all textures
+    class ManagedTexture2D; // wrapper for smart pointer to textures, inherits ManagedObject interface from PlushUtil
 
     class ModelIdentifier; // identifier struct for a given model
     class ModelData; // contains all vertex data for a given model, possibly containing data for multiple shader input formats
     class ModelInstance; // contains vertex data for a given model matched to the inputs of exactly one shader
+    class ManagedModelData; // wrapper for smart pointer to ModelData, inherits ManagedObject interface from PlushUtil
+    class ManagedModelInstance; // wrapper for smart pointer to ModelInstance, inherits ManagedObject interface from PlushUtil
 
     namespace ModelInstanceMetadata {
         class ModelInstanceMetadata; // contains metadata and compat checking for the originating shader & modeldata of a modelinstance
     }
 
-    class ModelLibrary; // holds modeldata (and possible modelinstances)
+    class ModelRegistry; // holds modeldata (and possible modelinstances)
 }
 
 #endif // PLUSH_GRAPHICS_HPP
