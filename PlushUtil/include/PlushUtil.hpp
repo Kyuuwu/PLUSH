@@ -12,6 +12,8 @@ namespace PlushUtil {
 
     class Mouse;
 
+    class ReadFile;
+
     template <typename ManagedX> concept HasIDAndSpec = requires{
         typename ManagedX::Identifier;
         typename ManagedX::Spec;

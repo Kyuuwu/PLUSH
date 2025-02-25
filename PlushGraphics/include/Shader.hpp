@@ -2,6 +2,7 @@
 #define SHADER_HPP
 
 #include "PlushGraphics.hpp"
+#include "ShaderIdentifier.hpp"
 #include <vector>
 #include <map>
 #include <string>
@@ -26,10 +27,13 @@ namespace PlushGraphics {
         private:
             shaderSlotLocation_t getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier);
 
+            ShaderIdentifier identifier;
+
             void checkCompileErrors(unsigned int shader, std::string type);
 
             shaderObjectReferenceID shaderProgramID;
 
+            std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> uniformSlotIdentifiers;
             std::vector<ShaderMetadata::ShaderUniformSlot> uniformSlots;
             std::map<ShaderMetadata::ShaderUniformSlotIdentifier, size_t> uniformSlotIndexMap;
 

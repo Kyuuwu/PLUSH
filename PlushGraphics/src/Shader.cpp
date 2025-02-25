@@ -7,13 +7,16 @@
 #include <iostream>
 
 namespace PlushGraphics {
-    Shader::Shader(ShaderSpec spec){
+    Shader::Shader(ShaderSpec spec)
+    : identifier(spec.shaderName())
+    {
         // obtain source code from ShaderSpec
         std::string vertexShaderSourceString = spec.vertexShaderSource();
         std::string fragmentShaderSourceString = spec.fragmentShaderSource();
 
         const char* vertexShaderSource = vertexShaderSourceString.c_str();
         const char* fragmentShaderSource = fragmentShaderSourceString.c_str();
+
 
         // compile shader from source
         shaderObjectReferenceID vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -41,9 +44,20 @@ namespace PlushGraphics {
         glDeleteShader(fragmentShader);
 
         // load slot information from ShaderSpec
-        uniformSlots = spec.shaderUniformSlots();
+        uniformSlotIdentifiers = spec.shaderUniformSlotIdentifiers();
         inputSlots = spec.shaderInputSlots();
-        uniformSlotIndexMap = spec.shaderUniformSlotIndexMap();
+
+        for(ShaderMetadata::ShaderUniformSlotIdentifier slotIdentifier : uniformSlotIdentifiers){
+            uniformSlotIndexMap[slotIdentifier] = uniformSlots.size();
+
+            int location = glGetUniformLocation(shaderProgramID, slotIdentifier.getSlotName().c_str());
+            if(location < 0){
+                // uniform not in program or unused
+                std::cout << "Warning: Uniform " << slotIdentifier.getSlotName() << 
+                    " not present or unused in shader program " << identifier.getShaderName() << std::endl;
+            }
+            uniformSlots.push_back(ShaderMetadata::ShaderUniformSlot(slotIdentifier, (shaderSlotLocation_t)location));
+        }
 
         // shader creation done
     }
@@ -64,7 +78,7 @@ namespace PlushGraphics {
     }
 
     shaderSlotLocation_t Shader::getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier) {
-        return uniformSlots[uniformSlotIndexMap[identifier]].getLocation();
+        // return uniformSlots[uniformSlotIndexMap[identifier]].getLocation();
     }
 
     void Shader::checkCompileErrors(unsigned int shader, std::string type){

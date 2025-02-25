@@ -8,6 +8,10 @@
 namespace PlushGraphics {
     class ShaderMetadata::ShaderUniformSlot{
         public:
+            ShaderUniformSlot(ShaderUniformSlotIdentifier _identifier, shaderSlotLocation_t _location)
+            : identifier(_identifier), location(_location)
+            {}
+
             ShaderUniformSlotIdentifier getIdentifier() const { return identifier; }
             shaderSlotLocation_t getLocation() const { return location; }
 

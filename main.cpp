@@ -5,6 +5,12 @@
 #include "PlushGraphicsOpenGL.hpp"
 
 #include "OpenGL.h"
+#include "ShaderSpec.hpp"
+#include "ShaderSpec.hpp"
+#include "ShaderUniformSlot.hpp"
+#include "ShaderUniformSlotIdentifier.hpp"
+#include "ShaderInputSlot.hpp"
+#include "Shader.hpp"
 
 int main(int, char**) {
     std::cout << "Hello, world!\n";
@@ -15,7 +21,8 @@ int main(int, char**) {
 
     PlushGraphics::Window window2(builder);
 
-
+    PlushGraphics::ShaderSpec spec("shader1");
+    PlushGraphics::Shader shad(spec);
 
     while(true){
 

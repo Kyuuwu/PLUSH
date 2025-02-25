@@ -37,13 +37,13 @@ include_directories(PLUSH PlushEngine/include)
 
 #Copy shaders, textures, and models
 
-# add_custom_target(COPY_SHADERS ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/amongus.h)
+add_custom_target(COPY_SHADERS ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/amongus.h)
 
-# add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/amongus.h COMMAND cmake -E echo)
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/amongus.h COMMAND cmake -E echo)
 
-# add_custom_command(TARGET COPY_SHADERS POST_BUILD
-#                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-#                        ${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:PLUSH>/shaders)
+add_custom_command(TARGET COPY_SHADERS POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:PLUSH>/shaders)
 
 # add_custom_command(TARGET COPY_SHADERS POST_BUILD
 #                    COMMAND ${CMAKE_COMMAND} -E copy_directory

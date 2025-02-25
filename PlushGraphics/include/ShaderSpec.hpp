@@ -9,14 +9,22 @@
 namespace PlushGraphics {
     class ShaderSpec{
         public:
+            ShaderSpec(std::string _shaderName);
+
             std::string vertexShaderSource();
             std::string fragmentShaderSource();
 
-            std::vector<ShaderMetadata::ShaderUniformSlot> shaderUniformSlots();
+            std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> shaderUniformSlotIdentifiers();
             std::vector<ShaderMetadata::ShaderInputSlot> shaderInputSlots();
-            std::map<ShaderMetadata::ShaderUniformSlotIdentifier, size_t> shaderUniformSlotIndexMap();
+
+            std::string shaderName();
 
         private:
+            std::string shaderNameString;
+            std::string vertexShaderSourceString;
+            std::string fragmentShaderSourceString;
+            std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> shaderUniformSlotIdentifiersVector;
+            std::vector<ShaderMetadata::ShaderInputSlot> shaderInputSlotsVector;
 
     };
 }
