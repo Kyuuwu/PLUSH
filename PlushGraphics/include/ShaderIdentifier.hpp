@@ -8,7 +8,7 @@
 namespace PlushGraphics {
     class ShaderIdentifier{
         public:
-            bool operator==(const ShaderIdentifier& other);
+            bool operator<(const ShaderIdentifier& other);
 
         private:
             std::string shaderName;

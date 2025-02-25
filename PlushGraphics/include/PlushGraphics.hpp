@@ -1,10 +1,17 @@
 #ifndef PLUSH_GRAPHICS_HPP
 #define PLUSH_GRAPHICS_HPP
 
+#include <cstdint>
+
 namespace PlushGraphics {
+    using shaderSlotLocation_t = uint32_t;
+    using shaderObjectReferenceID = uint32_t;
+
     enum class Exception;
 
     enum class OpenGL_Type;
+
+    class OpenGL; // manages initialization and closing out of program
 
     class WindowBuilder; // holds data/settings/dimensions for building windows
     class Window; // Manages a window

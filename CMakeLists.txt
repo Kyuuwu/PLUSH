@@ -11,21 +11,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 include(CTest)
 enable_testing()
 
-# OPEN GL libraries include
+#OpenGL folder
 
-add_library(OPENGL_libraries 
-OpenGL/glad.c
-)
-
-target_include_directories(OPENGL_libraries PUBLIC OpenGL/include)
-
-target_link_libraries(OPENGL_libraries -lglfw)
-target_link_libraries(OPENGL_libraries -lGL)
-target_link_libraries(OPENGL_libraries -lX11)
-target_link_libraries(OPENGL_libraries -lpthread)
-target_link_libraries(OPENGL_libraries -lXrandr)
-target_link_libraries(OPENGL_libraries -lXi)
-target_link_libraries(OPENGL_libraries -ldl)
+add_subdirectory(OpenGL)
 
 #PlushUtil folder
 
@@ -66,7 +54,6 @@ include_directories(PLUSH PlushEngine/include)
 #                                               ${CMAKE_SOURCE_DIR}/textures $<TARGET_FILE_DIR:PLUSH>/textures)
 
 
-target_link_libraries(PLUSH PUBLIC OPENGL_libraries)
 target_link_libraries(PLUSH PUBLIC PlushUtil_src)
 target_link_libraries(PLUSH PUBLIC PlushGraphics_src)
 target_link_libraries(PLUSH PUBLIC PlushEngine_src)

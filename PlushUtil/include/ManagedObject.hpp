@@ -2,7 +2,7 @@
 #define MANAGEDOBJECT_HPP
 
 #include <memory>
-#include "Exception.hpp"
+#include "PlushUtilException.hpp"
 
 namespace PlushUtil{
     template <typename X> class ManagedObject{
