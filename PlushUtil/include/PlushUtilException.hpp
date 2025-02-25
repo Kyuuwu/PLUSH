@@ -2,7 +2,7 @@
 #define PLUSHUTILEXCEPTION_HPP
 
 namespace PlushUtil {
-    enum class Exception{
+    enum class PlushUtilException{
         CANNOT_CREATE_NULL_MANAGED_OBJECT,
         CANNOT_MOVE_ASSIGN_ORIGINAL_INTO_CLONE,
         CANNOT_MOVE_ASSIGN_CLONE_INTO_ORIGINAL,

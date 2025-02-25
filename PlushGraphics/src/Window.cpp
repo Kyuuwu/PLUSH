@@ -11,7 +11,7 @@ namespace PlushGraphics {
 
         if(windowPointer == NULL){
             std::cout << "Failed to create GLFW window" << std::endl;
-            throw(Exception::FAILED_TO_CREATE_WINDOW);
+            throw(PlushGraphicsException::FAILED_TO_CREATE_WINDOW);
         }
 
         glfwMakeContextCurrent(windowPointer); // for now

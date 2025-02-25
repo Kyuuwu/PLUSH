@@ -24,7 +24,7 @@ namespace PlushUtil {
         catch (std::ifstream::failure& e)
         {
             std::cout << "ERROR::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
-            throw(PlushUtil::Exception::FILE_READ_ERROR);
+            throw(PlushUtil::PlushUtilException::FILE_READ_ERROR);
         }
 
         return outputStream;

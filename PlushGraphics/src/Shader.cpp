@@ -71,7 +71,7 @@ namespace PlushGraphics {
         glUseProgram(shaderProgramID);
     }
 
-    void Shader::setUniform(ShaderMetadata::ShaderUniformValue value) {
+    void Shader::setUniform(ShaderMetadata::ShaderUniformPayload value) {
         useShader();
 
         value.setUniformAtLocation(getUniformSlotLocation(value.getTargetSlotIdentifier()));

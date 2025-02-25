@@ -7,6 +7,9 @@
 namespace PlushGraphics {
     class ShaderMetadata::ShaderUniformSlotIdentifier{
         public:
+            ShaderUniformSlotIdentifier(std::string _slotName, OpenGL_Type _slotType)
+            : slotName(_slotName), slotType(_slotType) {}
+
             bool operator<(const ShaderUniformSlotIdentifier& other) const { return slotName < other.slotName;}
         
             std::string getSlotName() const { return slotName; }

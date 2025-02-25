@@ -4,8 +4,10 @@
 #include "PlushGraphics.hpp"
 
 namespace PlushGraphics {
-    enum class Exception{
-        FAILED_TO_CREATE_WINDOW
+    enum class PlushGraphicsException{
+        FAILED_TO_CREATE_WINDOW,
+        OPENGL_TYPE_NOT_FOUND,
+        OPENGL_VALUE_GET_INVALID_TYPE
     };
 }
 

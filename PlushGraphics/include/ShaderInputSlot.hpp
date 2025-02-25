@@ -8,6 +8,9 @@
 namespace PlushGraphics {
     class ShaderMetadata::ShaderInputSlot{
         public:
+            ShaderInputSlot(ShaderInputSlotIdentifier _identifier, shaderSlotLocation_t _location)
+            : identifier(_identifier), location(_location) {}
+
             ShaderInputSlotIdentifier getIdentifier() const { return identifier; }
             shaderSlotLocation_t getLocation() const { return location; }
             

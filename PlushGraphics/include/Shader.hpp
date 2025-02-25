@@ -20,7 +20,7 @@ namespace PlushGraphics {
 
             void useShader();
 
-            void setUniform(ShaderMetadata::ShaderUniformValue value);
+            void setUniform(ShaderMetadata::ShaderUniformPayload value);
 
             std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const;
 

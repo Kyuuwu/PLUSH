@@ -7,9 +7,10 @@ namespace PlushGraphics {
     using shaderSlotLocation_t = uint32_t;
     using shaderObjectReferenceID = uint32_t;
 
-    enum class Exception;
+    enum class PlushGraphicsException;
 
     enum class OpenGL_Type;
+    class OpenGL_Value;
 
     class OpenGL; // manages initialization and closing out of program
 
@@ -31,7 +32,7 @@ namespace PlushGraphics {
 
         class ShaderInputSlot;
 
-        class ShaderUniformValue; // holds uniform value and metadata
+        class ShaderUniformPayload; // holds uniform value and metadata
         class ShaderUniformSlotIdentifier; // holds metadata for which slot uniform values are targeted to
 
         class ShaderUniformSlot; // holds metadata for uniforms taken by a shader

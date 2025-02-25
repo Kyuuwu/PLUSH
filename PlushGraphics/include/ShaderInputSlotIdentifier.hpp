@@ -7,8 +7,11 @@
 namespace PlushGraphics {
     class ShaderMetadata::ShaderInputSlotIdentifier{
         public:
-        std::string getSlotName() const { return slotName; }
-        OpenGL_Type getSlotType() const { return slotType; }
+            ShaderInputSlotIdentifier(std::string _slotName, OpenGL_Type _slotType)
+            : slotName(_slotName), slotType(_slotType) {}
+
+            std::string getSlotName() const { return slotName; }
+            OpenGL_Type getSlotType() const { return slotType; }
             
         private:
             std::string slotName;

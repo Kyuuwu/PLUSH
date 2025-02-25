@@ -2,7 +2,7 @@
 #define PLUSHUTIL_HPP
 
 namespace PlushUtil {
-    enum class Exception;
+    enum class PlushUtilException;
 
     class RotationMatrix;
 
