@@ -1,12 +1,13 @@
 #include <iostream>
 
+#include "OpenGL_Type.hpp"
 #include "WindowBuilder.hpp"
 #include "Window.hpp"
 #include "PlushGraphicsOpenGL.hpp"
 
 #include "OpenGL.h"
 #include "ShaderSpec.hpp"
-#include "ShaderSpec.hpp"
+#include "ShaderRegistry.hpp"
 #include "ShaderUniformSlot.hpp"
 #include "ShaderUniformSlotIdentifier.hpp"
 #include "ShaderInputSlot.hpp"
@@ -14,36 +15,33 @@
 
 int main(int, char**) {
     std::cout << "Hello, world!\n";
-
     PlushGraphics::OpenGL::initializeOpenGL();
 
     PlushGraphics::WindowBuilder builder;
-
     PlushGraphics::Window window2(builder);
 
+    PlushGraphics::ShaderRegistry shadreg;
     PlushGraphics::ShaderSpec spec("shader1");
-    PlushGraphics::Shader shad(spec);
+    PlushGraphics::ShaderIdentifier id("shader1");
+    shadreg.loadItem(spec);
 
-    while(true){
-
+    if(shadreg.isItemLoaded(id)){
+        std::cout << "Loaded" << std::endl;
     }
 
-    // PlushGraphics::OpenGL::terminateOpenGL();
+    PlushGraphics::ManagedShader test = shadreg.getItem(id);
+    const PlushGraphics::Shader& debugRef = test.DEBUG_getConstReference();
+    std::cout << "Identifier: " << debugRef.getIdentifier().getShaderName() << std::endl;
+    for(PlushGraphics::ShaderMetadata::ShaderUniformSlotIdentifier uniSlot : debugRef.getUniformSlotIdentifiers()){
+        std::cout << "    Uniform: " << PlushGraphics::getStringFromType(uniSlot.getSlotType()) 
+            << " " << uniSlot.getSlotName() << std::endl;
+    }
+    for(PlushGraphics::ShaderMetadata::ShaderInputSlotIdentifier inputSlot : debugRef.getInputSlotIdentifiers()){
+        std::cout << "    Input: " << PlushGraphics::getStringFromType(inputSlot.getSlotType()) 
+            << " " << inputSlot.getSlotName() << std::endl;
+    }
 
-    // std::unique_ptr<PlushGraphics::Shader> susptr = std::make_unique<PlushGraphics::Shader>();
-    
-    // Tester<PlushGraphics::Shader> a(std::move(susptr));
-
-    // testFunc();
-
-    // PlushUtil::ManagedObject<PlushGraphics::Shader> test(std::move(susptr));
-
-    // PlushGraphics::ManagedShader test(std::move(susptr));
-
-
-    // PlushGraphics::ManagedShader test2 = test.clone();
-
-    // PlushGraphics::ShaderRegistry reg;
+    PlushGraphics::OpenGL::terminateOpenGL();
 
     return 0;
 

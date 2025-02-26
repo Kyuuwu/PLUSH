@@ -3,6 +3,7 @@
 
 #include "PlushGraphics.hpp"
 #include "ShaderIdentifier.hpp"
+#include "ShaderSpec.hpp"
 #include <vector>
 #include <map>
 #include <string>
@@ -10,6 +11,10 @@
 namespace PlushGraphics {
     class Shader{
         public:
+            using Identifier = ShaderIdentifier;
+            using Spec = ShaderSpec;
+            friend class ManagedShader;
+            
             Shader(ShaderSpec spec);
             ~Shader(); // Shader can only be created and destroyed, all other functionality must be handled on the level of ManagedShader.
 
@@ -23,11 +28,15 @@ namespace PlushGraphics {
             void setUniform(ShaderMetadata::ShaderUniformPayload value);
 
             std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const;
+            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getInputSlotIdentifiers() const;
+
+            ShaderIdentifier getIdentifier() const { return identifier; }
 
         private:
-            shaderSlotLocation_t getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier);
 
             ShaderIdentifier identifier;
+
+            shaderSlotLocation_t getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier);
 
             void checkCompileErrors(unsigned int shader, std::string type);
 

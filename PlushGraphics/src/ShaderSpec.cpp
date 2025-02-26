@@ -71,10 +71,10 @@ namespace PlushGraphics {
     }
 
     std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> ShaderSpec::shaderUniformSlotIdentifiers(){
-        return std::vector<ShaderMetadata::ShaderUniformSlotIdentifier>();
+        return shaderUniformSlotIdentifiersVector;
     }
 
     std::vector<ShaderMetadata::ShaderInputSlot> ShaderSpec::shaderInputSlots(){
-        return std::vector<ShaderMetadata::ShaderInputSlot>();
+        return shaderInputSlotsVector;
     }
 }

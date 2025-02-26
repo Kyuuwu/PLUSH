@@ -8,20 +8,32 @@
 #include "PlushUtil.hpp"
 
 namespace PlushUtil {
-    template<HasIDAndSpec ManagedX> class Registry{
+    template<ImplementsManagedObject ManagedX> class Registry{
         public:
-            ManagedX getItem(typename ManagedX::Identifier identifier);
-            bool isItemLoaded(typename ManagedX::Identifier identifier);
-            void loadItem(typename ManagedX::Spec spec);
+            ManagedX getItem(typename ManagedX::Object::Identifier identifier);
+            bool isItemLoaded(typename ManagedX::Object::Identifier identifier);
+            void loadItem(typename ManagedX::Object::Spec spec);
 
         private:
-            std::vector<ManagedX> shaders;
-            std::map<typename ManagedX::Identifier, size_t> indexMap;
+            std::vector<ManagedX> items;
+            std::map<typename ManagedX::Object::Identifier, size_t> indexMap;
     };
 
-    template<HasIDAndSpec ManagedX>
-    ManagedX Registry<ManagedX>::getItem(typename ManagedX::Identifier identifier){
-        return shaders.at(indexMap.at(identifier));
+    template<ImplementsManagedObject ManagedX>
+    ManagedX Registry<ManagedX>::getItem(typename ManagedX::Object::Identifier identifier){
+        return items.at(indexMap.at(identifier)).clone(); // use map to get index and retrieve item
+    }
+
+    template<ImplementsManagedObject ManagedX>
+    bool Registry<ManagedX>::isItemLoaded(typename ManagedX::Object::Identifier identifier){
+        return (indexMap.count(identifier) > 0); // check if key exists in map
+    }
+
+    template<ImplementsManagedObject ManagedX>
+    void Registry<ManagedX>::loadItem(typename ManagedX::Object::Spec spec){
+        ManagedX newItem(spec); // create new item from spec
+        indexMap[newItem.getIdentifier()] = items.size(); // add end index to map with identifier
+        items.push_back(std::move(newItem)); // add new item to vector
     }
 }
 

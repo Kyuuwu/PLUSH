@@ -9,7 +9,7 @@ namespace PlushGraphics {
     class ShaderIdentifier{
         public:
             ShaderIdentifier(std::string name) : shaderName(name){}
-            bool operator<(const ShaderIdentifier& other);
+            bool operator<(const ShaderIdentifier& other) const {return shaderName < other.shaderName;}
 
             std::string getShaderName() const { return shaderName; }
 

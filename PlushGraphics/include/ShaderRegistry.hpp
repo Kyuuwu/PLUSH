@@ -9,7 +9,7 @@
 #include "Registry.hpp"
 
 namespace PlushGraphics {
-    class ShaderRegistry : PlushUtil::Registry<ManagedShader>{
+    class ShaderRegistry : public PlushUtil::Registry<ManagedShader>{
     };
 }
 

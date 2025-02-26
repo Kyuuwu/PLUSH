@@ -1,7 +1,7 @@
 #include "Shader.hpp"
 #include "ShaderInputSlot.hpp"
 #include "ShaderUniformSlot.hpp"
-#include "ShaderUniformValue.hpp"
+#include "ShaderUniformPayload.hpp"
 #include "ShaderSpec.hpp"
 #include "OpenGL.h"
 #include <iostream>
@@ -77,8 +77,22 @@ namespace PlushGraphics {
         value.setUniformAtLocation(getUniformSlotLocation(value.getTargetSlotIdentifier()));
     }
 
+    std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> Shader::getUniformSlotIdentifiers() const {
+        return uniformSlotIdentifiers;
+    }
+
+    std::vector<ShaderMetadata::ShaderInputSlotIdentifier> Shader::getInputSlotIdentifiers() const {
+        std::vector<ShaderMetadata::ShaderInputSlotIdentifier> slot_ids;
+
+        for(const ShaderMetadata::ShaderInputSlot& slot : inputSlots){
+            slot_ids.push_back(slot.getIdentifier());
+        }
+
+        return slot_ids;
+    }
+
     shaderSlotLocation_t Shader::getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier) {
-        // return uniformSlots[uniformSlotIndexMap[identifier]].getLocation();
+        return uniformSlots[uniformSlotIndexMap[identifier]].getLocation();
     }
 
     void Shader::checkCompileErrors(unsigned int shader, std::string type){

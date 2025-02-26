@@ -16,10 +16,8 @@ namespace PlushGraphics {
             ManagedShader& operator=(T&& arg){
                 return PlushUtil::ManagedObject<Shader>::operator=(std::forward<T>(arg));
             }
-            
 
-            using Identifier = ShaderIdentifier;
-            using Spec = ShaderSpec;
+            using Object = Shader;
         
         private:
     };

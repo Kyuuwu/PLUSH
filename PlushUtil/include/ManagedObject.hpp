@@ -2,12 +2,16 @@
 #define MANAGEDOBJECT_HPP
 
 #include <memory>
+#include "PlushUtil.hpp"
 #include "PlushUtilException.hpp"
 
 namespace PlushUtil{
-    template <typename X> class ManagedObject{
+    template <Manageable X> class ManagedObject{
         public:
-            ManagedObject(std::unique_ptr<X> pointer); // original constructor
+            ManagedObject(typename X::Spec spec):
+            ManagedObject(std::make_unique<X>(spec)) {}
+            // spec constructor
+
             ManagedObject(const ManagedObject<X>& other); // copy constructor
             ManagedObject& operator=(const ManagedObject<X>& other); // copy assign
             ManagedObject(ManagedObject<X>&& other); // move constructor
@@ -16,49 +20,54 @@ namespace PlushUtil{
 
             ManagedObject clone();
 
+            typename X::Identifier getIdentifier();
+
+            const X& DEBUG_getConstReference(); // for debug purposes only, not safe
+
         private:
-            ManagedObject(std::weak_ptr<X> pointer);
+            ManagedObject(std::unique_ptr<X> pointer); // unique ptr constructor for originals
+            ManagedObject(std::weak_ptr<X> pointer); // weak ptr constructor for clones
 
             std::weak_ptr<X> weak_pointer;
             std::shared_ptr<X> shared_pointer;
     };
 
 
-    template <typename X>
+    template <Manageable X>
     ManagedObject<X>::ManagedObject(std::unique_ptr<X> pointer){
         if(pointer == nullptr){
-            throw(Exception::CANNOT_CREATE_NULL_MANAGED_OBJECT);
+            throw(PlushUtilException::CANNOT_CREATE_NULL_MANAGED_OBJECT);
         }
         shared_pointer = std::move(pointer);
     } // Constructs this object as an original ManagedObject
 
-    template <typename X>
+    template <Manageable X>
     ManagedObject<X>::ManagedObject(const ManagedObject<X>& other){
         if(other.shared_pointer != nullptr){ // check if other ManagedObject is an original (sharedptr) or a clone (weakptr)
             // Trying to copy an original ManagedObject is forbidden. Use move.
-            throw (Exception::CANNOT_COPY_ORIGINAL_MANAGED_OBJECT);
+            throw (PlushUtilException::CANNOT_COPY_ORIGINAL_MANAGED_OBJECT);
         }
         else{
             weak_pointer = other.weak_pointer;
         }
     }
 
-    template <typename X>
+    template <Manageable X>
     ManagedObject<X>& ManagedObject<X>::operator=(const ManagedObject<X>& other){
         if(shared_pointer != nullptr){
             //Error, cannot copy into an original ManagedObject
-            throw(Exception::CANNOT_COPY_INTO_ORIGINAL_MANAGED_OBJECT);
+            throw(PlushUtilException::CANNOT_COPY_INTO_ORIGINAL_MANAGED_OBJECT);
         }
         if(other.shared_pointer != nullptr){ // check if other ManagedObject is an original (sharedptr) or a clone (weakptr)
             // Trying to copy an original ManagedObject is forbidden. Use move.
-            throw(Exception::CANNOT_COPY_ORIGINAL_MANAGED_OBJECT);
+            throw(PlushUtilException::CANNOT_COPY_ORIGINAL_MANAGED_OBJECT);
         }
         else{
             weak_pointer = other.weak_pointer;
         }
     }
 
-    template <typename X>
+    template <Manageable X>
     ManagedObject<X>::ManagedObject(ManagedObject<X>&& other){
         shared_pointer = other.shared_pointer;
         weak_pointer = other.weak_pointer;
@@ -67,7 +76,7 @@ namespace PlushUtil{
         other.weak_pointer.reset();
     }
 
-    template <typename X>
+    template <Manageable X>
     ManagedObject<X>& ManagedObject<X>::operator=(ManagedObject<X>&& other){
         if(shared_pointer != nullptr && other.shared_pointer != nullptr){ 
             //Move shared into shared, permitted
@@ -79,9 +88,9 @@ namespace PlushUtil{
         }
         else {
             if(shared_pointer == nullptr && other.shared_pointer != nullptr){
-                throw(Exception::CANNOT_MOVE_ASSIGN_ORIGINAL_INTO_CLONE);
+                throw(PlushUtilException::CANNOT_MOVE_ASSIGN_ORIGINAL_INTO_CLONE);
             }else{
-                throw(Exception::CANNOT_MOVE_ASSIGN_CLONE_INTO_ORIGINAL);
+                throw(PlushUtilException::CANNOT_MOVE_ASSIGN_CLONE_INTO_ORIGINAL);
             }
         }
 
@@ -89,18 +98,34 @@ namespace PlushUtil{
         other.weak_pointer.reset();
     }
 
-    template <typename X>
+    template <Manageable X>
     ManagedObject<X>::~ManagedObject(){
         shared_pointer.reset();
         weak_pointer.reset();
     }
 
-    template <typename X>
+    template <Manageable X>
     ManagedObject<X> ManagedObject<X>::clone(){
         return ManagedObject<X>(std::weak_ptr<X>(shared_pointer));
     } // call private constructor for cloned ManagedObjects
 
-    template <typename X>
+    template <Manageable X>
+    typename X::Identifier ManagedObject<X>::getIdentifier(){
+        if(shared_pointer == nullptr){
+            return weak_pointer.lock()->getIdentifier();
+        }
+        return shared_pointer->getIdentifier();
+    }
+
+    template <Manageable X>
+    inline const X& ManagedObject<X>::DEBUG_getConstReference() {
+        if(shared_pointer == nullptr){
+            return *weak_pointer.lock().get();
+        }
+        return *shared_pointer.get();
+    }
+
+    template <Manageable X>
     ManagedObject<X>::ManagedObject(std::weak_ptr<X> pointer){
         weak_pointer = pointer;
     } // private constructor for non-original cloned ManagedObjects
