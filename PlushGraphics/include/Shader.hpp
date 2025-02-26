@@ -13,7 +13,6 @@ namespace PlushGraphics {
         public:
             using Identifier = ShaderIdentifier;
             using Spec = ShaderSpec;
-            friend class ManagedShader;
             
             Shader(ShaderSpec spec);
             ~Shader(); // Shader can only be created and destroyed, all other functionality must be handled on the level of ManagedShader.

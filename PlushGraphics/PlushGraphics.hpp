@@ -38,25 +38,27 @@ namespace PlushGraphics {
         class ShaderUniformSlot; // holds metadata for uniforms taken by a shader
     }
 
-    namespace VertexData {
-        class Vertex;
-    }
+    class ModelVertex;
 
     class TextureRegistry; // holds all textures
     class Texture2D;
     class ManagedTexture2D; // wrapper for smart pointer to textures, inherits ManagedObject interface from PlushUtil
 
-    class ModelIdentifier; // identifier struct for a given model
+    class ModelDataSpec; // specification for loading ModelData from a file
+    class ModelDataIdentifier; // identifier struct for a given model
     class ModelData; // contains all vertex data for a given model, possibly containing data for multiple shader input formats
-    class ModelInstance; // contains vertex data for a given model matched to the inputs of exactly one shader
+    class ModelDataRegistry; // holds ModelData items
     class ManagedModelData; // wrapper for smart pointer to ModelData, inherits ManagedObject interface from PlushUtil
+
+    class ModelInstanceSpec; // spec for creating a ModelInstance from a ModelData and a Shader
+    class ModelInstanceIdentifier; // identifies a ModelInstance
+    class ModelInstance; // contains vertex data for a given model matched to the inputs of exactly one shader
+    class ModelInstanceRegistry; // holds ModelInstance items within a ModelData
     class ManagedModelInstance; // wrapper for smart pointer to ModelInstance, inherits ManagedObject interface from PlushUtil
 
     namespace ModelInstanceMetadata {
         class ModelInstanceMetadata; // contains metadata and compat checking for the originating shader & modeldata of a modelinstance
     }
-
-    class ModelRegistry; // holds modeldata (and possible modelinstances)
 }
 
 #endif // PLUSH_GRAPHICS_HPP
