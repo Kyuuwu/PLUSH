@@ -26,7 +26,7 @@ namespace PlushUtil {
 
     template <typename ManagedX> concept ImplementsManagedObject = requires{
         typename ManagedX::Object;
-        std::convertible_to<ManagedX, ManagedObject<typename ManagedX::Object>>;
+        requires std::convertible_to<ManagedX, ManagedObject<typename ManagedX::Object>>;
     };
 
     template<ImplementsManagedObject ManagedX> class Registry;

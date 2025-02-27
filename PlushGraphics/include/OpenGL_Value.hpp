@@ -4,6 +4,7 @@
 #include "PlushGraphics.hpp"
 #include "glad/glad.h"
 #include "glm/glm.hpp"
+#include <sstream>
 
 namespace PlushGraphics {
 
@@ -30,6 +31,8 @@ namespace PlushGraphics {
             static OpenGL_Value create_mat2(glm::mat2 _m2);
             static OpenGL_Value create_mat3(glm::mat3 _m3);
             static OpenGL_Value create_mat4(glm::mat4 _m4);
+
+            static OpenGL_Value readFromStringstream(std::stringstream& stream, OpenGL_Type _type);
 
             GLuint get_uint();
             GLint get_int();

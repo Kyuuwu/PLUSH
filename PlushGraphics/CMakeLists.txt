@@ -6,6 +6,7 @@ src/Window.cpp
 src/ShaderUniformPayload.cpp
 src/OpenGL_Type.cpp
 src/OpenGL_Value.cpp
+src/ModelData.cpp
 )
 
 target_link_libraries(PlushGraphics_src PUBLIC OPENGL_libraries)

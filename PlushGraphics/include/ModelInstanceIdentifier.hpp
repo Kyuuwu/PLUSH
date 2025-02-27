@@ -1,0 +1,33 @@
+#ifndef MODELINSTANCEIDENTIFIER_HPP
+#define MODELINSTANCEIDENTIFIER_HPP
+
+#include "ModelDataIdentifier.hpp"
+#include "ShaderIdentifier.hpp"
+#include "ModelInstanceSpec.hpp"
+
+namespace PlushGraphics {
+    class ModelInstanceIdentifier{
+        public:
+            ModelInstanceIdentifier(ModelDataIdentifier _modelDataIdentifier, ShaderIdentifier _shaderIdentifier):
+            modelDataIdentifier(_modelDataIdentifier), shaderIdentifier(_shaderIdentifier){}
+            
+            ModelInstanceIdentifier(ModelInstanceSpec spec):
+            ModelInstanceIdentifier(spec.getModelDataIdentifier(), spec.getShaderIdentifier()){}
+
+            bool operator<(const ModelInstanceIdentifier& other) const{
+                if(modelDataIdentifier < other.modelDataIdentifier){
+                    return true;
+                }
+                if(other.modelDataIdentifier < modelDataIdentifier){
+                    return false;
+                }
+                return shaderIdentifier < other.shaderIdentifier;
+            } // sort by ModelData identifier first, then by shader identifier
+
+        private:
+            ModelDataIdentifier modelDataIdentifier;
+            ShaderIdentifier shaderIdentifier;
+    };
+}
+
+#endif // MODELINSTANCEIDENTIFIER_HPP

@@ -45,9 +45,9 @@ add_custom_command(TARGET COPY_SHADERS POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/shaders $<TARGET_FILE_DIR:PLUSH>/shaders)
 
-# add_custom_command(TARGET COPY_SHADERS POST_BUILD
-#                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-#                        ${CMAKE_SOURCE_DIR}/models $<TARGET_FILE_DIR:PLUSH>/models)
+add_custom_command(TARGET COPY_SHADERS POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/models $<TARGET_FILE_DIR:PLUSH>/models)
 
 #                        add_custom_command(TARGET COPY_SHADERS POST_BUILD
 #                                           COMMAND ${CMAKE_COMMAND} -E copy_directory

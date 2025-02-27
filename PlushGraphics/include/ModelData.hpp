@@ -19,12 +19,15 @@ namespace PlushGraphics {
             ModelData(ModelData&&) = delete;
             ModelData& operator=(ModelData&&) = delete;
 
-            ModelDataIdentifier getIdentifier();
+            ModelDataIdentifier getIdentifier() const { return identifier; }
+
 
         private:
             ModelDataIdentifier identifier;
 
+            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> targetedInputSlots;
             std::vector<ModelVertex> vertices;
+            std::vector<size_t> indices;
     };
 }
 

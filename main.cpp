@@ -12,6 +12,8 @@
 #include "ShaderUniformSlotIdentifier.hpp"
 #include "ShaderInputSlot.hpp"
 #include "Shader.hpp"
+#include "ModelData.hpp"
+#include "ModelDataSpec.hpp"
 
 int main(int, char**) {
     std::cout << "Hello, world!\n";
@@ -40,6 +42,9 @@ int main(int, char**) {
         std::cout << "    Input: " << PlushGraphics::getStringFromType(inputSlot.getSlotType()) 
             << " " << inputSlot.getSlotName() << std::endl;
     }
+
+    PlushGraphics::ModelDataSpec mspec("model1.txt");
+    PlushGraphics::ModelData mdata(mspec);
 
     PlushGraphics::OpenGL::terminateOpenGL();
 

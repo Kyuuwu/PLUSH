@@ -2,13 +2,13 @@
 #define MODELVERTEX_HPP
 
 #include "PlushGraphics.hpp"
-#include "ShaderUniformPayload.hpp"
+#include "OpenGL_Value.hpp"
 #include <vector>
 
 namespace PlushGraphics {
     class ModelVertex{
         public:
-            std::vector<ShaderMetadata::ShaderUniformPayload> vertexValues;
+            std::vector<OpenGL_Value> vertexValues;
     };
 }
 
