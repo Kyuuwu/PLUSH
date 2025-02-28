@@ -20,7 +20,7 @@ namespace PlushGraphics {
         uint32_t inputCount;
         modelstream >> inputCount;
 
-        std::cout << "Input count: " << inputCount << std::endl;
+        // std::cout << "Input count: " << inputCount << std::endl;
 
         for (uint32_t i = 0; i < inputCount; i++) {
             std::string typeName;
@@ -37,7 +37,7 @@ namespace PlushGraphics {
         uint32_t vertexCount;
         modelstream >> vertexCount;
 
-        std::cout << "Vertex count: " << vertexCount << std::endl;
+        // std::cout << "Vertex count: " << vertexCount << std::endl;
 
         for(uint32_t i = 0; i < vertexCount; i++){
             ModelVertex vertex;
@@ -50,7 +50,7 @@ namespace PlushGraphics {
         uint32_t indexCount;
         modelstream >> indexCount;
 
-        std::cout << "Index count: " << indexCount << std::endl;
+        // std::cout << "Index count: " << indexCount << std::endl;
 
         for(uint32_t i = 0; i < indexCount; i++){
             uint32_t index;

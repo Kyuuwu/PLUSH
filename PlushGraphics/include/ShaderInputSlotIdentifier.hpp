@@ -10,6 +10,10 @@ namespace PlushGraphics {
             ShaderInputSlotIdentifier(std::string _slotName, OpenGL_Type _slotType)
             : slotName(_slotName), slotType(_slotType) {}
 
+            bool operator==(const ShaderInputSlotIdentifier& other) const{
+                return (slotName == other.slotName) && (slotType == other.slotType);
+            }
+
             std::string getSlotName() const { return slotName; }
             OpenGL_Type getSlotType() const { return slotType; }
             

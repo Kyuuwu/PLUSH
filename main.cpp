@@ -14,6 +14,11 @@
 #include "Shader.hpp"
 #include "ModelData.hpp"
 #include "ModelDataSpec.hpp"
+#include "ModelDataRegistry.hpp"
+
+#include "ModelInstance.hpp"
+#include "ModelInstanceSpec.hpp"
+#include "ModelInstanceIdentifier.hpp"
 
 int main(int, char**) {
     std::cout << "Hello, world!\n";
@@ -28,11 +33,11 @@ int main(int, char**) {
     shadreg.loadItem(spec);
 
     if(shadreg.isItemLoaded(id)){
-        std::cout << "Loaded" << std::endl;
+        std::cout << "Shader is loaded" << std::endl;
     }
 
-    PlushGraphics::ManagedShader test = shadreg.getItem(id);
-    const PlushGraphics::Shader& debugRef = test.DEBUG_getConstReference();
+    PlushGraphics::ManagedShader shader = shadreg.getItem(id);
+    const PlushGraphics::Shader& debugRef = shader.DEBUG_getConstReference();
     std::cout << "Identifier: " << debugRef.getIdentifier().getShaderName() << std::endl;
     for(PlushGraphics::ShaderMetadata::ShaderUniformSlotIdentifier uniSlot : debugRef.getUniformSlotIdentifiers()){
         std::cout << "    Uniform: " << PlushGraphics::getStringFromType(uniSlot.getSlotType()) 
@@ -43,8 +48,28 @@ int main(int, char**) {
             << " " << inputSlot.getSlotName() << std::endl;
     }
 
+    PlushGraphics::ModelDataRegistry modreg;
     PlushGraphics::ModelDataSpec mspec("model1.txt");
-    PlushGraphics::ModelData mdata(mspec);
+    PlushGraphics::ModelDataIdentifier mid("ModelABC");
+    modreg.loadItem(mspec);
+    if(modreg.isItemLoaded(mid)){
+        std::cout << "ModelData is loaded" << std::endl;
+    }
+    PlushGraphics::ManagedModelData modeldata = modreg.getItem(mid);
+
+    PlushGraphics::ModelInstanceSpec instspec(modeldata, shader);
+    PlushGraphics::ModelInstance inst(instspec);
+
+    while(!glfwWindowShouldClose(window2.windowPointer)){
+        glClearColor(0.2, 0.3, 0.3, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        shader.useShader();
+        inst.draw();
+
+        glfwSwapBuffers(window2.windowPointer);
+        glfwPollEvents();
+    }
 
     PlushGraphics::OpenGL::terminateOpenGL();
 

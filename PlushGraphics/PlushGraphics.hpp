@@ -6,6 +6,7 @@
 namespace PlushGraphics {
     using shaderSlotLocation_t = uint32_t;
     using shaderObjectReferenceID = uint32_t;
+    using bufferReferenceID = uint32_t;
 
     enum class PlushGraphicsException;
 

@@ -8,9 +8,9 @@ namespace PlushGraphics {
     class Window{
         public:
             Window(WindowBuilder windowbuilder);
+            GLFWwindow* windowPointer;
 
         private:
-            GLFWwindow* windowPointer;
     };
 }
 

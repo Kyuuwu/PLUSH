@@ -7,7 +7,10 @@ namespace PlushGraphics {
     enum class PlushGraphicsException{
         FAILED_TO_CREATE_WINDOW,
         OPENGL_TYPE_NOT_FOUND,
-        OPENGL_VALUE_GET_INVALID_TYPE
+        OPENGL_VALUE_GET_INVALID_TYPE,
+        SHADER_AND_MODELDATA_INCOMPATIBLE,
+        MODELDATA_HAS_DUPLICATE_TARGET_SLOT,
+        VECTOR_INDEX_OUT_OF_BOUNDS
     };
 }
 

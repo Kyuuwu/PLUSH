@@ -1,21 +1,21 @@
 #ifndef MODELINSTANCESPEC_HPP
 #define MODELINSTANCESPEC_HPP
 
-#include "ModelDataIdentifier.hpp"
-#include "ShaderIdentifier.hpp"
+#include "ManagedModelData.hpp"
+#include "ManagedShader.hpp"
 
 namespace PlushGraphics {
     class ModelInstanceSpec{
         public:
-            ModelInstanceSpec(ModelDataIdentifier _modelDataIdentifier, ShaderIdentifier _shaderIdentifier)
-            : modelDataIdentifier(_modelDataIdentifier), shaderIdentifier(_shaderIdentifier) {}
+            ModelInstanceSpec(ManagedModelData _modelData, ManagedShader _shader)
+            : modelData(_modelData), shader(_shader) {}
 
-            ModelDataIdentifier getModelDataIdentifier() const { return modelDataIdentifier; }
-            ShaderIdentifier getShaderIdentifier() const { return shaderIdentifier; }
+            ManagedModelData getModelData() const { return modelData; }
+            ManagedShader getShader() const { return shader; }
 
         private:
-            ModelDataIdentifier modelDataIdentifier;
-            ShaderIdentifier shaderIdentifier;
+            ManagedModelData modelData;
+            ManagedShader shader;
     };
 }
 

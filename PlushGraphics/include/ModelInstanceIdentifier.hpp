@@ -12,7 +12,7 @@ namespace PlushGraphics {
             modelDataIdentifier(_modelDataIdentifier), shaderIdentifier(_shaderIdentifier){}
             
             ModelInstanceIdentifier(ModelInstanceSpec spec):
-            ModelInstanceIdentifier(spec.getModelDataIdentifier(), spec.getShaderIdentifier()){}
+            ModelInstanceIdentifier(spec.getModelData().getIdentifier(), spec.getShader().getIdentifier()){}
 
             bool operator<(const ModelInstanceIdentifier& other) const{
                 if(modelDataIdentifier < other.modelDataIdentifier){

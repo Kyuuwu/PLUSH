@@ -120,17 +120,17 @@ namespace PlushGraphics {
         }
     }
 
-    GLuint OpenGL_Value::get_uint() {
+    GLuint OpenGL_Value::get_uint() const {
         checkType(OpenGL_Type::UINT);
         return valueHolder.u;
     }
 
-    GLint OpenGL_Value::get_int() {
+    GLint OpenGL_Value::get_int() const {
         checkType(OpenGL_Type::INT);
         return valueHolder.i;
     }
 
-    GLfloat OpenGL_Value::get_float() {
+    GLfloat OpenGL_Value::get_float() const {
         checkType(OpenGL_Type::FLOAT);
         return valueHolder.f;
     }
@@ -140,14 +140,56 @@ namespace PlushGraphics {
         return glm::value_ptr(valueHolder.v2);
     }
 
+    GLfloat OpenGL_Value::get_vec2_subvalue(uint16_t index) const {
+        checkType(OpenGL_Type::FLOAT_VEC_2);
+        switch (index) {
+            case 0:
+                return valueHolder.v2.x;
+            case 1:
+                return valueHolder.v2.y;
+            default:
+                throw(PlushGraphicsException::VECTOR_INDEX_OUT_OF_BOUNDS);
+        }
+    }
+
     GLfloat* OpenGL_Value::get_vec3_ptr() {
         checkType(OpenGL_Type::FLOAT_VEC_3);
         return glm::value_ptr(valueHolder.v3);
     }
 
+    GLfloat OpenGL_Value::get_vec3_subvalue(uint16_t index) const {
+        checkType(OpenGL_Type::FLOAT_VEC_3);
+        switch (index) {
+            case 0:
+                return valueHolder.v3.x;
+            case 1:
+                return valueHolder.v3.y;
+            case 2:
+                return valueHolder.v3.z;
+            default:
+                throw(PlushGraphicsException::VECTOR_INDEX_OUT_OF_BOUNDS);
+        }
+    }
+
     GLfloat* OpenGL_Value::get_vec4_ptr() {
         checkType(OpenGL_Type::FLOAT_VEC_4);
         return glm::value_ptr(valueHolder.v4);
+    }
+
+    GLfloat OpenGL_Value::get_vec4_subvalue(uint16_t index) const {
+        checkType(OpenGL_Type::FLOAT_VEC_4);
+        switch (index) {
+            case 0:
+                return valueHolder.v4.x;
+            case 1:
+                return valueHolder.v4.y;
+            case 2:
+                return valueHolder.v4.z;
+            case 3:
+                return valueHolder.v4.w;
+            default:
+                throw(PlushGraphicsException::VECTOR_INDEX_OUT_OF_BOUNDS);
+        }
     }
 
     GLfloat* OpenGL_Value::get_mat2_ptr() {
@@ -165,7 +207,7 @@ namespace PlushGraphics {
         return glm::value_ptr(valueHolder.m4);
     }
 
-    void OpenGL_Value::checkType(OpenGL_Type _type) {
+    void OpenGL_Value::checkType(OpenGL_Type _type) const {
         if(type != _type){
             std::cout << "Error: attempting to get value of type " << getStringFromType(_type) << " from OpenGL_Value object of type " << getStringFromType(type) << std::endl;
             throw(PlushGraphics::PlushGraphicsException::OPENGL_VALUE_GET_INVALID_TYPE);

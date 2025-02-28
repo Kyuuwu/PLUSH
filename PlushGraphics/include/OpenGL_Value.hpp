@@ -34,12 +34,15 @@ namespace PlushGraphics {
 
             static OpenGL_Value readFromStringstream(std::stringstream& stream, OpenGL_Type _type);
 
-            GLuint get_uint();
-            GLint get_int();
-            GLfloat get_float();
+            GLuint get_uint() const;
+            GLint get_int() const;
+            GLfloat get_float() const;
             GLfloat* get_vec2_ptr();
+            GLfloat get_vec2_subvalue(uint16_t index) const;
             GLfloat* get_vec3_ptr();
+            GLfloat get_vec3_subvalue(uint16_t index) const;
             GLfloat* get_vec4_ptr();
+            GLfloat get_vec4_subvalue(uint16_t index) const;
             GLfloat* get_mat2_ptr();
             GLfloat* get_mat3_ptr();
             GLfloat* get_mat4_ptr();
@@ -47,7 +50,7 @@ namespace PlushGraphics {
             OpenGL_Type getType() const { return type; }
 
         private:
-            void checkType(OpenGL_Type _type);
+            void checkType(OpenGL_Type _type) const;
 
             OpenGL_Type type;
             OpenGL_Value_Holder valueHolder;

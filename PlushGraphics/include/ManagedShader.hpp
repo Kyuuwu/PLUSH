@@ -3,6 +3,9 @@
 
 #include "PlushGraphics.hpp"
 #include "ManagedObject.hpp"
+#include "ShaderUniformSlotIdentifier.hpp"
+#include "ShaderInputSlotIdentifier.hpp"
+#include "ShaderInputSlot.hpp"
 #include "Shader.hpp"
 
 namespace PlushGraphics {
@@ -18,6 +21,20 @@ namespace PlushGraphics {
             }
 
             using Object = Shader;
+
+            void useShader() const{
+                (*this)->useShader();
+            }
+
+            std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const{
+                return (*this)->getUniformSlotIdentifiers(); // use protected -> operator to get from Shader
+            }
+            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getInputSlotIdentifiers() const{
+                return (*this)->getInputSlotIdentifiers(); // use protected -> operator to get from Shader
+            }
+            std::vector<ShaderMetadata::ShaderInputSlot> getInputSlots() const{
+                return operator->()->getInputSlots(); // use protected -> operator to get from Shader
+            }
         
         private:
     };

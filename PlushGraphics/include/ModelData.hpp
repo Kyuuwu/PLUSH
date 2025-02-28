@@ -1,8 +1,10 @@
 #ifndef MODELDATA_HPP
 #define MODELDATA_HPP
 
+#include "ModelVertex.hpp"
 #include "PlushGraphics.hpp"
 #include "ModelDataIdentifier.hpp" 
+#include "ShaderInputSlotIdentifier.hpp"
 #include <vector>
 
 namespace PlushGraphics {
@@ -20,6 +22,12 @@ namespace PlushGraphics {
             ModelData& operator=(ModelData&&) = delete;
 
             ModelDataIdentifier getIdentifier() const { return identifier; }
+
+            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getTargetedInputSlots() const { return targetedInputSlots; }
+
+            std::vector<ModelVertex> getVertices() const { return vertices; }
+
+            std::vector<size_t> getIndices() const { return indices; }
 
 
         private:

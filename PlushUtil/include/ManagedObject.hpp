@@ -24,6 +24,9 @@ namespace PlushUtil{
 
             const X& DEBUG_getConstReference(); // for debug purposes only, not safe
 
+        protected:
+            X* operator->() const; // protected const member access operator
+
         private:
             ManagedObject(std::unique_ptr<X> pointer); // unique ptr constructor for originals
             ManagedObject(std::weak_ptr<X> pointer); // weak ptr constructor for clones
@@ -111,24 +114,26 @@ namespace PlushUtil{
 
     template <Manageable X>
     typename X::Identifier ManagedObject<X>::getIdentifier(){
-        if(shared_pointer == nullptr){
-            return weak_pointer.lock()->getIdentifier();
-        }
-        return shared_pointer->getIdentifier();
+        return (*this)->getIdentifier();
     }
 
     template <Manageable X>
     inline const X& ManagedObject<X>::DEBUG_getConstReference() {
-        if(shared_pointer == nullptr){
-            return *weak_pointer.lock().get();
-        }
-        return *shared_pointer.get();
+        return *((*this).operator->());
     }
 
     template <Manageable X>
     ManagedObject<X>::ManagedObject(std::weak_ptr<X> pointer){
         weak_pointer = pointer;
     } // private constructor for non-original cloned ManagedObjects
+
+    template <Manageable X>
+    inline X* ManagedObject<X>::operator->() const {
+        if(shared_pointer == nullptr){
+            return weak_pointer.lock().get();
+        }
+        return shared_pointer.get();
+    } // private member access operator
 }
 
 #endif // MANAGEDOBJECT_HPP

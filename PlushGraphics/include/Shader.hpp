@@ -3,6 +3,7 @@
 
 #include "PlushGraphics.hpp"
 #include "ShaderIdentifier.hpp"
+#include "ShaderInputSlot.hpp"
 #include "ShaderSpec.hpp"
 #include <vector>
 #include <map>
@@ -28,6 +29,7 @@ namespace PlushGraphics {
 
             std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const;
             std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getInputSlotIdentifiers() const;
+            std::vector<ShaderMetadata::ShaderInputSlot> getInputSlots() const {return inputSlots;}
 
             ShaderIdentifier getIdentifier() const { return identifier; }
 

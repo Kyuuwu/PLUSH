@@ -20,8 +20,18 @@ namespace PlushGraphics {
 
             ModelInstanceIdentifier getIdentifier() const { return identifier; }
 
+            void draw(){
+                glBindVertexArray(VAO);
+                glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
+                // glBindVertexArray(0);
+            }
+
         private:
             ModelInstanceIdentifier identifier;
+            bufferReferenceID VAO;
+            bufferReferenceID VBO;
+            bufferReferenceID EBO;
+            size_t numIndices;
     };
 }
 

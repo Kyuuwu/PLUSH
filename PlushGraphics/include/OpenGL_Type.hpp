@@ -20,6 +20,7 @@ namespace PlushGraphics {
 
     OpenGL_Type getTypeFromString(std::string typestring);
     std::string getStringFromType(OpenGL_Type type);
+    size_t getSizeOf(OpenGL_Type type);
 }
 
 #endif // OPENGL_TYPE_HPP

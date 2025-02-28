@@ -18,6 +18,19 @@ namespace PlushGraphics {
             }
 
             using Object = ModelData;
+
+
+            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getTargetedInputSlots() const { 
+                return operator->()->getTargetedInputSlots(); // protected -> operator 
+            }
+
+            std::vector<ModelVertex> getVertices() const { 
+                return operator->()->getVertices(); 
+            }
+
+            std::vector<size_t> getIndices() const { 
+                return operator->()->getIndices(); 
+            }
         
         private:
     };
