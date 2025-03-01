@@ -1,6 +1,7 @@
 #ifndef MANAGEDOBJECT_HPP
 #define MANAGEDOBJECT_HPP
 
+#include <iostream>
 #include <memory>
 #include "PlushUtil.hpp"
 #include "PlushUtilException.hpp"
@@ -48,6 +49,8 @@ namespace PlushUtil{
     ManagedObject<X>::ManagedObject(const ManagedObject<X>& other){
         if(other.shared_pointer != nullptr){ // check if other ManagedObject is an original (sharedptr) or a clone (weakptr)
             // Trying to copy an original ManagedObject is forbidden. Use move.
+
+            std::cout << "A" << std::endl;
             throw (PlushUtilException::CANNOT_COPY_ORIGINAL_MANAGED_OBJECT);
         }
         else{

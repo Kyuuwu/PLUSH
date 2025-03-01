@@ -1,13 +1,16 @@
 #include "Window.hpp"
-#include "WindowBuilder.hpp"
+#include "WindowSpec.hpp"
+#include "WindowIdentifier.hpp"
 #include "PlushGraphicsException.hpp"
 #include "OpenGL.h"
 #include <iostream>
 #include "PlushGraphicsOpenGL.hpp"
 
 namespace PlushGraphics {
-    Window::Window(WindowBuilder windowbuilder){
-        windowPointer = glfwCreateWindow(windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight(), windowbuilder.getWindowName().c_str(), NULL, NULL);
+    Window::Window(WindowSpec windowbuilder):
+    identifier(windowbuilder.getWindowName())
+    {
+        windowPointer = glfwCreateWindow(windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight(), windowbuilder.getWindowName().c_str(), NULL, OpenGL::getRootContext());
 
         if(windowPointer == NULL){
             std::cout << "Failed to create GLFW window" << std::endl;
@@ -23,4 +26,9 @@ namespace PlushGraphics {
 
         glViewport(0,0,windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight());
     };
+
+    Window::~Window()
+    {
+        glfwDestroyWindow(windowPointer); // destroy window
+    }
 }

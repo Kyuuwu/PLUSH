@@ -12,6 +12,15 @@
 namespace PlushGraphics {
     class ManagedShader : public PlushUtil::ManagedObject<Shader>{
         public:
+
+            ManagedShader(ManagedShader&& other) noexcept:
+                PlushUtil::ManagedObject<Shader>(std::move(other))
+            {}
+
+            ManagedShader(const ManagedShader& other):
+                PlushUtil::ManagedObject<Shader>(other)
+            {}
+
             template <typename T>
             ManagedShader(T&& arg):
                 PlushUtil::ManagedObject<Shader>(std::forward<T>(arg)){}

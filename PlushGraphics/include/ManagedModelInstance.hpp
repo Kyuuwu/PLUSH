@@ -7,6 +7,15 @@
 namespace PlushGraphics {
     class ManagedModelInstance : public PlushUtil::ManagedObject<ModelInstance>{
         public:
+
+            ManagedModelInstance(ManagedModelInstance&& other) noexcept:
+                PlushUtil::ManagedObject<ModelInstance>(std::move(other))
+            {}
+
+            ManagedModelInstance(const ManagedModelInstance& other):
+                PlushUtil::ManagedObject<ModelInstance>(other)
+            {}
+
             template <typename T>
                 ManagedModelInstance(T&& arg):
                     PlushUtil::ManagedObject<ModelInstance>(std::forward<T>(arg)){}

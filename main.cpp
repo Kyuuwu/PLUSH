@@ -1,8 +1,9 @@
 #include <iostream>
 
 #include "OpenGL_Type.hpp"
-#include "WindowBuilder.hpp"
+#include "WindowSpec.hpp"
 #include "Window.hpp"
+#include "WindowRegistry.hpp"
 #include "PlushGraphicsOpenGL.hpp"
 
 #include "OpenGL.h"
@@ -26,8 +27,14 @@ int main(int, char**) {
     std::cout << "Hello, world!\n";
     PlushGraphics::OpenGL::initializeOpenGL();
 
-    PlushGraphics::WindowBuilder builder;
-    PlushGraphics::Window window2(builder);
+    PlushGraphics::ManagedWindow window = PlushGraphics::OpenGL::windowRegistry.getItem(PlushGraphics::OpenGL::getActiveWindowIdentifier());
+    PlushGraphics::WindowIdentifier id1 = window.getIdentifier();
+
+    PlushGraphics::WindowSpec spec2("nya");
+    PlushGraphics::WindowIdentifier id2 = PlushGraphics::OpenGL::windowRegistry.loadItem(spec2);
+    PlushGraphics::ManagedWindow win2 = PlushGraphics::OpenGL::windowRegistry.getItem(id2);
+
+    window.switchContextToWindow();
 
     PlushGraphics::ShaderRegistry shadreg;
     PlushGraphics::ShaderSpec spec("shader1");
@@ -49,6 +56,8 @@ int main(int, char**) {
 
     shader.setUniform(payload);
 
+    PlushGraphics::ShaderMetadata::ShaderUniformPayload payload2(shader.getUniformSlotIdentifiers()[0], PlushGraphics::OpenGL_Value::create_vec4(glm::vec4(0.3,0.6,0.2,1.0)));
+
     for(PlushGraphics::ShaderMetadata::ShaderInputSlotIdentifier inputSlot : shader.getInputSlotIdentifiers()){
         std::cout << "    Input: " << PlushGraphics::getStringFromType(inputSlot.getSlotType()) 
             << " " << inputSlot.getSlotName() << std::endl;
@@ -69,14 +78,27 @@ int main(int, char**) {
     PlushGraphics::ModelInstanceIdentifier instid(mid, id);
     PlushGraphics::ManagedModelInstance instst = modinstreg.getItem(instid);
 
-    while(!glfwWindowShouldClose(window2.windowPointer)){
+    while(!window.getWindowShouldClose()){
+        PlushGraphics::OpenGL::switchContextToWindow(id1);
         glClearColor(0.2, 0.3, 0.3, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
+        shader.setUniform(payload);
         instst.drawModel();
 
-        glfwSwapBuffers(window2.windowPointer);
+        window.swapBuffers();
+        glfwPollEvents();
+
+        PlushGraphics::OpenGL::switchContextToWindow(id2);
+        glClearColor(0.7, 0.3, 0.3, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        shader.useShader();
+        shader.setUniform(payload2);
+        instst.drawModel();
+
+        win2.swapBuffers();
         glfwPollEvents();
     }
 

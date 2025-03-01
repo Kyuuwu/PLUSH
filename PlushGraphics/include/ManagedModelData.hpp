@@ -8,6 +8,15 @@
 namespace PlushGraphics {
     class ManagedModelData : public PlushUtil::ManagedObject<ModelData>{
         public:
+
+            ManagedModelData(ManagedModelData&& other) noexcept:
+                PlushUtil::ManagedObject<ModelData>(std::move(other))
+            {}
+
+            ManagedModelData(const ManagedModelData& other):
+                PlushUtil::ManagedObject<ModelData>(other)
+            {}
+
             template <typename T>
             ManagedModelData(T&& arg):
                 PlushUtil::ManagedObject<ModelData>(std::forward<T>(arg)){}

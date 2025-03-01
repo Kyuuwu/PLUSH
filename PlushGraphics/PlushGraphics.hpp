@@ -15,8 +15,11 @@ namespace PlushGraphics {
 
     class OpenGL; // manages initialization and closing out of program
 
-    class WindowBuilder; // holds data/settings/dimensions for building windows
-    class Window; // Manages a window
+    class WindowSpec; // holds data/settings/dimensions for building windows
+    class Window; // OpenGL window class
+    class WindowIdentifier;
+    class ManagedWindow;
+    class WindowRegistry;
 
     class GraphicsLayer; // Layer to draw drawables onto within Window
     class Drawable; // Previously Instance, the drawable data, incl. model, that a game-engine-level entity needs 

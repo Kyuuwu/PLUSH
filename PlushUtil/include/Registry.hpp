@@ -12,7 +12,7 @@ namespace PlushUtil {
         public:
             ManagedX getItem(typename ManagedX::Object::Identifier identifier);
             bool isItemLoaded(typename ManagedX::Object::Identifier identifier);
-            void loadItem(typename ManagedX::Object::Spec spec);
+            typename ManagedX::Object::Identifier loadItem(typename ManagedX::Object::Spec spec);
 
         private:
             std::vector<ManagedX> items;
@@ -30,10 +30,15 @@ namespace PlushUtil {
     }
 
     template<ImplementsManagedObject ManagedX>
-    void Registry<ManagedX>::loadItem(typename ManagedX::Object::Spec spec){
+    typename ManagedX::Object::Identifier Registry<ManagedX>::loadItem(typename ManagedX::Object::Spec spec){
         ManagedX newItem(spec); // create new item from spec
+        
+        typename ManagedX::Object::Identifier identifier = newItem.getIdentifier();
+
         indexMap[newItem.getIdentifier()] = items.size(); // add end index to map with identifier
         items.push_back(std::move(newItem)); // add new item to vector
+        
+        return identifier;
     }
 }
 
