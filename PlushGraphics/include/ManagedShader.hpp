@@ -5,6 +5,7 @@
 #include "ManagedObject.hpp"
 #include "ShaderUniformSlotIdentifier.hpp"
 #include "ShaderInputSlotIdentifier.hpp"
+#include "ShaderUniformPayload.hpp"
 #include "ShaderInputSlot.hpp"
 #include "Shader.hpp"
 
@@ -35,6 +36,10 @@ namespace PlushGraphics {
             std::vector<ShaderMetadata::ShaderInputSlot> getInputSlots() const{
                 return operator->()->getInputSlots(); // use protected -> operator to get from Shader
             }
+
+            void setUniform(ShaderMetadata::ShaderUniformPayload value){
+                operator->()->setUniform(value); // use protected -> operator
+            } 
         
         private:
     };

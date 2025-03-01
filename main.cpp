@@ -10,6 +10,7 @@
 #include "ShaderRegistry.hpp"
 #include "ShaderUniformSlot.hpp"
 #include "ShaderUniformSlotIdentifier.hpp"
+#include "ShaderUniformPayload.hpp"
 #include "ShaderInputSlot.hpp"
 #include "Shader.hpp"
 #include "ModelData.hpp"
@@ -19,6 +20,7 @@
 #include "ModelInstance.hpp"
 #include "ModelInstanceSpec.hpp"
 #include "ModelInstanceIdentifier.hpp"
+#include "ModelInstanceRegistry.hpp"
 
 int main(int, char**) {
     std::cout << "Hello, world!\n";
@@ -37,13 +39,17 @@ int main(int, char**) {
     }
 
     PlushGraphics::ManagedShader shader = shadreg.getItem(id);
-    const PlushGraphics::Shader& debugRef = shader.DEBUG_getConstReference();
-    std::cout << "Identifier: " << debugRef.getIdentifier().getShaderName() << std::endl;
-    for(PlushGraphics::ShaderMetadata::ShaderUniformSlotIdentifier uniSlot : debugRef.getUniformSlotIdentifiers()){
+    std::cout << "Identifier: " << shader.getIdentifier().getShaderName() << std::endl;
+    for(PlushGraphics::ShaderMetadata::ShaderUniformSlotIdentifier uniSlot : shader.getUniformSlotIdentifiers()){
         std::cout << "    Uniform: " << PlushGraphics::getStringFromType(uniSlot.getSlotType()) 
             << " " << uniSlot.getSlotName() << std::endl;
     }
-    for(PlushGraphics::ShaderMetadata::ShaderInputSlotIdentifier inputSlot : debugRef.getInputSlotIdentifiers()){
+
+    PlushGraphics::ShaderMetadata::ShaderUniformPayload payload(shader.getUniformSlotIdentifiers()[0], PlushGraphics::OpenGL_Value::create_vec4(glm::vec4(0.5,0.2,0.2,1.0)));
+
+    shader.setUniform(payload);
+
+    for(PlushGraphics::ShaderMetadata::ShaderInputSlotIdentifier inputSlot : shader.getInputSlotIdentifiers()){
         std::cout << "    Input: " << PlushGraphics::getStringFromType(inputSlot.getSlotType()) 
             << " " << inputSlot.getSlotName() << std::endl;
     }
@@ -57,15 +63,18 @@ int main(int, char**) {
     }
     PlushGraphics::ManagedModelData modeldata = modreg.getItem(mid);
 
+    PlushGraphics::ModelInstanceRegistry modinstreg;
     PlushGraphics::ModelInstanceSpec instspec(modeldata, shader);
-    PlushGraphics::ModelInstance inst(instspec);
+    modinstreg.loadItem(instspec);
+    PlushGraphics::ModelInstanceIdentifier instid(mid, id);
+    PlushGraphics::ManagedModelInstance instst = modinstreg.getItem(instid);
 
     while(!glfwWindowShouldClose(window2.windowPointer)){
         glClearColor(0.2, 0.3, 0.3, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
-        inst.draw();
+        instst.drawModel();
 
         glfwSwapBuffers(window2.windowPointer);
         glfwPollEvents();
