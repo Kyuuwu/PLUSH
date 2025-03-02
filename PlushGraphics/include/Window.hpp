@@ -8,7 +8,7 @@
 namespace PlushGraphics {
     class Window{
         public:
-            friend class OpenGL;
+            friend class GlobalGraphicsState;
 
             using Identifier = WindowIdentifier;
             using Spec = WindowSpec;

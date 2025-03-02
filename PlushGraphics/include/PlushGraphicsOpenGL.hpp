@@ -4,14 +4,16 @@
 #include "PlushGraphics.hpp"
 #include "ShaderRegistry.hpp"
 #include "ModelDataRegistry.hpp"
+#include "ModelInstanceRegistry.hpp"
 #include "WindowIdentifier.hpp"
 #include "WindowRegistry.hpp"
 
 namespace PlushGraphics {
-    class OpenGL{
+    class GlobalGraphicsState{
         public:
             inline static ShaderRegistry shaderRegistry;
             inline static ModelDataRegistry modelDataRegistry;
+            inline static ModelInstanceRegistry modelInstanceRegistry;
             inline static WindowRegistry windowRegistry;
 
             static void switchContextToWindow(WindowIdentifier windowID){

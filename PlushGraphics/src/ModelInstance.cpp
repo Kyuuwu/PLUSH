@@ -35,11 +35,12 @@ PlushGraphics::ModelInstance::ModelInstance(ModelInstanceSpec spec)
 
     // load vertex data
     std::vector<ModelVertex> vertices = modelData.getVertices();
+    numVertices = vertices.size();
 
     // generate vertex array object and buffer objects
     bufferReferenceID VAO;
     glGenVertexArrays(1, &VAO);
-    VAO_map[OpenGL::getActiveWindowIdentifier()] = VAO;
+    VAO_map[GlobalGraphicsState::getActiveWindowIdentifier()] = VAO;
 
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -55,6 +56,9 @@ PlushGraphics::ModelInstance::ModelInstance(ModelInstanceSpec spec)
     }
 
     size_t totalSize = sizePerVertex * vertices.size();
+
+    // std::cout << "Size per vertex: " << sizePerVertex << " bytes" << std::endl;
+    // std::cout << "Total size: " << totalSize << " bytes" << std::endl;
 
     // fill in VBO buffer with empty data of appropriate size
     glBufferData(GL_ARRAY_BUFFER, totalSize, NULL, GL_STATIC_DRAW);
@@ -93,13 +97,23 @@ PlushGraphics::ModelInstance::~ModelInstance()
     glDeleteBuffers(1, &EBO);
 }
 
+void PlushGraphics::ModelInstance::draw() {
+    if(VAO_map.count(GlobalGraphicsState::getActiveWindowIdentifier()) == 0){
+        setUpNewVAO();
+    }
+
+    glBindVertexArray(VAO_map[GlobalGraphicsState::getActiveWindowIdentifier()]);
+    glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
+    // glBindVertexArray(0);
+}
+
 void PlushGraphics::ModelInstance::setUpNewVAO() {
     
     // generate vertex array object and buffer objects
     bufferReferenceID VAO;
     glGenVertexArrays(1, &VAO);
 
-    VAO_map[OpenGL::getActiveWindowIdentifier()] = VAO;
+    VAO_map[GlobalGraphicsState::getActiveWindowIdentifier()] = VAO;
 
     // bind objects
     glBindVertexArray(VAO);
@@ -143,7 +157,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
         switch (input.getIdentifier().getSlotType()){
             case OpenGL_Type::UINT:{
                 size_t valueSize = getSizeOf(OpenGL_Type::UINT);
-                size_t subDataSize = valueSize*vertices.size();
+                size_t subDataSize = valueSize*numVertices;
 
                 if(loadVertexData){
                     std::vector<GLuint> values;
@@ -160,7 +174,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
 
             case OpenGL_Type::INT:{
                 size_t valueSize = getSizeOf(OpenGL_Type::INT);
-                size_t subDataSize = valueSize*vertices.size();
+                size_t subDataSize = valueSize*numVertices;
 
                 if(loadVertexData){
                     std::vector<GLint> values;
@@ -177,7 +191,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
             
             case OpenGL_Type::FLOAT:{
                 size_t valueSize = getSizeOf(OpenGL_Type::FLOAT);
-                size_t subDataSize = valueSize*vertices.size();
+                size_t subDataSize = valueSize*numVertices;
 
                 if(loadVertexData){
                     std::vector<GLfloat> values;
@@ -193,7 +207,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
             
             case OpenGL_Type::FLOAT_VEC_2:{
                 size_t valueSize = getSizeOf(OpenGL_Type::FLOAT);
-                size_t subDataSize = 2*valueSize*vertices.size();
+                size_t subDataSize = 2*valueSize*numVertices;
 
                 if(loadVertexData){
                     std::vector<GLfloat> values;
@@ -211,7 +225,8 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
             
             case OpenGL_Type::FLOAT_VEC_3:{
                 size_t valueSize = getSizeOf(OpenGL_Type::FLOAT);
-                size_t subDataSize = 3*valueSize*vertices.size();
+                size_t subDataSize = 3*valueSize*numVertices;
+
                 if(loadVertexData){
                     std::vector<GLfloat> values;
                     for(const ModelVertex& vertex : vertices){
@@ -228,7 +243,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
             
             case OpenGL_Type::FLOAT_VEC_4:{
                 size_t valueSize = getSizeOf(OpenGL_Type::FLOAT);
-                size_t subDataSize = 4*valueSize*vertices.size();
+                size_t subDataSize = 4*valueSize*numVertices;
                 if(loadVertexData){
                     std::vector<GLfloat> values;
                     for(const ModelVertex& vertex : vertices){

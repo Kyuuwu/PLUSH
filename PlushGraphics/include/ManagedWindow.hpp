@@ -8,7 +8,7 @@
 namespace PlushGraphics {
     class ManagedWindow : public PlushUtil::ManagedObject<Window>{
         public:
-            friend class OpenGL;
+            friend class GlobalGraphicsState;
 
             ManagedWindow(ManagedWindow&& other) noexcept:
                 PlushUtil::ManagedObject<Window>(std::move(other))

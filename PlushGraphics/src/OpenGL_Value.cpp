@@ -21,6 +21,13 @@ namespace PlushGraphics {
         return value;
     }
 
+    OpenGL_Value OpenGL_Value::create_sampler_2D(GLint _i) {
+        OpenGL_Value value;
+        value.type = OpenGL_Type::SAMPLER2D;
+        value.valueHolder.i = _i;
+        return value;
+    }
+
     OpenGL_Value OpenGL_Value::create_float(GLfloat _f) {
         OpenGL_Value value;
         value.type = OpenGL_Type::FLOAT;
@@ -127,6 +134,11 @@ namespace PlushGraphics {
 
     GLint OpenGL_Value::get_int() const {
         checkType(OpenGL_Type::INT);
+        return valueHolder.i;
+    }
+
+    GLint OpenGL_Value::get_sampler_2D() const {
+        checkType(OpenGL_Type::SAMPLER2D);
         return valueHolder.i;
     }
 

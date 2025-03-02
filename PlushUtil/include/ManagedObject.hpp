@@ -50,7 +50,6 @@ namespace PlushUtil{
         if(other.shared_pointer != nullptr){ // check if other ManagedObject is an original (sharedptr) or a clone (weakptr)
             // Trying to copy an original ManagedObject is forbidden. Use move.
 
-            std::cout << "A" << std::endl;
             throw (PlushUtilException::CANNOT_COPY_ORIGINAL_MANAGED_OBJECT);
         }
         else{
@@ -112,7 +111,13 @@ namespace PlushUtil{
 
     template <Manageable X>
     ManagedObject<X> ManagedObject<X>::clone(){
-        return ManagedObject<X>(std::weak_ptr<X>(shared_pointer));
+        if(shared_pointer != nullptr){
+            return ManagedObject<X>(std::weak_ptr<X>(shared_pointer));
+        }else{
+            return ManagedObject<X>(*this);
+        }
+
+        
     } // call private constructor for cloned ManagedObjects
 
     template <Manageable X>

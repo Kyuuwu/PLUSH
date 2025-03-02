@@ -40,6 +40,10 @@ namespace PlushGraphics {
             case PlushGraphics::OpenGL_Type::FLOAT_MAT_4:
                 glUniformMatrix4fv(location, 1, GL_FALSE, value.get_mat4_ptr());
                 return;
+
+            case PlushGraphics::OpenGL_Type::SAMPLER2D:
+                glUniform1i(location, value.get_sampler_2D());
+                return;
             
             default:
                 std::cout << "Error: cannot set uniform of type " << getStringFromType(value.getType()) << std::endl;

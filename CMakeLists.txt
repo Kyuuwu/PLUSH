@@ -49,9 +49,9 @@ add_custom_command(TARGET COPY_SHADERS POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/models $<TARGET_FILE_DIR:PLUSH>/models)
 
-#                        add_custom_command(TARGET COPY_SHADERS POST_BUILD
-#                                           COMMAND ${CMAKE_COMMAND} -E copy_directory
-#                                               ${CMAKE_SOURCE_DIR}/textures $<TARGET_FILE_DIR:PLUSH>/textures)
+add_custom_command(TARGET COPY_SHADERS POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        ${CMAKE_SOURCE_DIR}/textures $<TARGET_FILE_DIR:PLUSH>/textures)
 
 
 target_link_libraries(PLUSH PUBLIC PlushUtil_src)

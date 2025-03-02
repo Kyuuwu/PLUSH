@@ -6,6 +6,7 @@
 #include <map>
 
 #include "PlushUtil.hpp"
+#include "PlushUtilException.hpp"
 
 namespace PlushUtil {
     template<ImplementsManagedObject ManagedX> class Registry{
@@ -21,6 +22,10 @@ namespace PlushUtil {
 
     template<ImplementsManagedObject ManagedX>
     ManagedX Registry<ManagedX>::getItem(typename ManagedX::Object::Identifier identifier){
+        if (!isItemLoaded(identifier)){
+            throw(PlushUtilException::ITEM_NOT_LOADED_IN_REGISTRY);
+        }
+
         return items.at(indexMap.at(identifier)).clone(); // use map to get index and retrieve item
     }
 

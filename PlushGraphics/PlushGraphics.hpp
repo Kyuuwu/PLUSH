@@ -7,13 +7,14 @@ namespace PlushGraphics {
     using shaderSlotLocation_t = uint32_t;
     using shaderObjectReferenceID = uint32_t;
     using bufferReferenceID = uint32_t;
+    using textureReferenceID = uint32_t;
 
     enum class PlushGraphicsException;
 
     enum class OpenGL_Type;
     class OpenGL_Value;
 
-    class OpenGL; // manages initialization and closing out of program
+    class GlobalGraphicsState; // manages initialization and closing out of program
 
     class WindowSpec; // holds data/settings/dimensions for building windows
     class Window; // OpenGL window class
@@ -44,9 +45,11 @@ namespace PlushGraphics {
 
     class ModelVertex;
 
-    class TextureRegistry; // holds all textures
+    class Texture2DRegistry; // holds all textures
     class Texture2D;
     class ManagedTexture2D; // wrapper for smart pointer to textures, inherits ManagedObject interface from PlushUtil
+    class Texture2DSpec;
+    class Texture2DIdentifier;
 
     class ModelDataSpec; // specification for loading ModelData from a file
     class ModelDataIdentifier; // identifier struct for a given model

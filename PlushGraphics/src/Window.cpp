@@ -10,7 +10,7 @@ namespace PlushGraphics {
     Window::Window(WindowSpec windowbuilder):
     identifier(windowbuilder.getWindowName())
     {
-        windowPointer = glfwCreateWindow(windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight(), windowbuilder.getWindowName().c_str(), NULL, OpenGL::getRootContext());
+        windowPointer = glfwCreateWindow(windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight(), windowbuilder.getWindowName().c_str(), NULL, GlobalGraphicsState::getRootContext());
 
         if(windowPointer == NULL){
             std::cout << "Failed to create GLFW window" << std::endl;

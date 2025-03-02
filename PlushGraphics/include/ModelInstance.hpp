@@ -3,7 +3,6 @@
 
 #include "PlushGraphics.hpp"
 #include "ModelInstanceIdentifier.hpp"
-#include "PlushGraphicsOpenGL.hpp"
 
 namespace PlushGraphics {
     class ModelInstance{
@@ -21,15 +20,7 @@ namespace PlushGraphics {
 
             ModelInstanceIdentifier getIdentifier() const { return identifier; }
 
-            void draw(){
-                if(VAO_map.count(OpenGL::getActiveWindowIdentifier()) == 0){
-                    setUpNewVAO();
-                }
-
-                glBindVertexArray(VAO_map[OpenGL::getActiveWindowIdentifier()]);
-                glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, 0);
-                // glBindVertexArray(0);
-            }
+            void draw();
 
         private:
             void setUpNewVAO();
@@ -45,6 +36,7 @@ namespace PlushGraphics {
             bufferReferenceID VBO;
             bufferReferenceID EBO;
             size_t numIndices;
+            size_t numVertices;
     };
 }
 

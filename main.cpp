@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include "OpenGL_Type.hpp"
+#include "Texture2DSpec.hpp"
+#include "Texture2D.hpp"
 #include "WindowSpec.hpp"
 #include "Window.hpp"
 #include "WindowRegistry.hpp"
@@ -25,14 +27,14 @@
 
 int main(int, char**) {
     std::cout << "Hello, world!\n";
-    PlushGraphics::OpenGL::initializeOpenGL();
+    PlushGraphics::GlobalGraphicsState::initializeOpenGL();
 
-    PlushGraphics::ManagedWindow window = PlushGraphics::OpenGL::windowRegistry.getItem(PlushGraphics::OpenGL::getActiveWindowIdentifier());
+    PlushGraphics::ManagedWindow window = PlushGraphics::GlobalGraphicsState::windowRegistry.getItem(PlushGraphics::GlobalGraphicsState::getActiveWindowIdentifier());
     PlushGraphics::WindowIdentifier id1 = window.getIdentifier();
 
     PlushGraphics::WindowSpec spec2("nya");
-    PlushGraphics::WindowIdentifier id2 = PlushGraphics::OpenGL::windowRegistry.loadItem(spec2);
-    PlushGraphics::ManagedWindow win2 = PlushGraphics::OpenGL::windowRegistry.getItem(id2);
+    PlushGraphics::WindowIdentifier id2 = PlushGraphics::GlobalGraphicsState::windowRegistry.loadItem(spec2);
+    PlushGraphics::ManagedWindow win2 = PlushGraphics::GlobalGraphicsState::windowRegistry.getItem(id2);
 
     window.switchContextToWindow();
 
@@ -63,46 +65,56 @@ int main(int, char**) {
             << " " << inputSlot.getSlotName() << std::endl;
     }
 
-    PlushGraphics::ModelDataRegistry modreg;
     PlushGraphics::ModelDataSpec mspec("model1.txt");
     PlushGraphics::ModelDataIdentifier mid("ModelABC");
-    modreg.loadItem(mspec);
-    if(modreg.isItemLoaded(mid)){
+    PlushGraphics::GlobalGraphicsState::modelDataRegistry.loadItem(mspec);
+    if(PlushGraphics::GlobalGraphicsState::modelDataRegistry.isItemLoaded(mid)){
         std::cout << "ModelData is loaded" << std::endl;
     }
-    PlushGraphics::ManagedModelData modeldata = modreg.getItem(mid);
+    PlushGraphics::ManagedModelData modeldata = PlushGraphics::GlobalGraphicsState::modelDataRegistry.getItem(mid);
 
-    PlushGraphics::ModelInstanceRegistry modinstreg;
+    // PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);
     PlushGraphics::ModelInstanceSpec instspec(modeldata, shader);
-    modinstreg.loadItem(instspec);
+    PlushGraphics::GlobalGraphicsState::modelInstanceRegistry.loadItem(instspec);
     PlushGraphics::ModelInstanceIdentifier instid(mid, id);
-    PlushGraphics::ManagedModelInstance instst = modinstreg.getItem(instid);
+    PlushGraphics::ManagedModelInstance instst = PlushGraphics::GlobalGraphicsState::modelInstanceRegistry.getItem(instid);
+
+    // PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2);
+    PlushGraphics::Texture2D texture(PlushGraphics::Texture2DSpec("wall.jpg"));
+
+    PlushGraphics::ShaderMetadata::ShaderUniformPayload texturePayload(shader.getUniformSlotIdentifiers()[1], PlushGraphics::OpenGL_Value::create_sampler_2D(1));
 
     while(!window.getWindowShouldClose()){
-        PlushGraphics::OpenGL::switchContextToWindow(id1);
+        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);
         glClearColor(0.2, 0.3, 0.3, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
         shader.setUniform(payload);
+
+        texture.bindToTextureUnit(1);
+        shader.setUniform(texturePayload);
         instst.drawModel();
 
         window.swapBuffers();
         glfwPollEvents();
 
-        PlushGraphics::OpenGL::switchContextToWindow(id2);
+        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2);
         glClearColor(0.7, 0.3, 0.3, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
         shader.setUniform(payload2);
+
+        texture.bindToTextureUnit(1);
+        shader.setUniform(texturePayload);
         instst.drawModel();
 
         win2.swapBuffers();
         glfwPollEvents();
     }
 
-    PlushGraphics::OpenGL::terminateOpenGL();
+    PlushGraphics::GlobalGraphicsState::terminateOpenGL();
 
     return 0;
 

@@ -4,7 +4,7 @@
 #include <iostream>
 
 namespace PlushGraphics {
-    void OpenGL::initializeOpenGL(){
+    void GlobalGraphicsState::initializeOpenGL(){
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -18,7 +18,7 @@ namespace PlushGraphics {
         rootContext = window->windowPointer;
     }
 
-    void OpenGL::terminateOpenGL() {
+    void GlobalGraphicsState::terminateOpenGL() {
         glfwTerminate();
     }
 }
