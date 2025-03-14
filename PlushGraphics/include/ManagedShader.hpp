@@ -47,9 +47,13 @@ namespace PlushGraphics {
                 return operator->()->getInputSlots(); // use protected -> operator to get from Shader
             }
 
-            void setUniform(ShaderMetadata::ShaderUniformPayload value){
-                operator->()->setUniform(value); // use protected -> operator
-            } 
+            // void setUniform(ShaderMetadata::ShaderUniformPayload value){
+            //     operator->()->setUniform(value); // use protected -> operator
+            // } 
+
+            bool tryToSetUniform(ShaderMetadata::ShaderUniformPayload value){
+                return (*this)->tryToSetUniform(value);
+            }
         
         private:
     };

@@ -71,6 +71,15 @@ namespace PlushGraphics {
         glUseProgram(shaderProgramID);
     }
 
+    bool Shader::tryToSetUniform(ShaderMetadata::ShaderUniformPayload value) {
+        if(uniformSlotIndexMap.contains(value.getTargetSlotIdentifier())){
+            setUniform(value);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     void Shader::setUniform(ShaderMetadata::ShaderUniformPayload value) {
         useShader();
 
@@ -93,7 +102,7 @@ namespace PlushGraphics {
     }
 
     ShaderMetadata::ShaderUniformSlot& Shader::getUniformSlot(ShaderMetadata::ShaderUniformSlotIdentifier identifier) {
-        return uniformSlots[uniformSlotIndexMap[identifier]];
+        return uniformSlots[uniformSlotIndexMap.at(identifier)];
     }
 
     shaderSlotLocation_t Shader::getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier) {

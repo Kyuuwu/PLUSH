@@ -60,7 +60,7 @@ int main(int, char**) {
 
     PlushGraphics::ShaderMetadata::ShaderUniformPayload payload(shader.getUniformSlotIdentifiers()[0], PlushGraphics::OpenGL_Value::create_vec4(glm::vec4(0.5,0.2,0.2,1.0)));
 
-    shader.setUniform(payload);
+    shader.tryToSetUniform(payload);
 
     PlushGraphics::ShaderMetadata::ShaderUniformPayload payload2(shader.getUniformSlotIdentifiers()[0], PlushGraphics::OpenGL_Value::create_vec4(glm::vec4(0.3,0.6,0.2,1.0)));
 
@@ -83,17 +83,19 @@ int main(int, char**) {
     PlushGraphics::ModelInstanceIdentifier instid(mid, id);
     PlushGraphics::ManagedModelInstance instst = PlushGraphics::GlobalGraphicsState::modelInstanceRegistry.getItem(instid);
 
-
-    PlushGraphics::UniformResolvers::NoOpResolver t;
-
-    PlushGraphics::Drawable d1(t, instst);
-
-    PlushGraphics::Drawable d2((PlushGraphics::UniformResolvers::NoOpResolver()), instst);
-
     // PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2);
     PlushGraphics::Texture2D texture(PlushGraphics::Texture2DSpec("wall.jpg"));
 
     PlushGraphics::ShaderMetadata::ShaderUniformPayload texturePayload(shader.getUniformSlotIdentifiers()[1], PlushGraphics::OpenGL_Value::create_sampler_2D(1));
+    PlushGraphics::ShaderMetadata::ShaderUniformPayload texturePayload2(shader.getUniformSlotIdentifiers()[1], PlushGraphics::OpenGL_Value::create_sampler_2D(2));
+
+
+    // PlushGraphics::UniformResolvers::NoOpResolver t;
+    PlushGraphics::UniformResolvers::PreloadedUniformsResolver p({texturePayload});
+
+    PlushGraphics::Drawable d1(p, instst);
+
+    PlushGraphics::Drawable d2((PlushGraphics::UniformResolvers::PreloadedUniformsResolver({texturePayload2})), instst);
 
     while(!window.getWindowShouldClose()){
         PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);
@@ -101,10 +103,9 @@ int main(int, char**) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
-        shader.setUniform(payload);
+        shader.tryToSetUniform(payload);
 
         texture.bindToTextureUnit(1);
-        shader.setUniform(texturePayload);
         d1.draw();
 
         window.swapBuffers();
@@ -115,10 +116,9 @@ int main(int, char**) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
-        shader.setUniform(payload2);
+        shader.tryToSetUniform(payload2);
 
-        texture.bindToTextureUnit(1);
-        shader.setUniform(texturePayload);
+        texture.bindToTextureUnit(2);
         d2.draw();
 
         win2.swapBuffers();

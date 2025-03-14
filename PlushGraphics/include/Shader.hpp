@@ -26,7 +26,8 @@ namespace PlushGraphics {
 
             void useShader();
 
-            void setUniform(ShaderMetadata::ShaderUniformPayload value);
+            bool tryToSetUniform(ShaderMetadata::ShaderUniformPayload value); // returns true if successful
+            void setUniform(ShaderMetadata::ShaderUniformPayload value); // throws exception if matching uniform slot does not exist
 
             std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const;
             std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getInputSlotIdentifiers() const;
