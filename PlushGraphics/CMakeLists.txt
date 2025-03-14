@@ -9,6 +9,7 @@ src/OpenGL_Value.cpp
 src/ModelData.cpp
 src/ModelInstance.cpp
 src/Texture2D.cpp
+src/Drawable.cpp
 )
 
 target_link_libraries(PlushGraphics_src PUBLIC OPENGL_libraries)

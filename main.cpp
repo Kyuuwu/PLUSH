@@ -25,7 +25,16 @@
 #include "ModelInstanceIdentifier.hpp"
 #include "ModelInstanceRegistry.hpp"
 
+#include "Drawable.hpp"
+#include "UniformResolver.hpp"
+
+class Test : public PlushGraphics::UniformResolver{
+    public:
+        void resolveUniformRequirements(PlushGraphics::ManagedShader shader) override{}
+};
+
 int main(int, char**) {
+
     std::cout << "Hello, world!\n";
     PlushGraphics::GlobalGraphicsState::initializeOpenGL();
 
@@ -79,6 +88,13 @@ int main(int, char**) {
     PlushGraphics::ModelInstanceIdentifier instid(mid, id);
     PlushGraphics::ManagedModelInstance instst = PlushGraphics::GlobalGraphicsState::modelInstanceRegistry.getItem(instid);
 
+
+    Test t;
+
+    PlushGraphics::Drawable d1(t, instst);
+
+    PlushGraphics::Drawable d2((Test()), instst);
+
     // PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2);
     PlushGraphics::Texture2D texture(PlushGraphics::Texture2DSpec("wall.jpg"));
 
@@ -94,7 +110,7 @@ int main(int, char**) {
 
         texture.bindToTextureUnit(1);
         shader.setUniform(texturePayload);
-        instst.drawModel();
+        d1.draw();
 
         window.swapBuffers();
         glfwPollEvents();
@@ -108,7 +124,7 @@ int main(int, char**) {
 
         texture.bindToTextureUnit(1);
         shader.setUniform(texturePayload);
-        instst.drawModel();
+        d2.draw();
 
         win2.swapBuffers();
         glfwPollEvents();

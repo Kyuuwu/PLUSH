@@ -27,7 +27,8 @@ namespace PlushGraphics {
 
             template <typename T>
             ManagedShader& operator=(T&& arg){
-                return PlushUtil::ManagedObject<Shader>::operator=(std::forward<T>(arg));
+                PlushUtil::ManagedObject<Shader>::operator=(std::forward<T>(arg));
+                return *this;
             }
 
             using Object = Shader;

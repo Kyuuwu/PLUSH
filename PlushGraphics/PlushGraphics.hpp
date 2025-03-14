@@ -14,13 +14,15 @@ namespace PlushGraphics {
     enum class OpenGL_Type;
     class OpenGL_Value;
 
-    class GlobalGraphicsState; // manages initialization and closing out of program
+    class GlobalGraphicsState; // manages initialization and closing out of program, and all global registries
 
     class WindowSpec; // holds data/settings/dimensions for building windows
     class Window; // OpenGL window class
     class WindowIdentifier;
     class ManagedWindow;
     class WindowRegistry;
+
+    class UniformResolver; // interface for fulfilling uniform requirements of drawing ModelInstances
 
     class GraphicsLayer; // Layer to draw drawables onto within Window
     class Drawable; // Previously Instance, the drawable data, incl. model, that a game-engine-level entity needs 
@@ -40,6 +42,7 @@ namespace PlushGraphics {
         class ShaderUniformPayload; // holds uniform value and metadata
         class ShaderUniformSlotIdentifier; // holds metadata for which slot uniform values are targeted to
 
+        class ShaderUniformSlotFulfillmentState; // stores information about what kinds of objects have fulfilled a slot, and when
         class ShaderUniformSlot; // holds metadata for uniforms taken by a shader
     }
 

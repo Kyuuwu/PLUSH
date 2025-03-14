@@ -23,7 +23,8 @@ namespace PlushGraphics {
 
             template <typename T>
             ManagedModelData& operator=(T&& arg){
-                return PlushUtil::ManagedObject<ModelData>::operator=(std::forward<T>(arg));
+                PlushUtil::ManagedObject<ModelData>::operator=(std::forward<T>(arg));
+                return *this;
             }
 
             using Object = ModelData;

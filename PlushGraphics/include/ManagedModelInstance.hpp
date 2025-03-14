@@ -22,13 +22,18 @@ namespace PlushGraphics {
 
             template <typename T>
             ManagedModelInstance& operator=(T&& arg){
-                return PlushUtil::ManagedObject<ModelInstance>::operator=(std::forward<T>(arg));
+                PlushUtil::ManagedObject<ModelInstance>::operator=(std::forward<T>(arg));
+                return *this;
             }
 
             using Object = ModelInstance;
 
             void drawModel() const{
                 (*this)->draw();
+            }
+
+            ManagedShader getShader() const {
+                return (*this)->getShader();
             }
     };
 }

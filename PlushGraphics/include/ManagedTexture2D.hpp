@@ -22,7 +22,8 @@ namespace PlushGraphics {
 
             template <typename T>
             ManagedTexture2D& operator=(T&& arg){
-                return PlushUtil::ManagedObject<Texture2D>::operator=(std::forward<T>(arg));
+                PlushUtil::ManagedObject<Texture2D>::operator=(std::forward<T>(arg));
+                return *this;
             }
 
             using Object = Texture2D;

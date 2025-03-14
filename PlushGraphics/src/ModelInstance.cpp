@@ -98,6 +98,8 @@ PlushGraphics::ModelInstance::~ModelInstance()
 }
 
 void PlushGraphics::ModelInstance::draw() {
+    shader.useShader();
+
     if(VAO_map.count(GlobalGraphicsState::getActiveWindowIdentifier()) == 0){
         setUpNewVAO();
     }

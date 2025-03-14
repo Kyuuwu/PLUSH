@@ -138,6 +138,9 @@ namespace PlushUtil{
     template <Manageable X>
     inline X* ManagedObject<X>::operator->() const {
         if(shared_pointer == nullptr){
+            if(weak_pointer.expired()){
+                throw(PlushUtilException::MANAGED_OBJECT_EXPIRED);
+            }
             return weak_pointer.lock().get();
         }
         return shared_pointer.get();

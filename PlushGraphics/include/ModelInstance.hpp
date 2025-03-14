@@ -22,6 +22,8 @@ namespace PlushGraphics {
 
             void draw();
 
+            ManagedShader getShader() const { return shader; }
+
         private:
             void setUpNewVAO();
 

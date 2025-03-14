@@ -24,7 +24,8 @@ namespace PlushGraphics {
 
             template <typename T>
             ManagedWindow& operator=(T&& arg){
-                return PlushUtil::ManagedObject<Window>::operator=(std::forward<T>(arg));
+                PlushUtil::ManagedObject<Window>::operator=(std::forward<T>(arg));
+                return *this;
             }
 
             using Object = Window;

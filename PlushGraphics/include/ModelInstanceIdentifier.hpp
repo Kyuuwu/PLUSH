@@ -24,6 +24,10 @@ namespace PlushGraphics {
                 return shaderIdentifier < other.shaderIdentifier;
             } // sort by ModelData identifier first, then by shader identifier
 
+            ShaderIdentifier getShaderIdentifier() const { return shaderIdentifier; }
+
+            ModelDataIdentifier getModelDataIdentifier() const { return modelDataIdentifier; }
+
         private:
             ModelDataIdentifier modelDataIdentifier;
             ShaderIdentifier shaderIdentifier;
