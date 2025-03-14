@@ -28,11 +28,6 @@
 #include "Drawable.hpp"
 #include "UniformResolver.hpp"
 
-class Test : public PlushGraphics::UniformResolver{
-    public:
-        void resolveUniformRequirements(PlushGraphics::ManagedShader shader) override{}
-};
-
 int main(int, char**) {
 
     std::cout << "Hello, world!\n";
@@ -89,11 +84,11 @@ int main(int, char**) {
     PlushGraphics::ManagedModelInstance instst = PlushGraphics::GlobalGraphicsState::modelInstanceRegistry.getItem(instid);
 
 
-    Test t;
+    PlushGraphics::UniformResolvers::NoOpResolver t;
 
     PlushGraphics::Drawable d1(t, instst);
 
-    PlushGraphics::Drawable d2((Test()), instst);
+    PlushGraphics::Drawable d2((PlushGraphics::UniformResolvers::NoOpResolver()), instst);
 
     // PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2);
     PlushGraphics::Texture2D texture(PlushGraphics::Texture2DSpec("wall.jpg"));

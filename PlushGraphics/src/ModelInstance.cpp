@@ -21,7 +21,7 @@ PlushGraphics::ModelInstance::ModelInstance(ModelInstanceSpec spec)
     for(ShaderMetadata::ShaderInputSlot input : inputs){
         bool satisfied = false;
         for(ShaderMetadata::ShaderInputSlotIdentifier target : targetedInputSlots){
-            if (target == input.getIdentifier()){
+            if (target == input.identifier){
                 if(satisfied){
                     throw(PlushGraphicsException::MODELDATA_HAS_DUPLICATE_TARGET_SLOT);
                 }
@@ -52,7 +52,7 @@ PlushGraphics::ModelInstance::ModelInstance(ModelInstanceSpec spec)
     // calculate expected size of vertexdata
     size_t sizePerVertex = 0;
     for(ShaderMetadata::ShaderInputSlot input : inputs){
-        sizePerVertex += getSizeOf(input.getIdentifier().getSlotType());
+        sizePerVertex += getSizeOf(input.identifier.getSlotType());
     }
 
     size_t totalSize = sizePerVertex * vertices.size();
@@ -149,14 +149,14 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
 
         if(loadVertexData){
             for(size_t i = 0; i < targetedInputSlots.size(); i++){
-                if (targetedInputSlots[i] == input.getIdentifier()){
+                if (targetedInputSlots[i] == input.identifier){
                     targetIndex = i;
                     break;
                 }
             }
         }
 
-        switch (input.getIdentifier().getSlotType()){
+        switch (input.identifier.getSlotType()){
             case OpenGL_Type::UINT:{
                 size_t valueSize = getSizeOf(OpenGL_Type::UINT);
                 size_t subDataSize = valueSize*numVertices;
@@ -169,7 +169,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
                     glBufferSubData(GL_ARRAY_BUFFER, bufferPosition, subDataSize, &values[0]);
                 }
 
-                glVertexAttribPointer(input.getLocation(), 1, GL_UNSIGNED_INT, GL_FALSE, valueSize, (void*)bufferPosition);
+                glVertexAttribPointer(input.location, 1, GL_UNSIGNED_INT, GL_FALSE, valueSize, (void*)bufferPosition);
                 bufferPosition += subDataSize;
             }
             break;
@@ -186,7 +186,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
                     glBufferSubData(GL_ARRAY_BUFFER, bufferPosition, subDataSize, &values[0]);
                 }
 
-                glVertexAttribPointer(input.getLocation(), 1, GL_INT, GL_FALSE, valueSize, (void*)bufferPosition);
+                glVertexAttribPointer(input.location, 1, GL_INT, GL_FALSE, valueSize, (void*)bufferPosition);
                 bufferPosition += subDataSize;
             }
             break;
@@ -202,7 +202,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
                     }
                     glBufferSubData(GL_ARRAY_BUFFER, bufferPosition, subDataSize, &values[0]);
                 }
-                glVertexAttribPointer(input.getLocation(), 1, GL_FLOAT, GL_FALSE, valueSize, (void*)bufferPosition);
+                glVertexAttribPointer(input.location, 1, GL_FLOAT, GL_FALSE, valueSize, (void*)bufferPosition);
                 bufferPosition += subDataSize;
             }
             break;
@@ -220,7 +220,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
                     glBufferSubData(GL_ARRAY_BUFFER, bufferPosition, subDataSize, &values[0]);
                 }
 
-                glVertexAttribPointer(input.getLocation(), 2, GL_FLOAT, GL_FALSE, 2*valueSize, (void*)bufferPosition);
+                glVertexAttribPointer(input.location, 2, GL_FLOAT, GL_FALSE, 2*valueSize, (void*)bufferPosition);
                 bufferPosition += subDataSize;
             }
             break;
@@ -238,7 +238,7 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
                     }
                     glBufferSubData(GL_ARRAY_BUFFER, bufferPosition, subDataSize, &values[0]);
                 }
-                glVertexAttribPointer(input.getLocation(), 3, GL_FLOAT, GL_FALSE, 3*valueSize, (void*)bufferPosition);
+                glVertexAttribPointer(input.location, 3, GL_FLOAT, GL_FALSE, 3*valueSize, (void*)bufferPosition);
                 bufferPosition += subDataSize;
             }
             break;
@@ -256,20 +256,20 @@ void PlushGraphics::ModelInstance::loadVertexDataIntoBuffersAndSetupVertexAttrib
                     }
                     glBufferSubData(GL_ARRAY_BUFFER, bufferPosition, subDataSize, &values[0]);
                 }
-                glVertexAttribPointer(input.getLocation(), 4, GL_FLOAT, GL_FALSE, 4*valueSize, (void*)bufferPosition);
+                glVertexAttribPointer(input.location, 4, GL_FLOAT, GL_FALSE, 4*valueSize, (void*)bufferPosition);
                 bufferPosition += subDataSize;
             }
             break;
             
             default:{
-                std::cout << "ModelInstance construction for " << getStringFromType(input.getIdentifier().getSlotType()) << " not supported yet." << std::endl;
+                std::cout << "ModelInstance construction for " << getStringFromType(input.identifier.getSlotType()) << " not supported yet." << std::endl;
                 throw(PlushGraphicsException::OPENGL_TYPE_NOT_FOUND);
             }
 
 
         }
 
-        glEnableVertexAttribArray(input.getLocation()); // enable vertex attribute
+        glEnableVertexAttribArray(input.location); // enable vertex attribute
     }
 }
 

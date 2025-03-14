@@ -1,8 +1,14 @@
 #include "ShaderUniformPayload.hpp"
+#include "ShaderUniformSlot.hpp"
 #include "OpenGL_Type.hpp"
 #include "PlushGraphicsException.hpp"
 
 namespace PlushGraphics {
+    void ShaderMetadata::ShaderUniformPayload::setUniformAtSlot(ShaderUniformSlot& slot) {
+        setUniformAtLocation(slot.location);
+        slot.fulfillmentState = fulfillmentData;
+    }
+
     void ShaderMetadata::ShaderUniformPayload::setUniformAtLocation(shaderSlotLocation_t location){
         switch(value.getType()){
             case PlushGraphics::OpenGL_Type::UINT:

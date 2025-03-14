@@ -4,6 +4,7 @@
 #include "PlushGraphics.hpp"
 #include "ShaderIdentifier.hpp"
 #include "ShaderInputSlot.hpp"
+#include "ShaderUniformSlotFulfillmentState.hpp"
 #include "ShaderSpec.hpp"
 #include <vector>
 #include <map>
@@ -37,6 +38,7 @@ namespace PlushGraphics {
 
             ShaderIdentifier identifier;
 
+            ShaderMetadata::ShaderUniformSlot& getUniformSlot(ShaderMetadata::ShaderUniformSlotIdentifier identifier);
             shaderSlotLocation_t getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier);
 
             void checkCompileErrors(unsigned int shader, std::string type);

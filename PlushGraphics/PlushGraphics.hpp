@@ -23,6 +23,10 @@ namespace PlushGraphics {
     class WindowRegistry;
 
     class UniformResolver; // interface for fulfilling uniform requirements of drawing ModelInstances
+    namespace UniformResolvers {
+        class NoOpResolver; // UniformResolver which makes no attempt to resolve uniforms, or do anything else
+        class PreloadedUniformsResolver; // UniformResolver which attempts to resolve uniforms using a provided list
+    }
 
     class GraphicsLayer; // Layer to draw drawables onto within Window
     class Drawable; // Previously Instance, the drawable data, incl. model, that a game-engine-level entity needs 
@@ -42,6 +46,8 @@ namespace PlushGraphics {
         class ShaderUniformPayload; // holds uniform value and metadata
         class ShaderUniformSlotIdentifier; // holds metadata for which slot uniform values are targeted to
 
+        enum class FulfillmentTimeFlag;
+        enum class FulfillmentLevelFlag;
         class ShaderUniformSlotFulfillmentState; // stores information about what kinds of objects have fulfilled a slot, and when
         class ShaderUniformSlot; // holds metadata for uniforms taken by a shader
     }

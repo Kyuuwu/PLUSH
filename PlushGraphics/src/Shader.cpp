@@ -74,7 +74,8 @@ namespace PlushGraphics {
     void Shader::setUniform(ShaderMetadata::ShaderUniformPayload value) {
         useShader();
 
-        value.setUniformAtLocation(getUniformSlotLocation(value.getTargetSlotIdentifier()));
+        value.setUniformAtSlot(getUniformSlot(value.getTargetSlotIdentifier()));
+        
     }
 
     std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> Shader::getUniformSlotIdentifiers() const {
@@ -85,14 +86,18 @@ namespace PlushGraphics {
         std::vector<ShaderMetadata::ShaderInputSlotIdentifier> slot_ids;
 
         for(const ShaderMetadata::ShaderInputSlot& slot : inputSlots){
-            slot_ids.push_back(slot.getIdentifier());
+            slot_ids.push_back(slot.identifier);
         }
 
         return slot_ids;
     }
 
+    ShaderMetadata::ShaderUniformSlot& Shader::getUniformSlot(ShaderMetadata::ShaderUniformSlotIdentifier identifier) {
+        return uniformSlots[uniformSlotIndexMap[identifier]];
+    }
+
     shaderSlotLocation_t Shader::getUniformSlotLocation(ShaderMetadata::ShaderUniformSlotIdentifier identifier) {
-        return uniformSlots[uniformSlotIndexMap[identifier]].getLocation();
+        return getUniformSlot(identifier).location;
     }
 
     void Shader::checkCompileErrors(unsigned int shader, std::string type){

@@ -11,12 +11,13 @@ namespace PlushGraphics {
             ShaderInputSlot(ShaderInputSlotIdentifier _identifier, shaderSlotLocation_t _location)
             : identifier(_identifier), location(_location) {}
 
-            ShaderInputSlotIdentifier getIdentifier() const { return identifier; }
-            shaderSlotLocation_t getLocation() const { return location; }
+            const ShaderInputSlotIdentifier identifier;
+            const shaderSlotLocation_t location;
+
+            // ShaderInputSlotIdentifier getIdentifier() const { return identifier; }
+            // shaderSlotLocation_t getLocation() const { return location; }
             
         private:
-            ShaderInputSlotIdentifier identifier;
-            shaderSlotLocation_t location;
     };
 }
 
