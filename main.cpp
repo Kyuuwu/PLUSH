@@ -105,7 +105,7 @@ int main(int, char**) {
         shader.useShader();
         shader.tryToSetUniform(payload);
 
-        texture.bindToTextureUnit(1);
+        texture._bindToTextureUnit(1);
         d1.draw();
 
         window.swapBuffers();
@@ -118,7 +118,7 @@ int main(int, char**) {
         shader.useShader();
         shader.tryToSetUniform(payload2);
 
-        texture.bindToTextureUnit(2);
+        texture._bindToTextureUnit(2);
         d2.draw();
 
         win2.swapBuffers();

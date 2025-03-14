@@ -29,7 +29,7 @@ namespace PlushGraphics {
             using Object = Texture2D;
 
             void bindToTextureUnit(uint32_t textureUnit){
-                (*this)->bindToTextureUnit(textureUnit);
+                (*this)->_bindToTextureUnit(textureUnit);
             }
 
         private:

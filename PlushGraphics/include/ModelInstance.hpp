@@ -20,9 +20,9 @@ namespace PlushGraphics {
 
             ModelInstanceIdentifier getIdentifier() const { return identifier; }
 
-            void draw();
+            void _draw();
 
-            ManagedShader getShader() const { return shader; }
+            ManagedShader _getShader() const { return shader; }
 
         private:
             void setUpNewVAO();

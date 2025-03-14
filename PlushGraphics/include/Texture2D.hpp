@@ -20,7 +20,7 @@ namespace PlushGraphics {
 
             Texture2DIdentifier getIdentifier() const { return identifier; }
 
-            void bindToTextureUnit(u_int32_t textureUnit);
+            void _bindToTextureUnit(u_int32_t textureUnit);
 
         private:
             Texture2DIdentifier identifier;

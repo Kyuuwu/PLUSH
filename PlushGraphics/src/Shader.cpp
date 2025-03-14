@@ -67,31 +67,31 @@ namespace PlushGraphics {
         glDeleteProgram(shaderProgramID);
     }
 
-    void Shader::useShader() {
+    void Shader::_useShader() {
         glUseProgram(shaderProgramID);
     }
 
-    bool Shader::tryToSetUniform(ShaderMetadata::ShaderUniformPayload value) {
+    bool Shader::_tryToSetUniform(ShaderMetadata::ShaderUniformPayload value) {
         if(uniformSlotIndexMap.contains(value.getTargetSlotIdentifier())){
-            setUniform(value);
+            _setUniform(value);
             return true;
         }else{
             return false;
         }
     }
 
-    void Shader::setUniform(ShaderMetadata::ShaderUniformPayload value) {
-        useShader();
+    void Shader::_setUniform(ShaderMetadata::ShaderUniformPayload value) {
+        _useShader();
 
         value.setUniformAtSlot(getUniformSlot(value.getTargetSlotIdentifier()));
         
     }
 
-    std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> Shader::getUniformSlotIdentifiers() const {
+    std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> Shader::_getUniformSlotIdentifiers() const {
         return uniformSlotIdentifiers;
     }
 
-    std::vector<ShaderMetadata::ShaderInputSlotIdentifier> Shader::getInputSlotIdentifiers() const {
+    std::vector<ShaderMetadata::ShaderInputSlotIdentifier> Shader::_getInputSlotIdentifiers() const {
         std::vector<ShaderMetadata::ShaderInputSlotIdentifier> slot_ids;
 
         for(const ShaderMetadata::ShaderInputSlot& slot : inputSlots){

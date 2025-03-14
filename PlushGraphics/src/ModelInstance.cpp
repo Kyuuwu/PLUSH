@@ -97,7 +97,7 @@ PlushGraphics::ModelInstance::~ModelInstance()
     glDeleteBuffers(1, &EBO);
 }
 
-void PlushGraphics::ModelInstance::draw() {
+void PlushGraphics::ModelInstance::_draw() {
     shader.useShader();
 
     if(VAO_map.count(GlobalGraphicsState::getActiveWindowIdentifier()) == 0){

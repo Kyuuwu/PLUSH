@@ -23,11 +23,11 @@ namespace PlushGraphics {
 
             ModelDataIdentifier getIdentifier() const { return identifier; }
 
-            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getTargetedInputSlots() const { return targetedInputSlots; }
+            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> _getTargetedInputSlots() const { return targetedInputSlots; }
 
-            std::vector<ModelVertex> getVertices() const { return vertices; }
+            std::vector<ModelVertex> _getVertices() const { return vertices; }
 
-            std::vector<size_t> getIndices() const { return indices; }
+            std::vector<size_t> _getIndices() const { return indices; }
 
 
         private:

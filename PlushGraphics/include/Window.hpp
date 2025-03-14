@@ -24,15 +24,15 @@ namespace PlushGraphics {
 
             WindowIdentifier getIdentifier() const { return identifier; }
 
-            bool getWindowShouldClose() const {
+            bool _getWindowShouldClose() const {
                 return glfwWindowShouldClose(windowPointer);
             }
 
-            void swapBuffers(){
+            void _swapBuffers(){
                 glfwSwapBuffers(windowPointer);
             }
 
-            void switchContextToWindow(){
+            void _switchContextToWindow(){
                 glfwMakeContextCurrent(windowPointer);
             }
 

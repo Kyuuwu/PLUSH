@@ -31,15 +31,15 @@ namespace PlushGraphics {
 
 
             std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getTargetedInputSlots() const { 
-                return operator->()->getTargetedInputSlots(); // protected -> operator 
+                return operator->()->_getTargetedInputSlots(); // protected -> operator 
             }
 
             std::vector<ModelVertex> getVertices() const { 
-                return operator->()->getVertices(); 
+                return operator->()->_getVertices(); 
             }
 
             std::vector<size_t> getIndices() const { 
-                return operator->()->getIndices(); 
+                return operator->()->_getIndices(); 
             }
         
         private:

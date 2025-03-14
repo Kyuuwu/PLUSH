@@ -34,17 +34,17 @@ namespace PlushGraphics {
             using Object = Shader;
 
             void useShader() const{
-                (*this)->useShader();
+                (*this)->_useShader();
             }
 
             std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const{
-                return (*this)->getUniformSlotIdentifiers(); // use protected -> operator to get from Shader
+                return (*this)->_getUniformSlotIdentifiers(); // use protected -> operator to get from Shader
             }
             std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getInputSlotIdentifiers() const{
-                return (*this)->getInputSlotIdentifiers(); // use protected -> operator to get from Shader
+                return (*this)->_getInputSlotIdentifiers(); // use protected -> operator to get from Shader
             }
             std::vector<ShaderMetadata::ShaderInputSlot> getInputSlots() const{
-                return operator->()->getInputSlots(); // use protected -> operator to get from Shader
+                return operator->()->_getInputSlots(); // use protected -> operator to get from Shader
             }
 
             // void setUniform(ShaderMetadata::ShaderUniformPayload value){
@@ -52,7 +52,7 @@ namespace PlushGraphics {
             // } 
 
             bool tryToSetUniform(ShaderMetadata::ShaderUniformPayload value){
-                return (*this)->tryToSetUniform(value);
+                return (*this)->_tryToSetUniform(value);
             }
         
         private:

@@ -31,15 +31,15 @@ namespace PlushGraphics {
             using Object = Window;
 
             bool getWindowShouldClose(){
-                return (*this)->getWindowShouldClose();
+                return (*this)->_getWindowShouldClose();
             }
 
             void swapBuffers(){
-                (*this)->swapBuffers();
+                (*this)->_swapBuffers();
             }
 
             void switchContextToWindow(){
-                (*this)->switchContextToWindow();
+                (*this)->_switchContextToWindow();
             }
     };
 }

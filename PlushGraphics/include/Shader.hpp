@@ -24,14 +24,14 @@ namespace PlushGraphics {
             Shader(Shader&&) = delete; //explicitly forbid move
             Shader& operator=(Shader&&) = delete; //explicitly forbid move assign
 
-            void useShader();
+            void _useShader();
 
-            bool tryToSetUniform(ShaderMetadata::ShaderUniformPayload value); // returns true if successful
-            void setUniform(ShaderMetadata::ShaderUniformPayload value); // throws exception if matching uniform slot does not exist
+            bool _tryToSetUniform(ShaderMetadata::ShaderUniformPayload value); // returns true if successful
+            void _setUniform(ShaderMetadata::ShaderUniformPayload value); // throws exception if matching uniform slot does not exist
 
-            std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const;
-            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> getInputSlotIdentifiers() const;
-            std::vector<ShaderMetadata::ShaderInputSlot> getInputSlots() const {return inputSlots;}
+            std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> _getUniformSlotIdentifiers() const;
+            std::vector<ShaderMetadata::ShaderInputSlotIdentifier> _getInputSlotIdentifiers() const;
+            std::vector<ShaderMetadata::ShaderInputSlot> _getInputSlots() const {return inputSlots;}
 
             ShaderIdentifier getIdentifier() const { return identifier; }
 

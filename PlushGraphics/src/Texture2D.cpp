@@ -42,7 +42,7 @@ namespace PlushGraphics {
         glDeleteTextures(1, &textureRefID);
     }
 
-    void Texture2D::bindToTextureUnit(u_int32_t textureUnit) {
+    void Texture2D::_bindToTextureUnit(u_int32_t textureUnit) {
         glActiveTexture(GL_TEXTURE0 + textureUnit);
         glBindTexture(GL_TEXTURE_2D, textureRefID);
     }

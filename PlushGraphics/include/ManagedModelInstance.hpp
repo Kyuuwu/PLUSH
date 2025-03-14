@@ -28,12 +28,12 @@ namespace PlushGraphics {
 
             using Object = ModelInstance;
 
-            void drawModel() const{
-                (*this)->draw();
+            void draw() const{
+                (*this)->_draw();
             }
 
             ManagedShader getShader() const {
-                return (*this)->getShader();
+                return (*this)->_getShader();
             }
     };
 }
