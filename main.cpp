@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "OpenGL_Type.hpp"
+#include "PlushGraphics.hpp"
 #include "Texture2DSpec.hpp"
 #include "Texture2D.hpp"
 #include "WindowSpec.hpp"
@@ -27,6 +28,9 @@
 
 #include "Drawable.hpp"
 #include "UniformResolver.hpp"
+#include "DrawableRegistry.hpp"
+#include "DrawableSpec.hpp"
+#include "ManagedDrawable.hpp"
 
 int main(int, char**) {
 
@@ -93,9 +97,12 @@ int main(int, char**) {
     // PlushGraphics::UniformResolvers::NoOpResolver t;
     PlushGraphics::UniformResolvers::PreloadedUniformsResolver p({texturePayload});
 
-    PlushGraphics::Drawable d1(p, instst);
+    PlushGraphics::DrawableRegistry dreg;
+    PlushGraphics::DrawableSpec dspec(p, instst);
+    PlushGraphics::ManagedDrawable d1 = dreg.getItem(dreg.loadItem(dspec));
 
-    PlushGraphics::Drawable d2((PlushGraphics::UniformResolvers::PreloadedUniformsResolver({texturePayload2})), instst);
+    PlushGraphics::DrawableSpec dspec2((PlushGraphics::UniformResolvers::PreloadedUniformsResolver({texturePayload2})), instst);
+    PlushGraphics::ManagedDrawable d2 = dreg.getItem(dreg.loadItem(dspec2));
 
     while(!window.getWindowShouldClose()){
         PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);

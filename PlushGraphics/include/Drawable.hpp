@@ -5,36 +5,40 @@
 #include "PlushGraphics.hpp"
 #include "UniformResolver.hpp"
 #include <memory>
+#include "DrawableIdentifier.hpp"
 
 namespace PlushGraphics {
-    template<typename T>
-    concept UniResDerived =
-        requires {
-            requires std::derived_from<T, UniformResolver>;
-        };
-
     class Drawable{
         public:
+            using Spec = DrawableSpec;
+            using Identifier = DrawableIdentifier;
+
             template<UniResDerived T>
             Drawable(T&& ur, ManagedModelInstance _modelInstance) : 
-                resolver(new T(std::move(ur))), // move creates dynamic T from static
-                modelInstance(_modelInstance) {}
+                modelInstance(_modelInstance), // move creates dynamic T from static
+                resolver(new T(std::move(ur))) {}
 
             template<UniResDerived T>
             Drawable(const T& ur, ManagedModelInstance _modelInstance) : 
-                resolver(new T(ur)), // copies dynamic T from static
-                modelInstance(_modelInstance) {}
+                modelInstance(_modelInstance), // copies dynamic T from static
+                resolver(new T(ur)) {}
+            
+            Drawable(DrawableSpec spec);
 
-            void setModelInstance(ManagedModelInstance _modelInstance) {
+            void _setModelInstance(ManagedModelInstance _modelInstance) {
                 modelInstance = _modelInstance;
             }
 
-            void draw();
+            void _draw();
+
+            DrawableIdentifier getIdentifier() const { return identifier; }
 
         private:
-            SharedPtrUniformResolver resolver; 
+            DrawableIdentifier identifier;
 
             ManagedModelInstance modelInstance;
+
+            SharedPtrUniformResolver resolver; 
     };
 }
 

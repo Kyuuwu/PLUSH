@@ -28,10 +28,18 @@ namespace PlushGraphics {
 
             static GLFWwindow* getRootContext() { return rootContext; }
 
+            static drawableID_t getNextUniqueDrawableID(){
+                drawableID_t result = nextUniqueDrawableID;
+                nextUniqueDrawableID++;
+                return result;
+            }
+
         private:
             inline static WindowIdentifier activeWindowIdentifier = WindowIdentifier("blah");
 
             inline static GLFWwindow* rootContext = NULL;
+
+            inline static drawableID_t nextUniqueDrawableID = 0;
     };
 }
 

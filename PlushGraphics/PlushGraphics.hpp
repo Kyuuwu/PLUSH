@@ -3,12 +3,15 @@
 
 #include <cstdint>
 #include <memory>
+#include <sys/types.h>
 
 namespace PlushGraphics {
     using shaderSlotLocation_t = uint32_t;
     using shaderObjectReferenceID = uint32_t;
     using bufferReferenceID = uint32_t;
     using textureReferenceID = uint32_t;
+    
+    using drawableID_t = uint32_t;
 
     enum class PlushGraphicsException;
 
@@ -26,13 +29,26 @@ namespace PlushGraphics {
     class UniformResolver; // interface for fulfilling uniform requirements of drawing ModelInstances
     typedef std::shared_ptr<UniformResolver> SharedPtrUniformResolver;
     typedef std::weak_ptr<UniformResolver> WeakPtrUniformResolver;
+    typedef std::unique_ptr<UniformResolver> UniquePtrUniformResolver;
+
+    template<typename T>
+    concept UniResDerived =
+        requires {
+            requires std::derived_from<T, UniformResolver>;
+        };
+
     namespace UniformResolvers {
         class NoOpResolver; // UniformResolver which makes no attempt to resolve uniforms, or do anything else
         class PreloadedUniformsResolver; // UniformResolver which attempts to resolve uniforms using a provided list
     }
 
     class GraphicsLayer; // Layer to draw drawables onto within Window
+
+    class ManagedDrawable;
+    class DrawableIdentifier;
+    class DrawableSpec;
     class Drawable; // Previously Instance, the drawable data, incl. model, that a game-engine-level entity needs 
+    class DrawableRegistry;
 
     class ShaderSpec; // specification for loading a shader
     class ShaderIdentifier; // identifier for retrieving a compiled shader
