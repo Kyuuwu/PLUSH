@@ -36,7 +36,7 @@ namespace PlushGraphics {
 
             std::vector<ModelVertex> getVertices() const { 
                 return operator->()->_getVertices(); 
-            }
+            } 
 
             std::vector<size_t> getIndices() const { 
                 return operator->()->_getIndices(); 

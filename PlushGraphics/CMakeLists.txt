@@ -10,6 +10,7 @@ src/ModelData.cpp
 src/ModelInstance.cpp
 src/Texture2D.cpp
 src/Drawable.cpp
+src/ManagedShader.cpp
 )
 
 target_link_libraries(PlushGraphics_src PUBLIC OPENGL_libraries)

@@ -69,6 +69,7 @@ namespace PlushUtil{
         }
         else{
             weak_pointer = other.weak_pointer;
+            return *this;
         }
     }
 

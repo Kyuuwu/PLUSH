@@ -24,7 +24,9 @@ namespace PlushGraphics {
             Shader(Shader&&) = delete; //explicitly forbid move
             Shader& operator=(Shader&&) = delete; //explicitly forbid move assign
 
-            void _useShader();
+            void _useShader(); 
+
+            void _acceptUniformResolver(WeakPtrUniformResolver resolver);
 
             bool _tryToSetUniform(ShaderMetadata::ShaderUniformPayload value); // returns true if successful
             void _setUniform(ShaderMetadata::ShaderUniformPayload value); // throws exception if matching uniform slot does not exist

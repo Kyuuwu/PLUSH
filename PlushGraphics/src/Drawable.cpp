@@ -2,6 +2,6 @@
 #include "PlushGraphicsOpenGL.hpp"
 
 void PlushGraphics::Drawable::draw() {
-    resolver->resolveUniformRequirements(modelInstance.getShader());
+    modelInstance.getShader().acceptUniformResolver(resolver);
     modelInstance.draw();
 }

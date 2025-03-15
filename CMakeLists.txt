@@ -8,6 +8,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 include(CTest)
 enable_testing()
 

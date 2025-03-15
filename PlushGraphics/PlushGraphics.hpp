@@ -2,6 +2,7 @@
 #define PLUSH_GRAPHICS_HPP
 
 #include <cstdint>
+#include <memory>
 
 namespace PlushGraphics {
     using shaderSlotLocation_t = uint32_t;
@@ -23,6 +24,8 @@ namespace PlushGraphics {
     class WindowRegistry;
 
     class UniformResolver; // interface for fulfilling uniform requirements of drawing ModelInstances
+    typedef std::shared_ptr<UniformResolver> SharedPtrUniformResolver;
+    typedef std::weak_ptr<UniformResolver> WeakPtrUniformResolver;
     namespace UniformResolvers {
         class NoOpResolver; // UniformResolver which makes no attempt to resolve uniforms, or do anything else
         class PreloadedUniformsResolver; // UniformResolver which attempts to resolve uniforms using a provided list

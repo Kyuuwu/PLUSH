@@ -37,6 +37,8 @@ namespace PlushGraphics {
                 (*this)->_useShader();
             }
 
+            void acceptUniformResolver(WeakPtrUniformResolver resolver);
+
             std::vector<ShaderMetadata::ShaderUniformSlotIdentifier> getUniformSlotIdentifiers() const{
                 return (*this)->_getUniformSlotIdentifiers(); // use protected -> operator to get from Shader
             }

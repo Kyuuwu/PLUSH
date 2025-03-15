@@ -17,12 +17,12 @@ namespace PlushGraphics {
         public:
             template<UniResDerived T>
             Drawable(T&& ur, ManagedModelInstance _modelInstance) : 
-                resolver(new T(std::move(ur))),
+                resolver(new T(std::move(ur))), // move creates dynamic T from static
                 modelInstance(_modelInstance) {}
 
             template<UniResDerived T>
             Drawable(const T& ur, ManagedModelInstance _modelInstance) : 
-                resolver(new T(ur)),
+                resolver(new T(ur)), // copies dynamic T from static
                 modelInstance(_modelInstance) {}
 
             void setModelInstance(ManagedModelInstance _modelInstance) {
@@ -32,7 +32,7 @@ namespace PlushGraphics {
             void draw();
 
         private:
-            std::unique_ptr<UniformResolver> resolver;
+            SharedPtrUniformResolver resolver; 
 
             ManagedModelInstance modelInstance;
     };

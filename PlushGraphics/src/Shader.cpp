@@ -2,6 +2,7 @@
 #include "ShaderInputSlot.hpp"
 #include "ShaderUniformSlot.hpp"
 #include "ShaderUniformPayload.hpp"
+#include "UniformResolver.hpp"
 #include "ShaderSpec.hpp"
 #include "OpenGL.h"
 #include <iostream>

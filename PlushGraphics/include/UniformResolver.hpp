@@ -17,7 +17,9 @@ namespace PlushGraphics {
 
         class NoOpResolver : public UniformResolver{ // no-op resolver, does not attempt to resolve uniforms
             public:
-                void resolveUniformRequirements(ManagedShader shader) override {} // no-op
+                void resolveUniformRequirements(ManagedShader shader) override {
+                    #pragma unused(shader)
+                } // no-op
         };
 
         class PreloadedUniformsResolver : public UniformResolver{ // dumps provided list of payloads into shader
