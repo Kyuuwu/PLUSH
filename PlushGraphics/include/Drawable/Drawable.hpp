@@ -1,9 +1,9 @@
 #ifndef DRAWABLE2_HPP
 #define DRAWABLE2_HPP
 
-#include "../ModelInstance/ManagedModelInstance.hpp"
+#include "ModelInstance/ManagedModelInstance.hpp"
 #include "PlushGraphics.hpp"
-#include "../UniformResolver.hpp"
+#include "UniformResolver.hpp"
 #include <memory>
 #include "DrawableIdentifier.hpp"
 

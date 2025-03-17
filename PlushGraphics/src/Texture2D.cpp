@@ -1,5 +1,5 @@
-#include "../include/Texture2D/Texture2D.hpp"
-#include "../include/Texture2D/Texture2DSpec.hpp"
+#include "Texture2D/Texture2D.hpp"
+#include "Texture2D/Texture2DSpec.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"

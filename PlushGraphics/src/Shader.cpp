@@ -1,9 +1,9 @@
-#include "../include/Shader/Shader.hpp"
-#include "../include/Shader/ShaderInputSlot.hpp"
-#include "../include/Shader/ShaderUniformSlot.hpp"
-#include "../include/Shader/ShaderUniformPayload.hpp"
+#include "Shader/Shader.hpp"
+#include "Shader/ShaderInputSlot.hpp"
+#include "Shader/ShaderUniformSlot.hpp"
+#include "Shader/ShaderUniformPayload.hpp"
 #include "UniformResolver.hpp"
-#include "../include/Shader/ShaderSpec.hpp"
+#include "Shader/ShaderSpec.hpp"
 #include "OpenGL.h"
 #include <iostream>
 

@@ -1,4 +1,4 @@
-#include "../include/Drawable/DrawableIdentifier.hpp"
+#include "Drawable/DrawableIdentifier.hpp"
 #include "PlushGraphicsOpenGL.hpp"
 
 PlushGraphics::DrawableIdentifier::DrawableIdentifier()

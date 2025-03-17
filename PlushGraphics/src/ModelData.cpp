@@ -1,7 +1,7 @@
-#include "../include/ModelData/ModelData.hpp"
-#include "../include/ModelData/ModelDataSpec.hpp"
-#include "../include/ModelData/ModelVertex.hpp"
-#include "../include/Shader/ShaderInputSlotIdentifier.hpp"
+#include "ModelData/ModelData.hpp"
+#include "ModelData/ModelDataSpec.hpp"
+#include "ModelData/ModelVertex.hpp"
+#include "Shader/ShaderInputSlotIdentifier.hpp"
 #include "OpenGL_Type.hpp"
 #include "ReadFile.hpp"
 #include <sstream>

@@ -1,8 +1,8 @@
 #ifndef MODELINSTANCEIDENTIFIER_HPP
 #define MODELINSTANCEIDENTIFIER_HPP
 
-#include "../ModelData/ModelDataIdentifier.hpp"
-#include "../Shader/ShaderIdentifier.hpp"
+#include "ModelData/ModelDataIdentifier.hpp"
+#include "Shader/ShaderIdentifier.hpp"
 #include "ModelInstanceSpec.hpp"
 
 namespace PlushGraphics {
