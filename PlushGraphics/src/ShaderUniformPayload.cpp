@@ -1,5 +1,5 @@
-#include "ShaderUniformPayload.hpp"
-#include "ShaderUniformSlot.hpp"
+#include "../include/Shader/ShaderUniformPayload.hpp"
+#include "../include/Shader/ShaderUniformSlot.hpp"
 #include "OpenGL_Type.hpp"
 #include "PlushGraphicsException.hpp"
 

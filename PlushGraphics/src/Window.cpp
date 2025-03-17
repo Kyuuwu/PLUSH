@@ -1,6 +1,6 @@
-#include "Window.hpp"
-#include "WindowSpec.hpp"
-#include "WindowIdentifier.hpp"
+#include "../include/Window/Window.hpp"
+#include "../include/Window/WindowSpec.hpp"
+#include "../include/Window/WindowIdentifier.hpp"
 #include "PlushGraphicsException.hpp"
 #include "OpenGL.h"
 #include <iostream>

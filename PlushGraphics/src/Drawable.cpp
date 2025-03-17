@@ -1,8 +1,8 @@
-#include "Drawable.hpp"
+#include "../include/Drawable/Drawable.hpp"
 #include "PlushGraphics.hpp"
 #include "PlushGraphicsOpenGL.hpp"
-#include "DrawableSpec.hpp"
-#include "DrawableIdentifier.hpp"
+#include "../include/Drawable/DrawableSpec.hpp"
+#include "../include/Drawable/DrawableIdentifier.hpp"
 
 PlushGraphics::Drawable::Drawable(DrawableSpec spec)
     : modelInstance(spec.modelInstance),

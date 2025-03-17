@@ -1,9 +1,9 @@
-#ifndef DRAWABLE_HPP
-#define DRAWABLE_HPP
+#ifndef DRAWABLE2_HPP
+#define DRAWABLE2_HPP
 
-#include "ManagedModelInstance.hpp"
+#include "../ModelInstance/ManagedModelInstance.hpp"
 #include "PlushGraphics.hpp"
-#include "UniformResolver.hpp"
+#include "../UniformResolver.hpp"
 #include <memory>
 #include "DrawableIdentifier.hpp"
 
@@ -42,4 +42,4 @@ namespace PlushGraphics {
     };
 }
 
-#endif // DRAWABLE_HPP
+#endif // DRAWABLE2_HPP

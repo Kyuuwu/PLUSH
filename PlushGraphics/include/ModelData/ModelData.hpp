@@ -4,7 +4,7 @@
 #include "ModelVertex.hpp"
 #include "PlushGraphics.hpp"
 #include "ModelDataIdentifier.hpp" 
-#include "ShaderInputSlotIdentifier.hpp"
+#include "../Shader/ShaderInputSlotIdentifier.hpp"
 #include <vector>
 
 namespace PlushGraphics {

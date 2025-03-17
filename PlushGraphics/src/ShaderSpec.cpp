@@ -1,6 +1,6 @@
-#include "ShaderSpec.hpp"
-#include "ShaderUniformSlotIdentifier.hpp"
-#include "ShaderInputSlot.hpp"
+#include "../include/Shader/ShaderSpec.hpp"
+#include "../include/Shader/ShaderUniformSlotIdentifier.hpp"
+#include "../include/Shader/ShaderInputSlot.hpp"
 #include "ReadFile.hpp"
 #include "OpenGL_Type.hpp"
 #include <iostream>

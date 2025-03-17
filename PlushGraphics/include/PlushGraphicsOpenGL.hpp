@@ -1,18 +1,18 @@
 #ifndef PLUSHGRAPHICSOPENGL_HPP
 #define PLUSHGRAPHICSOPENGL_HPP
 
-#include "ManagedTexture2D.hpp"
+#include "Texture2D/ManagedTexture2D.hpp"
 #include "PlushGraphics.hpp"
 
-#include "ShaderRegistry.hpp"
-#include "ModelDataRegistry.hpp"
-#include "ModelInstanceRegistry.hpp"
-#include "Texture2D.hpp"
-#include "Texture2DIdentifier.hpp"
-#include "Texture2DSpec.hpp"
-#include "WindowRegistry.hpp"
-#include "Texture2DRegistry.hpp"
-#include "DrawableRegistry.hpp"
+#include "Shader/ShaderRegistry.hpp"
+#include "ModelData/ModelDataRegistry.hpp"
+#include "ModelInstance/ModelInstanceRegistry.hpp"
+#include "Texture2D/Texture2D.hpp"
+#include "Texture2D/Texture2DIdentifier.hpp"
+#include "Texture2D/Texture2DSpec.hpp"
+#include "Window/WindowRegistry.hpp"
+#include "Texture2D/Texture2DRegistry.hpp"
+#include "Drawable/DrawableRegistry.hpp"
 
 namespace PlushGraphics {
     class GlobalGraphicsState{

@@ -1,10 +1,10 @@
 #ifndef DRAWABLESPEC_HPP
 #define DRAWABLESPEC_HPP
 
-#include "ManagedModelInstance.hpp"
+#include "../ModelInstance/ManagedModelInstance.hpp"
 #include "PlushGraphics.hpp"
 #include <memory>
-#include "UniformResolver.hpp"
+#include "../UniformResolver.hpp"
 
 namespace PlushGraphics {
     class DrawableSpec{

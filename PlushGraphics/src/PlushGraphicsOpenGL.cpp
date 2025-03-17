@@ -1,6 +1,6 @@
 #include "OpenGL.h"
 #include "PlushGraphicsOpenGL.hpp"
-#include "WindowSpec.hpp"
+#include "../include/Window/WindowSpec.hpp"
 #include <iostream>
 
 namespace PlushGraphics {

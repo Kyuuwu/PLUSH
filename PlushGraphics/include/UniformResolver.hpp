@@ -2,7 +2,7 @@
 #define UNIFORMRESOLVER_HPP
 
 #include "PlushGraphics.hpp"
-#include "ManagedShader.hpp"
+#include "Shader/ManagedShader.hpp"
 #include <memory>
 
 namespace PlushGraphics {

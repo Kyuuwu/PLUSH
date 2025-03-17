@@ -2,7 +2,7 @@
 #define MODELVERTEX_HPP
 
 #include "PlushGraphics.hpp"
-#include "OpenGL_Value.hpp"
+#include "../OpenGL_Value.hpp"
 #include <vector>
 
 namespace PlushGraphics {

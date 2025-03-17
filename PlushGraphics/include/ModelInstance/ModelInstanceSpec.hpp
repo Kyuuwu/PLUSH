@@ -1,8 +1,8 @@
 #ifndef MODELINSTANCESPEC_HPP
 #define MODELINSTANCESPEC_HPP
 
-#include "ManagedModelData.hpp"
-#include "ManagedShader.hpp"
+#include "../ModelData/ManagedModelData.hpp"
+#include "../Shader/ManagedShader.hpp"
 
 namespace PlushGraphics {
     class ModelInstanceSpec{

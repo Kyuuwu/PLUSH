@@ -1,11 +1,11 @@
-#include "ModelInstance.hpp"
-#include "ModelInstanceIdentifier.hpp"
-#include "ModelInstanceSpec.hpp"
-#include "ManagedShader.hpp"
-#include "ManagedModelData.hpp"
+#include "../include/ModelInstance/ModelInstance.hpp"
+#include "../include/ModelInstance/ModelInstanceIdentifier.hpp"
+#include "../include/ModelInstance/ModelInstanceSpec.hpp"
+#include "../include/Shader/ManagedShader.hpp"
+#include "../include/ModelData/ManagedModelData.hpp"
 #include "OpenGL_Type.hpp"
 #include "PlushGraphicsException.hpp"
-#include "ModelVertex.hpp"
+#include "../include/ModelData/ModelVertex.hpp"
 #include "PlushGraphicsOpenGL.hpp"
 
 PlushGraphics::ModelInstance::ModelInstance(ModelInstanceSpec spec)

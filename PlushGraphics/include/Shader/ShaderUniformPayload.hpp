@@ -2,10 +2,10 @@
 #define SHADERUNIFORMVALUE_HPP
 
 #include "PlushGraphics.hpp"
-#include "PlushGraphicsException.hpp"
+#include "../PlushGraphicsException.hpp"
 #include "ShaderUniformSlotIdentifier.hpp"
 #include "ShaderUniformSlotFulfillmentState.hpp"
-#include "OpenGL_Value.hpp"
+#include "../OpenGL_Value.hpp"
 
 namespace PlushGraphics {
     class ShaderMetadata::ShaderUniformPayload{
