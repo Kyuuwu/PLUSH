@@ -12,6 +12,17 @@ namespace PlushGraphics {
         friend class PlushGraphics::Shader;
 
         public:
+            // ShaderUniformPayload(const ShaderUniformPayload& other):
+            // targetSlotIdentifier(other.targetSlotIdentifier),
+            // value(other.value)
+            // {}
+
+            // ShaderUniformPayload& operator=(const ShaderUniformPayload& other){
+            //     value = other.value;
+            //     targetSlotIdentifier = other.targetSlotIdentifier;
+            //     return *this;
+            // }
+
             ShaderUniformPayload(ShaderUniformSlotIdentifier _targetSlotIdentifier, OpenGL_Value _value)
             : targetSlotIdentifier(_targetSlotIdentifier), value(_value){
                 if(!doesTypeMatch()){
@@ -21,8 +32,18 @@ namespace PlushGraphics {
             
             ShaderUniformSlotIdentifier getTargetSlotIdentifier() const { return targetSlotIdentifier; }
 
+            OpenGL_Value getValue() const { return value; }
+
+            bool operator<(const ShaderUniformPayload& other) const { // < operator ONLY COMPARES TARGET SLOTS
+                return targetSlotIdentifier < other.targetSlotIdentifier; 
+            }
+
+            bool operator>(const ShaderUniformPayload& other) const {
+                return targetSlotIdentifier > other.targetSlotIdentifier;
+            }
+
         private:
-            bool doesTypeMatch(){
+            bool doesTypeMatch() const{
                 return value.getType() == targetSlotIdentifier.getSlotType();
             }
 

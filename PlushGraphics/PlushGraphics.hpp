@@ -56,6 +56,8 @@ namespace PlushGraphics {
     class ShaderRegistry; // holds all compiled shaders needed
     class ManagedShader; // wrapper for smart pointer to shaders, inherits ManagedObject interface from PlushUtil
 
+    class ShaderMemento;
+
     namespace ShaderMetadata {
         class ShaderInputValue;
         class ShaderInputSlotIdentifier;

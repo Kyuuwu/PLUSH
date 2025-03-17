@@ -6,6 +6,7 @@
 #include "Shader/ShaderSpec.hpp"
 #include "OpenGL.h"
 #include <iostream>
+#include <set>
 
 namespace PlushGraphics {
     Shader::Shader(ShaderSpec spec)
@@ -131,5 +132,41 @@ namespace PlushGraphics {
                 std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
             }
         }
+    }
+
+    void Shader::commitFromMemento(ShaderMemento& memento) {
+        auto iterator_committedMemento = lastCommitedMemento.payloads.begin();
+        auto iterator_newMemento = memento.payloads.begin();
+
+        auto end_committedMemento = lastCommitedMemento.payloads.end();
+        auto end_newMemento = memento.payloads.end();
+
+        while((iterator_committedMemento != end_committedMemento) && (iterator_newMemento != end_newMemento)){
+            ShaderMetadata::ShaderUniformPayload committedPayload = *iterator_committedMemento;
+            ShaderMetadata::ShaderUniformPayload newPayload = *iterator_newMemento;
+
+            if(committedPayload < newPayload){
+                iterator_committedMemento++;
+            }else if(committedPayload > newPayload){
+                iterator_newMemento++;
+            }else{ // payloads are destined for same uniform slot, must override with new payload
+                commitUniform(newPayload);
+                iterator_committedMemento++;
+                iterator_newMemento++;
+            }
+        }
+
+        // get through remaining items of new memento
+        while(iterator_newMemento != end_newMemento){
+            commitUniform(*iterator_newMemento);
+            iterator_newMemento++;
+        }
+
+        // set last committed memento to new memento
+        lastCommitedMemento = memento; 
+    }
+
+    void Shader::commitUniform(ShaderMetadata::ShaderUniformPayload value) {
+        _setUniform(value);
     }
 }

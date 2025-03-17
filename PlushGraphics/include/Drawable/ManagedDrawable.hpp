@@ -3,7 +3,6 @@
 
 #include "ManagedObject.hpp"
 #include "Drawable.hpp"
-#include "ModelInstance/ModelInstance.hpp"
 
 namespace PlushGraphics {
     class ManagedDrawable : public PlushUtil::ManagedObject<Drawable>{

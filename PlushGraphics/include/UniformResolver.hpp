@@ -44,7 +44,7 @@ namespace PlushGraphics {
 
                 void resolveUniformRequirements(ManagedShader shader) override{
                     for(ShaderMetadata::ShaderUniformPayload payload : payloads){
-                        shader.tryToSetUniform(payload);
+                        shader.setUniformNew(payload);
                     }
                 }
 

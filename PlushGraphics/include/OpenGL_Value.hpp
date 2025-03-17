@@ -1,6 +1,7 @@
 #ifndef OPENGL_VALUE_HPP
 #define OPENGL_VALUE_HPP
 
+#include "OpenGL_Type.hpp"
 #include "PlushGraphics.hpp"
 #include "glad/glad.h"
 #include "glm/glm.hpp"
@@ -22,6 +23,50 @@ namespace PlushGraphics {
 
     class OpenGL_Value{
         public:
+            // OpenGL_Value(const OpenGL_Value& other)
+            // {
+            //     (*this)=other;
+            // }
+
+            // OpenGL_Value& operator=(const OpenGL_Value& other){
+            //     type = other.type;
+
+            //     switch (type) {
+            //         case PlushGraphics::OpenGL_Type::UINT:
+            //             valueHolder.u = other.get_uint();
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::INT:
+            //             valueHolder.i = other.get_int();
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::FLOAT:
+            //             valueHolder.f = other.get_float();
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::FLOAT_VEC_2:
+            //             valueHolder.v2 = other.valueHolder.v2;
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::FLOAT_VEC_3:
+            //             valueHolder.v3 = other.valueHolder.v3;
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::FLOAT_VEC_4:
+            //             valueHolder.v4 = other.valueHolder.v4;
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::FLOAT_MAT_2:
+            //             valueHolder.m2 = other.valueHolder.m2;
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::FLOAT_MAT_3:
+            //             valueHolder.m3 = other.valueHolder.m3;
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::FLOAT_MAT_4:
+            //             valueHolder.m4 = other.valueHolder.m4;
+            //             return *this;
+            //         case PlushGraphics::OpenGL_Type::SAMPLER2D:
+            //             valueHolder.i = other.valueHolder.i;
+            //             return *this;
+            //     }
+
+            //     return *this;
+            // }
+
             static OpenGL_Value create_uint(GLuint _u);
             static OpenGL_Value create_int(GLint _i);
             static OpenGL_Value create_sampler_2D(GLint _i);
@@ -51,7 +96,40 @@ namespace PlushGraphics {
 
             OpenGL_Type getType() const { return type; }
 
+            bool operator==(const OpenGL_Value& other){
+                if(type == other.type){
+                    switch (type) {
+                        case PlushGraphics::OpenGL_Type::UINT:
+                            return get_uint() == other.get_uint();
+                        case PlushGraphics::OpenGL_Type::INT:
+                            return get_int() == other.get_int();
+                        case PlushGraphics::OpenGL_Type::FLOAT:
+                            return get_float() == other.get_float();
+                        case PlushGraphics::OpenGL_Type::FLOAT_VEC_2:
+                            return valueHolder.v2 == other.valueHolder.v2;
+                        case PlushGraphics::OpenGL_Type::FLOAT_VEC_3:
+                            return valueHolder.v3 == other.valueHolder.v3;
+                        case PlushGraphics::OpenGL_Type::FLOAT_VEC_4:
+                            return valueHolder.v4 == other.valueHolder.v4;
+                        case PlushGraphics::OpenGL_Type::FLOAT_MAT_2:
+                            return valueHolder.m2 == other.valueHolder.m2;
+                        case PlushGraphics::OpenGL_Type::FLOAT_MAT_3:
+                            return valueHolder.m3 == other.valueHolder.m3;
+                        case PlushGraphics::OpenGL_Type::FLOAT_MAT_4:
+                            return valueHolder.m4 == other.valueHolder.m4;
+                        case PlushGraphics::OpenGL_Type::SAMPLER2D:
+                            return get_sampler_2D() == other.get_sampler_2D();
+                    }
+                }else{
+                    return false;
+                }
+            }
+
         private:
+            OpenGL_Value():
+            type(OpenGL_Type::UINT)
+            {}
+
             void checkType(OpenGL_Type _type) const;
 
             OpenGL_Type type;

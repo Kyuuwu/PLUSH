@@ -56,6 +56,39 @@ namespace PlushGraphics {
             bool tryToSetUniform(ShaderMetadata::ShaderUniformPayload value){
                 return (*this)->_tryToSetUniform(value);
             }
+
+
+            void setUniformNew(ShaderMetadata::ShaderUniformPayload payload){
+                (*this)->_setUniformNew(payload);
+            }
+
+            void clearDrawableLevelUniforms(){
+                (*this)->_clearDrawableLevelUniforms();
+            }
+
+            void clearLayerLevelUniforms(){
+                (*this)->_clearLayerLevelUniforms();
+            }
+
+            void clearWindowLevelUniforms(){
+                (*this)->_clearWindowLevelUniforms();
+            }
+
+            void prepareForWindowUniforms(){
+                (*this)->_prepareForWindowUniforms();
+            }
+
+            void prepareForLayerUniforms(){
+                (*this)->_prepareForLayerUniforms();
+            }
+
+            void prepareForDrawableUniforms(){
+                (*this)->_prepareForDrawableUniforms();
+            }
+
+            void prepareForDraw(){
+                (*this)->_prepareForDraw();
+            }
         
         private:
     };

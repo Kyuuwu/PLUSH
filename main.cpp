@@ -1,37 +1,10 @@
 #include <iostream>
 
-#include "Texture2D/ManagedTexture2D.hpp"
-#include "OpenGL_Type.hpp"
-#include "PlushGraphics.hpp"
-#include "Texture2D/Texture2DSpec.hpp"
-#include "Texture2D/Texture2D.hpp"
-#include "Window/WindowSpec.hpp"
-#include "Window/Window.hpp"
-#include "Window/WindowRegistry.hpp"
-#include "PlushGraphicsOpenGL.hpp"
-
 #include "OpenGL.h"
-#include "Shader/ShaderSpec.hpp"
-#include "Shader/ShaderRegistry.hpp"
-#include "Shader/ShaderUniformSlot.hpp"
-#include "Shader/ShaderUniformSlotIdentifier.hpp"
-#include "Shader/ShaderUniformPayload.hpp"
-#include "Shader/ShaderInputSlot.hpp"
-#include "Shader/Shader.hpp"
-#include "ModelData/ModelData.hpp"
-#include "ModelData/ModelDataSpec.hpp"
-#include "ModelData/ModelDataRegistry.hpp"
+#include "PlushGraphicsOpenGL.hpp"
+#include "OpenGL_Type.hpp"
 
-#include "ModelInstance/ModelInstance.hpp"
-#include "ModelInstance/ModelInstanceSpec.hpp"
-#include "ModelInstance/ModelInstanceIdentifier.hpp"
-#include "ModelInstance/ModelInstanceRegistry.hpp"
-
-#include "Drawable/Drawable.hpp"
 #include "UniformResolver.hpp"
-#include "Drawable/DrawableRegistry.hpp"
-#include "Drawable/DrawableSpec.hpp"
-#include "Drawable/ManagedDrawable.hpp"
 
 int main(int, char**) {
 
@@ -94,15 +67,21 @@ int main(int, char**) {
     PlushGraphics::DrawableSpec dspec2((PlushGraphics::UniformResolvers::PreloadedUniformsResolver({texturePayload2})), instst);
     PlushGraphics::ManagedDrawable d2 = dreg.getItem(dreg.loadItem(dspec2));
 
+
     while(!window.getWindowShouldClose()){
         PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);
         glClearColor(0.2, 0.3, 0.3, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
-        shader.tryToSetUniform(payload);
+        shader.clearWindowLevelUniforms();
+        shader.prepareForWindowUniforms();
+        shader.setUniformNew(payload);
 
         texture.bindToTextureUnit(1);
+
+        shader.clearLayerLevelUniforms();
+
         d1.draw();
 
         window.swapBuffers();
@@ -113,13 +92,20 @@ int main(int, char**) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.useShader();
-        shader.tryToSetUniform(payload2);
+        shader.clearWindowLevelUniforms();
+        shader.prepareForWindowUniforms();
+        shader.setUniformNew(payload2);
 
         texture.bindToTextureUnit(2);
+
+        shader.clearLayerLevelUniforms();
+
         d2.draw();
 
         win2.swapBuffers();
         glfwPollEvents();
+
+        // std::cout << "Frame" << std::endl;
     }
 
     PlushGraphics::GlobalGraphicsState::terminateOpenGL();
