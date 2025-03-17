@@ -25,7 +25,10 @@ namespace PlushGraphics {
             
             Drawable(DrawableSpec spec);
 
-            void _setModelInstance(ManagedModelInstance _modelInstance) {
+            void _setModelInstance(ManagedModelInstance _modelInstance) { // CONTRACT: drawables can only change the source modeldata, not the targeted shader
+                if(_modelInstance.getShader().getIdentifier() != modelInstance.getShader().getIdentifier()){
+                    throw(PlushGraphicsException::CANNOT_CHANGE_DRAWABLE_SHADER);
+                }
                 modelInstance = _modelInstance;
             }
 
