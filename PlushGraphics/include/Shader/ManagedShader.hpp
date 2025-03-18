@@ -89,6 +89,11 @@ namespace PlushGraphics {
             void prepareForDraw(){
                 (*this)->_prepareForDraw();
             }
+
+            //for sorting purposes ONLY
+            bool operator<(const ManagedShader& other) const{
+                return getIdentifier() < other.getIdentifier();
+            }
         
         private:
     };

@@ -36,6 +36,10 @@ namespace PlushGraphics {
 
             DrawableIdentifier getIdentifier() const { return identifier; }
 
+            ManagedShader _getModelInstanceShader(){
+                return modelInstance.getShader();
+            }
+
         private:
             DrawableIdentifier identifier;
 

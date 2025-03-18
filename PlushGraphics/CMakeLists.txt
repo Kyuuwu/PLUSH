@@ -12,6 +12,8 @@ src/Texture2D.cpp
 src/Drawable.cpp
 src/ManagedShader.cpp
 src/DrawableIdentifier.cpp
+src/GraphicsLayer.cpp
+src/GraphicsLayerIdentifier.cpp
 )
 
 target_link_libraries(PlushGraphics_src PUBLIC OPENGL_libraries)

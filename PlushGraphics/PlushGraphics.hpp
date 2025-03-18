@@ -12,6 +12,7 @@ namespace PlushGraphics {
     using textureReferenceID = uint32_t;
     
     using drawableID_t = uint32_t;
+    using graphicsLayerID_t = uint32_t;
 
     enum class PlushGraphicsException;
 
@@ -42,7 +43,11 @@ namespace PlushGraphics {
         class PreloadedUniformsResolver; // UniformResolver which attempts to resolve uniforms using a provided list
     }
 
+    class ManagedGraphicsLayer;
+    class GraphicsLayerIdentifier;
     class GraphicsLayer; // Layer to draw drawables onto within Window
+    class GraphicsLayerSpec;
+    class GraphicsLayerRegistry;
 
     class ManagedDrawable;
     class DrawableIdentifier;

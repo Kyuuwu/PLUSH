@@ -9,6 +9,7 @@
 #include "Window/WindowRegistry.hpp"
 #include "Texture2D/Texture2DRegistry.hpp"
 #include "Drawable/DrawableRegistry.hpp"
+#include "GraphicsLayer/GraphicsLayerRegistry.hpp"
 
 namespace PlushGraphics {
     class GlobalGraphicsState{
@@ -19,6 +20,7 @@ namespace PlushGraphics {
             inline static WindowRegistry windowRegistry;
             inline static Texture2DRegistry textureRegistry;
             inline static DrawableRegistry drawableRegistry;
+            inline static GraphicsLayerRegistry graphicsLayerRegistry;
 
             static ManagedShader getShader(ShaderIdentifier identifier){
                 return shaderRegistry.getItem(identifier);
@@ -37,6 +39,9 @@ namespace PlushGraphics {
             }
             static ManagedDrawable getDrawable(DrawableIdentifier identifier){
                 return drawableRegistry.getItem(identifier);
+            }
+            static ManagedGraphicsLayer getGraphicsLayer(GraphicsLayerIdentifier identifier){
+                return graphicsLayerRegistry.getItem(identifier);
             }
 
             static bool isShaderLoaded(ShaderIdentifier identifier){
@@ -57,6 +62,9 @@ namespace PlushGraphics {
             static bool isDrawableLoaded(DrawableIdentifier identifier){
                 return drawableRegistry.isItemLoaded(identifier);
             }
+            static bool isGraphicsLayerLoaded(GraphicsLayerIdentifier identifier){
+                return graphicsLayerRegistry.isItemLoaded(identifier);
+            }
 
             static ShaderIdentifier loadShader(ShaderSpec spec){
                 return shaderRegistry.loadItem(spec);
@@ -75,6 +83,9 @@ namespace PlushGraphics {
             }
             static DrawableIdentifier loadDrawable(DrawableSpec spec){
                 return drawableRegistry.loadItem(spec);
+            }
+            static GraphicsLayerIdentifier loadGraphicsLayer(GraphicsLayerSpec spec){
+                return graphicsLayerRegistry.loadItem(spec);
             }
 
             static void switchContextToWindow(WindowIdentifier windowID){
@@ -95,12 +106,19 @@ namespace PlushGraphics {
                 return result;
             }
 
+            static graphicsLayerID_t getNextUniqueGraphicsLayerID(){
+                graphicsLayerID_t result = nextUniqueGraphicsLayerID;
+                nextUniqueGraphicsLayerID++;
+                return result;
+            }
+
         private:
             inline static WindowIdentifier activeWindowIdentifier = WindowIdentifier("blah");
 
             inline static GLFWwindow* rootContext = NULL;
 
             inline static drawableID_t nextUniqueDrawableID = 0;
+            inline static graphicsLayerID_t nextUniqueGraphicsLayerID = 0;
     };
 }
 

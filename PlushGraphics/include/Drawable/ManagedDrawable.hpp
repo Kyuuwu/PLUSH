@@ -3,6 +3,7 @@
 
 #include "ManagedObject.hpp"
 #include "Drawable.hpp"
+#include "Shader/ManagedShader.hpp"
 
 namespace PlushGraphics {
     class ManagedDrawable : public PlushUtil::ManagedObject<Drawable>{
@@ -33,6 +34,10 @@ namespace PlushGraphics {
 
             void setModelInstance(ManagedModelInstance modelInstance){
                 (*this)->_setModelInstance(modelInstance);
+            }
+
+            ManagedShader getModelInstanceShader(){
+                return (*this)->_getModelInstanceShader();
             }
 
         private:

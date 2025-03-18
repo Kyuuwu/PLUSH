@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "GraphicsLayer/GraphicsLayerSpec.hpp"
+#include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "OpenGL.h"
 #include "PlushGraphicsOpenGL.hpp"
 #include "OpenGL_Type.hpp"
@@ -58,15 +60,21 @@ int main(int, char**) {
 
 
     // PlushGraphics::UniformResolvers::NoOpResolver t;
-    PlushGraphics::UniformResolvers::PreloadedUniformsResolver p({texturePayload});
+    PlushGraphics::UniformResolvers::PreloadedUniformsResolver p({texturePayload, payload});
 
-    PlushGraphics::DrawableRegistry dreg;
     PlushGraphics::DrawableSpec dspec(p, instst);
-    PlushGraphics::ManagedDrawable d1 = dreg.getItem(dreg.loadItem(dspec));
+    PlushGraphics::ManagedDrawable d1 = PlushGraphics::GlobalGraphicsState::getDrawable(PlushGraphics::GlobalGraphicsState::loadDrawable(dspec));
 
-    PlushGraphics::DrawableSpec dspec2((PlushGraphics::UniformResolvers::PreloadedUniformsResolver({texturePayload2})), instst);
-    PlushGraphics::ManagedDrawable d2 = dreg.getItem(dreg.loadItem(dspec2));
+    PlushGraphics::DrawableSpec dspec2((PlushGraphics::UniformResolvers::PreloadedUniformsResolver({texturePayload2, payload2})), instst);
+    PlushGraphics::ManagedDrawable d2 = PlushGraphics::GlobalGraphicsState::getDrawable(PlushGraphics::GlobalGraphicsState::loadDrawable(dspec2));
 
+    PlushGraphics::GraphicsLayerSpec layerspec((PlushGraphics::UniformResolvers::NoOpResolver()));
+    PlushGraphics::ManagedGraphicsLayer layer = PlushGraphics::GlobalGraphicsState::getGraphicsLayer(PlushGraphics::GlobalGraphicsState::loadGraphicsLayer(layerspec));
+
+    PlushGraphics::ManagedGraphicsLayer layer2 = PlushGraphics::GlobalGraphicsState::getGraphicsLayer(PlushGraphics::GlobalGraphicsState::loadGraphicsLayer(layerspec));
+
+    layer.addDrawable(d1);
+    layer2.addDrawable(d2);
 
     while(!window.getWindowShouldClose()){
         PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);
@@ -75,14 +83,10 @@ int main(int, char**) {
 
         shader.useShader();
         shader.clearWindowLevelUniforms();
-        shader.prepareForWindowUniforms();
-        shader.setUniformNew(payload);
-
+        
         texture.bindToTextureUnit(1);
 
-        shader.clearLayerLevelUniforms();
-
-        d1.draw();
+        layer.performDrawCycle();
 
         window.swapBuffers();
         glfwPollEvents();
@@ -93,14 +97,10 @@ int main(int, char**) {
 
         shader.useShader();
         shader.clearWindowLevelUniforms();
-        shader.prepareForWindowUniforms();
-        shader.setUniformNew(payload2);
 
         texture.bindToTextureUnit(2);
 
-        shader.clearLayerLevelUniforms();
-
-        d2.draw();
+        layer2.performDrawCycle();
 
         win2.swapBuffers();
         glfwPollEvents();

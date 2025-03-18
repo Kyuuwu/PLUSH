@@ -21,7 +21,7 @@ namespace PlushUtil{
 
             ManagedObject clone();
 
-            typename X::Identifier getIdentifier();
+            typename X::Identifier getIdentifier() const;
 
             const X& DEBUG_getConstReference(); // for debug purposes only, not safe
 
@@ -122,7 +122,7 @@ namespace PlushUtil{
     } // call private constructor for cloned ManagedObjects
 
     template <Manageable X>
-    typename X::Identifier ManagedObject<X>::getIdentifier(){
+    typename X::Identifier ManagedObject<X>::getIdentifier() const{
         return (*this)->getIdentifier();
     }
 
