@@ -1,6 +1,7 @@
 #ifndef MANAGEDWINDOW_HPP
 #define MANAGEDWINDOW_HPP
 
+#include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "WindowSpec.hpp"
 #include "ManagedObject.hpp"
 #include "Window.hpp"
@@ -40,6 +41,14 @@ namespace PlushGraphics {
 
             void switchContextToWindow(){
                 (*this)->_switchContextToWindow();
+            }
+
+            void addGraphicsLayer(ManagedGraphicsLayer layer){
+                (*this)->_addGraphicsLayer(layer);
+            }
+
+            void performDrawCycle(){
+                (*this)->_performDrawCycle();
             }
     };
 }

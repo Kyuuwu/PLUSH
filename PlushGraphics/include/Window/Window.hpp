@@ -3,7 +3,10 @@
 
 #include "OpenGL.h"
 #include "PlushGraphics.hpp"
+#include "UniformResolver.hpp"
 #include "WindowIdentifier.hpp"
+#include <vector>
+#include "WindowSettings.hpp"
 
 namespace PlushGraphics {
     class Window{
@@ -36,10 +39,20 @@ namespace PlushGraphics {
                 glfwMakeContextCurrent(windowPointer);
             }
 
+            void _performDrawCycle();
+
+            void _addGraphicsLayer(ManagedGraphicsLayer layer);
+
         private:
             WindowIdentifier identifier;
 
+            WindowSettings settings;
+
             GLFWwindow* windowPointer;
+
+            std::vector<ManagedGraphicsLayer> graphicsLayers;
+
+            SharedPtrUniformResolver resolver;
     };
 }
 

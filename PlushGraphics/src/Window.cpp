@@ -1,14 +1,20 @@
 #include "Window/Window.hpp"
+#include "GraphicsLayer/GraphicsLayer.hpp"
+#include "GraphicsLayer/ManagedGraphicsLayer.hpp"
+#include "Shader/ManagedShader.hpp"
 #include "Window/WindowSpec.hpp"
 #include "Window/WindowIdentifier.hpp"
 #include "PlushGraphicsException.hpp"
 #include "OpenGL.h"
 #include <iostream>
+#include <set>
 #include "PlushGraphicsOpenGL.hpp"
 
 namespace PlushGraphics {
     Window::Window(WindowSpec windowbuilder):
-    identifier(windowbuilder.getWindowName())
+    identifier(windowbuilder.getWindowName()),
+    settings(windowbuilder.settings),
+    resolver(windowbuilder.resolver->duplicateSelf())
     {
         windowPointer = glfwCreateWindow(windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight(), windowbuilder.getWindowName().c_str(), NULL, GlobalGraphicsState::getRootContext());
 
@@ -30,5 +36,36 @@ namespace PlushGraphics {
     Window::~Window()
     {
         glfwDestroyWindow(windowPointer); // destroy window
+    }
+
+    void Window::_performDrawCycle() {
+        PlushGraphics::GlobalGraphicsState::switchContextToWindow(getIdentifier());
+
+        glClearColor(settings.clearColor.r, settings.clearColor.g, settings.clearColor.b, settings.clearColor.a);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        std::set<ManagedShader> necessaryShaders;
+
+        for(ManagedGraphicsLayer layer : graphicsLayers){
+            std::set<ManagedShader> layerShaders = layer.getNecessaryShaders();
+
+            necessaryShaders.insert(layerShaders.begin(), layerShaders.end());
+        }
+
+        for(ManagedShader shader : necessaryShaders){
+            shader.clearWindowLevelUniforms();
+            shader.prepareForWindowUniforms();
+            shader.acceptUniformResolver(resolver);
+        }
+
+        for(ManagedGraphicsLayer layer : graphicsLayers){
+            layer.performDrawCycle();
+        }
+
+        _swapBuffers();
+    }
+
+    void Window::_addGraphicsLayer(ManagedGraphicsLayer layer) {
+        graphicsLayers.push_back(layer);
     }
 }

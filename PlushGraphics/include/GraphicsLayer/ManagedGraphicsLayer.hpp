@@ -4,6 +4,8 @@
 #include "Drawable/ManagedDrawable.hpp"
 #include "GraphicsLayer/GraphicsLayer.hpp"
 #include "ManagedObject.hpp"
+#include "Shader/ManagedShader.hpp"
+#include <set>
 
 namespace PlushGraphics {
     class ManagedGraphicsLayer : public PlushUtil::ManagedObject<GraphicsLayer>{
@@ -35,6 +37,10 @@ namespace PlushGraphics {
 
             void addDrawable(ManagedDrawable drawable){
                 (*this)->_addDrawable(drawable);
+            }
+
+            std::set<ManagedShader> getNecessaryShaders(){
+                return (*this)->_getNecessaryShaders();
             }
     };
 }

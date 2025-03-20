@@ -2,22 +2,41 @@
 #define WINDOWSPEC_HPP
 
 #include <string>
+#include "PlushGraphics.hpp"
+#include "UniformResolver.hpp"
+#include "WindowSettings.hpp"
 
 namespace PlushGraphics {
     class WindowSpec{
         public:
             WindowSpec(){}
 
-            WindowSpec(std::string _name) : windowName(_name){}
+            WindowSpec(WindowSettings _settings) : settings(_settings){}
 
-            double getWindowWidth() const { return windowWidth; }
-            double getWindowHeight() const { return windowHeight; }
-            std::string getWindowName() const { return windowName; }
+            friend class Window;
+
+            template<UniResDerived T>
+            WindowSpec(T&& ur, WindowSettings _settings) : 
+                settings(_settings),
+                resolver(new T(std::move(ur))) {}
+
+            template<UniResDerived T>
+            WindowSpec(const T& ur, WindowSettings _settings) : 
+                settings(_settings),
+                resolver(new T(ur)) {}
+
+            WindowSpec(const WindowSpec& other):
+                settings(other.settings),
+                resolver(other.resolver->duplicateSelf()){}
+
+            double getWindowWidth() const { return settings.windowWidth; }
+            double getWindowHeight() const { return settings.windowHeight; }
+            std::string getWindowName() const { return settings.windowName; }
 
         private:
-            double windowWidth = 800;
-            double windowHeight = 600;
-            std::string windowName = "Default Window Name";
+            WindowSettings settings;
+
+            std::unique_ptr<UniformResolver> resolver;
 
             // bool shareContext = false;
     };

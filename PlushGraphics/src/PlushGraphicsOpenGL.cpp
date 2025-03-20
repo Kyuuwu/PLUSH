@@ -1,5 +1,6 @@
 #include "OpenGL.h"
 #include "PlushGraphicsOpenGL.hpp"
+#include "UniformResolver.hpp"
 #include "Window/WindowSpec.hpp"
 #include <iostream>
 
@@ -11,7 +12,9 @@ namespace PlushGraphics {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-        PlushGraphics::WindowSpec builder;
+        WindowSettings initialWindowSettings;
+        initialWindowSettings.windowName = "first Window";
+        PlushGraphics::WindowSpec builder(UniformResolvers::NoOpResolver(), initialWindowSettings);
 
         activeWindowIdentifier = windowRegistry.loadItem(builder);
         PlushGraphics::ManagedWindow window = windowRegistry.getItem(activeWindowIdentifier);

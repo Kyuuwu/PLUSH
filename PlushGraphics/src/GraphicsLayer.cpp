@@ -12,7 +12,7 @@ namespace PlushGraphics {
     }
 
     void GraphicsLayer::_performDrawCycle() {
-        for(ManagedShader shader : getNecessaryShaders()){
+        for(ManagedShader shader : _getNecessaryShaders()){
             // tell shader its being uniform resolved by layer
             shader.clearLayerLevelUniforms();
             shader.prepareForLayerUniforms();
@@ -31,7 +31,7 @@ namespace PlushGraphics {
         drawables.push_back(drawable);
     }
     
-    std::set<ManagedShader> GraphicsLayer::getNecessaryShaders() {
+    std::set<ManagedShader> GraphicsLayer::_getNecessaryShaders() {
         return getNecessaryShadersFromDrawables(); // for now just directly obtain
     }
 

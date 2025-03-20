@@ -3,6 +3,7 @@
 #include "GraphicsLayer/GraphicsLayerSpec.hpp"
 #include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "OpenGL.h"
+#include "PlushGraphics.hpp"
 #include "PlushGraphicsOpenGL.hpp"
 #include "OpenGL_Type.hpp"
 
@@ -16,7 +17,10 @@ int main(int, char**) {
     PlushGraphics::ManagedWindow window = PlushGraphics::GlobalGraphicsState::getWindow(PlushGraphics::GlobalGraphicsState::getActiveWindowIdentifier());
     PlushGraphics::WindowIdentifier id1 = window.getIdentifier();
 
-    PlushGraphics::WindowSpec spec2("nya");
+    PlushGraphics::WindowSettings window2settings;
+    window2settings.windowName = "nyanya";
+    window2settings.clearColor = glm::vec4(0.7, 0.3, 0.3, 1.0);
+    PlushGraphics::WindowSpec spec2(PlushGraphics::UniformResolvers::NoOpResolver(), window2settings);
     PlushGraphics::WindowIdentifier id2 = PlushGraphics::GlobalGraphicsState::windowRegistry.loadItem(spec2);
     PlushGraphics::ManagedWindow win2 = PlushGraphics::GlobalGraphicsState::getWindow(id2);
 
@@ -76,36 +80,23 @@ int main(int, char**) {
     layer.addDrawable(d1);
     layer2.addDrawable(d2);
 
-    while(!window.getWindowShouldClose()){
-        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);
-        glClearColor(0.2, 0.3, 0.3, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT);
+    window.addGraphicsLayer(layer);
+    win2.addGraphicsLayer(layer2);
 
-        shader.useShader();
-        shader.clearWindowLevelUniforms();
+    while(!window.getWindowShouldClose()){
+        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1); // needed for tampering with textures in main function
         
         texture.bindToTextureUnit(1);
 
-        layer.performDrawCycle();
-
-        window.swapBuffers();
+        window.performDrawCycle();
         glfwPollEvents();
 
-        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2);
-        glClearColor(0.7, 0.3, 0.3, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        shader.useShader();
-        shader.clearWindowLevelUniforms();
+        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2); // needed for tampering with textures in main function
 
         texture.bindToTextureUnit(2);
 
-        layer2.performDrawCycle();
-
-        win2.swapBuffers();
+        win2.performDrawCycle();
         glfwPollEvents();
-
-        // std::cout << "Frame" << std::endl;
     }
 
     PlushGraphics::GlobalGraphicsState::terminateOpenGL();

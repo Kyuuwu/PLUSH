@@ -22,10 +22,10 @@ namespace PlushGraphics{
                 return identifier;
             }
 
+            std::set<ManagedShader> _getNecessaryShaders();
+
         private:
             GraphicsLayerIdentifier identifier;
-
-            std::set<ManagedShader> getNecessaryShaders();
 
             std::set<ManagedShader> getNecessaryShadersFromDrawables();
 

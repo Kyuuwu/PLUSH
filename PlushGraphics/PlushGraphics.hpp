@@ -26,6 +26,7 @@ namespace PlushGraphics {
     class WindowIdentifier;
     class ManagedWindow;
     class WindowRegistry;
+    class WindowSettings; // struct to hold all window settings, such as name and sizes
 
     class UniformResolver; // interface for fulfilling uniform requirements of drawing ModelInstances
     typedef std::shared_ptr<UniformResolver> SharedPtrUniformResolver;
