@@ -2,7 +2,7 @@
 #define PLUSHENGINE_HPP
 
 namespace PlushEngine {
-    class WindowHandle;
+    class WindowHandle; // may not be necessary
 
     class Entity; // game engine level abstraction of a object in engine space
     class EntityStatus; // stores all necessary data about the state of an entity (expandable/modular)
