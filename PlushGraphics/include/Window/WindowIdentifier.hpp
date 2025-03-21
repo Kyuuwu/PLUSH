@@ -8,6 +8,7 @@ namespace PlushGraphics {
         public:
             WindowIdentifier(std::string _windowName) : windowName(_windowName){}
             bool operator< (const WindowIdentifier& other) const { return windowName < other.windowName;}
+            bool operator== (const WindowIdentifier& other) const {return windowName == other.windowName;}
 
             std::string getWindowName() const { return windowName; }
 

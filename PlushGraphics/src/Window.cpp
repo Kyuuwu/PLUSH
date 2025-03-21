@@ -6,9 +6,17 @@
 #include "Window/WindowIdentifier.hpp"
 #include "PlushGraphicsException.hpp"
 #include "OpenGL.h"
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include <set>
 #include "PlushGraphicsOpenGL.hpp"
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height){
+    glfwMakeContextCurrent(window); // temporarily switch to window pointer off-books
+    glViewport(0,0,width, height);
+    PlushGraphics::GlobalGraphicsState::switchContextToWindow(PlushGraphics::GlobalGraphicsState::getActiveWindowIdentifier()); 
+    // then switch back to active window
+}
 
 namespace PlushGraphics {
     Window::Window(WindowSpec windowbuilder):
@@ -23,14 +31,18 @@ namespace PlushGraphics {
             throw(PlushGraphicsException::FAILED_TO_CREATE_WINDOW);
         }
 
-        glfwMakeContextCurrent(windowPointer); // for now
+        glfwMakeContextCurrent(windowPointer); // off books context switch
 
         if(!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)){
             std::cout << "Failed to initialize GLAD" << std::endl;
             throw 2;
         }
 
+        glfwSetFramebufferSizeCallback(windowPointer, framebuffer_size_callback);
+
         glViewport(0,0,windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight());
+        PlushGraphics::GlobalGraphicsState::switchContextToWindow(PlushGraphics::GlobalGraphicsState::getActiveWindowIdentifier()); 
+        // then switch back to active window
     };
 
     Window::~Window()

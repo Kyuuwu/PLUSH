@@ -1,8 +1,6 @@
 #ifndef PLUSHGRAPHICSEXCEPTION_HPP
 #define PLUSHGRAPHICSEXCEPTION_HPP
 
-#include "PlushGraphics.hpp"
-
 namespace PlushGraphics {
     enum class PlushGraphicsException{
         FAILED_TO_CREATE_WINDOW,
@@ -14,6 +12,8 @@ namespace PlushGraphics {
         UNIFORM_PAYLOAD_TYPES_DONT_MATCH,
         CANNOT_CHANGE_DRAWABLE_SHADER
     };
+
+    void describeException(PlushGraphicsException e);
 }
 
 #endif // PLUSHGRAPHICSEXCEPTION_HPP

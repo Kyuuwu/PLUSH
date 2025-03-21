@@ -14,6 +14,7 @@ src/ManagedShader.cpp
 src/DrawableIdentifier.cpp
 src/GraphicsLayer.cpp
 src/GraphicsLayerIdentifier.cpp
+src/PlushGraphicsException.cpp
 )
 
 target_link_libraries(PlushGraphics_src PUBLIC OPENGL_libraries)

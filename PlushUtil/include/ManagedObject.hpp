@@ -61,7 +61,7 @@ namespace PlushUtil{
     ManagedObject<X>& ManagedObject<X>::operator=(const ManagedObject<X>& other){
         if(shared_pointer != nullptr){
             //Error, cannot copy into an original ManagedObject
-            throw(PlushUtilException::CANNOT_COPY_INTO_ORIGINAL_MANAGED_OBJECT);
+            throw(PlushUtilException::CANNOT_COPY_ASSIGN_INTO_ORIGINAL_MANAGED_OBJECT);
         }
         if(other.shared_pointer != nullptr){ // check if other ManagedObject is an original (sharedptr) or a clone (weakptr)
             // Trying to copy an original ManagedObject is forbidden. Use move.

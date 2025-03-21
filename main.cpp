@@ -4,13 +4,14 @@
 #include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "OpenGL.h"
 #include "PlushGraphics.hpp"
+#include "PlushGraphicsException.hpp"
 #include "PlushGraphicsOpenGL.hpp"
 #include "OpenGL_Type.hpp"
 
+#include "PlushUtilException.hpp"
 #include "UniformResolver.hpp"
 
-int main(int, char**) {
-
+void runProgram(){
     std::cout << "Hello, world!\n";
     PlushGraphics::GlobalGraphicsState::initializeOpenGL();
 
@@ -101,6 +102,18 @@ int main(int, char**) {
 
     PlushGraphics::GlobalGraphicsState::terminateOpenGL();
 
-    return 0;
-
 }
+
+int main(int, char**) {
+    try{
+        runProgram();
+    } catch (PlushUtil::PlushUtilException e){
+        PlushUtil::describeException(e);
+    } catch (PlushGraphics::PlushGraphicsException e){
+        PlushGraphics::describeException(e);
+    }
+
+
+    return 0;
+}
+

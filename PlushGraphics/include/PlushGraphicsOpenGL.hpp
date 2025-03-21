@@ -3,6 +3,7 @@
 
 #include "PlushGraphics.hpp"
 
+#include "PlushUtilException.hpp"
 #include "Shader/ShaderRegistry.hpp"
 #include "ModelData/ModelDataRegistry.hpp"
 #include "ModelInstance/ModelInstanceRegistry.hpp"
@@ -89,7 +90,17 @@ namespace PlushGraphics {
             }
 
             static void switchContextToWindow(WindowIdentifier windowID){
-                windowRegistry.getItem(windowID).switchContextToWindow();
+                try{
+                    windowRegistry.getItem(windowID).switchContextToWindow();
+                } catch(PlushUtil::PlushUtilException e){
+                    if ((e == PlushUtil::PlushUtilException::ITEM_NOT_LOADED_IN_REGISTRY) && (windowID == dummyWindowIdentifier)){
+                        std::cout << "Attempted to switch context before first window created, exception suppressed." << std::endl;
+                        return; // if first context is not loaded, don't thow errors from context switch request
+                    }
+                    else{
+                        throw(e);
+                    }
+                }
                 activeWindowIdentifier = windowID;
             }
 
@@ -113,7 +124,9 @@ namespace PlushGraphics {
             }
 
         private:
-            inline static WindowIdentifier activeWindowIdentifier = WindowIdentifier("blah");
+            inline static const WindowIdentifier dummyWindowIdentifier = WindowIdentifier("QQQ NOEXCEPT");
+
+            inline static WindowIdentifier activeWindowIdentifier = dummyWindowIdentifier;
 
             inline static GLFWwindow* rootContext = NULL;
 
