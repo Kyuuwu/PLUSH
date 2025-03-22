@@ -8,23 +8,20 @@
 namespace PlushGraphics {
     class UniformResolver{
         public:
-            virtual ~UniformResolver(){}
+            virtual ~UniformResolver() = 0; // prevent instantiation
 
-            virtual void resolveUniformRequirements(ManagedShader shader) = 0;
-            virtual UniquePtrUniformResolver duplicateSelf() const = 0;
-        
-        protected:
-            UniformResolver(){}
+            virtual void resolveUniformRequirements(ManagedShader shader) {
+                #pragma unused(shader) // default behavior is no-op
+            }
+
+            virtual UniquePtrUniformResolver duplicateSelf() const = 0; // must be implemented per derived class
     };
+    inline UniformResolver::~UniformResolver(){} // still allows derived classes to destroy base when destroyed
 
     namespace UniformResolvers { // various PlushGraphics-level uniform resolvers
 
         class NoOpResolver : public UniformResolver{ // no-op resolver, does not attempt to resolve uniforms
             public:
-                void resolveUniformRequirements(ManagedShader shader) override {
-                    #pragma unused(shader)
-                } // no-op
-
                 UniquePtrUniformResolver duplicateSelf() const override {
                     return UniquePtrUniformResolver(new NoOpResolver);
                 }

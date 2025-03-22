@@ -1,6 +1,8 @@
 #ifndef PLUSHENGINE_HPP
 #define PLUSHENGINE_HPP
 
+#include <memory>
+
 namespace PlushEngine {
     class WindowHandle; // may not be necessary
 
@@ -8,6 +10,9 @@ namespace PlushEngine {
     class EntityStatus; // stores all necessary data about the state of an entity (expandable/modular)
 
     class EntityOperator; // implements functionality allowing an entity to manage its drawables (physics, effects, etc)
+    typedef std::shared_ptr<EntityOperator> SharedPtrEntityOperator;
+    typedef std::weak_ptr<EntityOperator> WeakPtrEntityOperator;
+    typedef std::unique_ptr<EntityOperator> UniquePtrEntityOperator;
 
     namespace EntityOperators { // inheritance as interface
         // classes inheriting from EntityOperator, implementing individual functions

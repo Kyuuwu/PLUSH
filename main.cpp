@@ -113,7 +113,6 @@ int main(int, char**) {
         PlushGraphics::describeException(e);
     }
 
-
     return 0;
 }
 

@@ -1,4 +1,4 @@
-ADD_LIBRARY(PlushEngine_src src/test.cpp)
+ADD_LIBRARY(PlushEngine_src src/Entity.cpp)
 
 target_link_libraries(PlushEngine_src PUBLIC PlushGraphics_src)
 target_link_libraries(PlushEngine_src PUBLIC PlushUtil_src)
