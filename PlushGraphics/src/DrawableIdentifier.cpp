@@ -1,5 +1,5 @@
 #include "../include/Drawable/DrawableIdentifier.hpp"
-#include "PlushGraphicsOpenGL.hpp"
+#include "../include/GlobalGraphicsState.hpp"
 
 PlushGraphics::DrawableIdentifier::DrawableIdentifier()
 {

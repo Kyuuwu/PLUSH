@@ -4,9 +4,19 @@
 #include <memory>
 
 namespace PlushEngine {
+    using entityID_t = uint32_t;
+
+    class GlobalEngineState;
+
     class WindowHandle; // may not be necessary
 
+    class EntityIdentifier;
+    class EntitySpec;
+    class ManagedEntity;
     class Entity; // game engine level abstraction of a object in engine space
+    class EntityRegistry;
+    typedef std::shared_ptr<Entity> SharedPtrEntity;
+
     class EntityStatus; // stores all necessary data about the state of an entity (expandable/modular)
 
     class EntityOperator; // implements functionality allowing an entity to manage its drawables (physics, effects, etc)

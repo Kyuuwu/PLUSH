@@ -6,7 +6,7 @@
 #include "OpenGL_Type.hpp"
 #include "PlushGraphicsException.hpp"
 #include "ModelData/ModelVertex.hpp"
-#include "PlushGraphicsOpenGL.hpp"
+#include "../include/GlobalGraphicsState.hpp"
 
 PlushGraphics::ModelInstance::ModelInstance(ModelInstanceSpec spec)
     : modelData(spec.getModelData()), shader(spec.getShader()), identifier(spec)

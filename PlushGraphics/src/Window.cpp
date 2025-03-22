@@ -9,7 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <set>
-#include "PlushGraphicsOpenGL.hpp"
+#include "../include/GlobalGraphicsState.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
     glfwMakeContextCurrent(window); // temporarily switch to window pointer off-books

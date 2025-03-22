@@ -1,5 +1,5 @@
 #include "OpenGL.h"
-#include "PlushGraphicsOpenGL.hpp"
+#include "../include/GlobalGraphicsState.hpp"
 #include "UniformResolver.hpp"
 #include "Window/WindowSpec.hpp"
 #include <iostream>

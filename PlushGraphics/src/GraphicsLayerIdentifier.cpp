@@ -1,5 +1,5 @@
 #include "GraphicsLayer/GraphicsLayerIdentifier.hpp"
-#include "PlushGraphicsOpenGL.hpp"
+#include "../include/GlobalGraphicsState.hpp"
 
 PlushGraphics::GraphicsLayerIdentifier::GraphicsLayerIdentifier()
 {

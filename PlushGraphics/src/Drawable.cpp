@@ -1,6 +1,6 @@
 #include "../include/Drawable/Drawable.hpp"
 #include "PlushGraphics.hpp"
-#include "PlushGraphicsOpenGL.hpp"
+#include "../include/GlobalGraphicsState.hpp"
 #include "../include/Drawable/DrawableSpec.hpp"
 #include "../include/Drawable/DrawableIdentifier.hpp"
 

@@ -5,7 +5,7 @@
 #include "OpenGL.h"
 #include "PlushGraphics.hpp"
 #include "PlushGraphicsException.hpp"
-#include "PlushGraphicsOpenGL.hpp"
+#include "PlushGraphics/include/GlobalGraphicsState.hpp"
 #include "OpenGL_Type.hpp"
 
 #include "PlushUtilException.hpp"
