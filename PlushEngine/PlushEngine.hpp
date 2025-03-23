@@ -4,9 +4,11 @@
 #include <memory>
 
 namespace PlushEngine {
-    using entityID_t = uint32_t;
+    using entityID_t = size_t;
 
     class GlobalEngineState;
+    // may want World class and/or handle reloading assets in global states 
+
 
     class WindowHandle; // may not be necessary
 
@@ -18,10 +20,18 @@ namespace PlushEngine {
 
     class EntityStatus; // stores all necessary data about the state of an entity (expandable/modular)
 
-    class EntityMod; // implements functionality allowing an entity to manage its drawables (physics, effects, etc)
-    typedef std::shared_ptr<EntityMod> SharedPtrEntityMod;
-    typedef std::weak_ptr<EntityMod> WeakPtrEntityMod;
-    typedef std::unique_ptr<EntityMod> UniquePtrEntityMod;
+    namespace EngineInterfaces{
+        /// implements functionality allowing an `Entity` to manage its drawables (physics, effects, etc)
+        class BaseEntityMod; 
+        /// Interface that allows receiving a command
+        class Commandable;
+        /// Command interface
+        class Command;
+    }
+
+    typedef std::shared_ptr<EngineInterfaces::BaseEntityMod> SharedPtrEntityMod;
+    typedef std::weak_ptr<EngineInterfaces::BaseEntityMod> WeakPtrEntityMod;
+    typedef std::unique_ptr<EngineInterfaces::BaseEntityMod> UniquePtrEntityMod;
 
     namespace EntityMods { // inheritance as interface
         // classes inheriting from EntityOperator, implementing individual functions
@@ -29,10 +39,15 @@ namespace PlushEngine {
         class DrawMod;
     }
 
+    namespace Commands {
+    
+    }
+
     namespace EngineUniformResolvers {
         class EntityUniformResolver;
     }
 
+    // should be managed
     class Scene; // manages the layers, shaders, and entities of the current game state
 
     class Camera; // manages the type and details of what arrives on screen

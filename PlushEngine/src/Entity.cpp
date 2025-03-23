@@ -1,6 +1,6 @@
 #include "../include/Entity/Entity.hpp"
 #include "PlushEngine.hpp"
-#include "../include/EntityMod.hpp"
+#include "../include/BaseEntityMod.hpp"
 
 PlushEngine::Entity::Entity(EntitySpec spec):
 identifier()
