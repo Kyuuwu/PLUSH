@@ -1,9 +1,7 @@
 #ifndef DRAWABLEIDENTIFIER_HPP
 #define DRAWABLEIDENTIFIER_HPP
 
-#include "PlushGraphics.hpp"
 #include "DrawableSpec.hpp"
-#include <cstdint>
 
 namespace PlushGraphics {
     class DrawableIdentifier{

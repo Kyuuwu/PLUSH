@@ -3,6 +3,6 @@
 
 void PlushEngine::Scene::runLogicUpdate() {
     for(ManagedEntity entity : entities){
-        entity.runLogicUpdate();
+        entity.runLogicUpdateOnAllOperators();
     }
 }

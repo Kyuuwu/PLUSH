@@ -11,8 +11,8 @@ namespace PlushGraphics {
     using bufferReferenceID = uint32_t;
     using textureReferenceID = uint32_t;
     
-    using drawableID_t = uint32_t;
-    using graphicsLayerID_t = uint32_t;
+    using drawableID_t = size_t;
+    using graphicsLayerID_t = size_t;
 
     enum class PlushGraphicsException;
 

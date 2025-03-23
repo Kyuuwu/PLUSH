@@ -1,14 +1,14 @@
 #include "../include/Entity/Entity.hpp"
 #include "PlushEngine.hpp"
-#include "EntityOperator.hpp"
+#include "../include/EntityMod.hpp"
 
 PlushEngine::Entity::Entity(EntitySpec spec):
 identifier()
 {
-    
+    #pragma unused(spec)
 }
 
-void PlushEngine::Entity::_runLogicUpdate() {
+void PlushEngine::Entity::_runLogicUpdateOnAllOperators() {
     for(size_t i = 0; i < operators.size(); i++){
         operators[i]->runLogicUpdate();
     }

@@ -1,21 +1,28 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
-#include "../EntityStatus.hpp"
+#include "EntityStatus.hpp"
 #include "PlushEngine.hpp"
 #include "EntityIdentifier.hpp"
+#include "Shader/ManagedShader.hpp"
 #include <vector>
 
 namespace PlushEngine {
     class Entity{
         public:
-            friend class EntityOperator;
+            friend class EntityMod;
             using Spec = EntitySpec;
             using Identifier = EntityIdentifier;
 
             Entity(EntitySpec spec);
             
-            void _runLogicUpdate(); 
+            void _addOperator(SharedPtrEntityMod op){
+                operators.push_back(op);
+            }
+
+            void _runLogicUpdateOnAllOperators(); 
+            void _runPredrawTasksOnAllOperators();
+            void _resolveUniformRequirementsWithAllOperators(PlushGraphics::ManagedShader shader);
 
             EntityIdentifier getIdentifier() const { return identifier; }
 
@@ -24,7 +31,7 @@ namespace PlushEngine {
 
             EntityStatus status;
 
-            std::vector<UniquePtrEntityOperator> operators;
+            std::vector<SharedPtrEntityMod> operators;
     };
 }
 

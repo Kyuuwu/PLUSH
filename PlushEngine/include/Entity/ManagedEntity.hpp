@@ -1,12 +1,16 @@
 #ifndef MANAGEDENTITY_HPP
 #define MANAGEDENTITY_HPP
 
+#include "PlushEngine.hpp"
 #include "ManagedObject.hpp"
 #include "Entity.hpp"
+#include "Shader/ManagedShader.hpp"
 
 namespace PlushEngine {
     class ManagedEntity : public PlushUtil::ManagedObject<Entity>{
         public:
+            friend class EntityMod;
+
             ManagedEntity(ManagedEntity&& other) noexcept:
                 PlushUtil::ManagedObject<Entity>(std::move(other))
             {}
@@ -27,12 +31,20 @@ namespace PlushEngine {
 
             using Object = Entity;
 
-            void runLogicUpdate() {
-                (*this)->_runLogicUpdate();
+            void addOperator(SharedPtrEntityMod op){
+                (*this)->_addOperator(op);
             }
 
-            void getIdentifier() const{
-                (*this)->getIdentifier();
+            void runLogicUpdateOnAllOperators() {
+                (*this)->_runLogicUpdateOnAllOperators();
+            }
+
+            void runPredrawTasksOnAllOperators(){
+                (*this)->_runPredrawTasksOnAllOperators();
+            }
+
+            void resolveUniformRequirementsWithAllOperators(PlushGraphics::ManagedShader shader){
+                (*this)->_resolveUniformRequirementsWithAllOperators(shader);
             }
     };
 }

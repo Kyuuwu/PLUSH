@@ -1,5 +1,3 @@
-
-
 #ifndef ENTITYIDENTIFIER_HPP
 #define ENTITYIDENTIFIER_HPP
 
@@ -14,7 +12,6 @@ namespace PlushEngine {
                 EntityIdentifier(){
                     #pragma unused(spec)
                 }
-
 
             bool operator<(const EntityIdentifier other) const{
                 return uniqueID < other.uniqueID;

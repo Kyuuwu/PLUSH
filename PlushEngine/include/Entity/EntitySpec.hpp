@@ -5,7 +5,13 @@
 
 namespace PlushEngine {
     class EntitySpec{
+        public:
+            void fuckOff(){
+                i++;
+            }
 
+        private:
+            unsigned int i = 0;
     };
 }
 

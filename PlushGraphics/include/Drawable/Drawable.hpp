@@ -45,7 +45,7 @@ namespace PlushGraphics {
 
             ManagedModelInstance modelInstance;
 
-            SharedPtrUniformResolver resolver; 
+            SharedPtrUniformResolver resolver;
     };
 }
 
