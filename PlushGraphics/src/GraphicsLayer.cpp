@@ -2,6 +2,7 @@
 #include "GraphicsLayer/GraphicsLayerSpec.hpp"
 #include "Drawable/ManagedDrawable.hpp"
 #include "Shader/ManagedShader.hpp"
+#include <cstddef>
 #include <set>
 
 namespace PlushGraphics {
@@ -29,6 +30,15 @@ namespace PlushGraphics {
 
     void GraphicsLayer::_addDrawable(ManagedDrawable drawable) {
         drawables.push_back(drawable);
+    }
+
+    void GraphicsLayer::_removeDrawable(ManagedDrawable drawable) {
+        for(size_t i = 0; i < drawables.size(); i++){
+            if(drawable.getIdentifier() == drawables[i].getIdentifier()){
+                drawables.erase(drawables.begin() + i);
+                return; // assumes only one copy of drawable
+            }
+        }
     }
     
     std::set<ManagedShader> GraphicsLayer::_getNecessaryShaders() {

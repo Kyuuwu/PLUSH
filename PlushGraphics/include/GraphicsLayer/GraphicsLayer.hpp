@@ -18,6 +18,8 @@ namespace PlushGraphics{
 
             void _addDrawable(ManagedDrawable drawable);
 
+            void _removeDrawable(ManagedDrawable drawable);
+
             GraphicsLayerIdentifier getIdentifier(){
                 return identifier;
             }

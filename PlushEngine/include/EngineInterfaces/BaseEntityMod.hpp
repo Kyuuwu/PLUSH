@@ -4,7 +4,7 @@
 #include "PlushEngine.hpp"
 #include "PlushGraphics.hpp"
 #include "Shader/ManagedShader.hpp"
-#include "Entity/ManagedEntity.hpp"
+#include "../Entity/ManagedEntity.hpp"
 
 namespace PlushEngine {
     namespace EngineInterfaces{

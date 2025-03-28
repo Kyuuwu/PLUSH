@@ -27,6 +27,8 @@ namespace PlushEngine {
         class Commandable;
         /// Command interface
         class Command;
+        /// Interface to control a Drawable (move between layers, toggle vis, change modelinst, etc)
+        class ControlsDrawable;
     }
 
     typedef std::shared_ptr<EngineInterfaces::BaseEntityMod> SharedPtrEntityMod;
@@ -37,6 +39,8 @@ namespace PlushEngine {
         // classes inheriting from EntityOperator, implementing individual functions
         // modular operators can be individually loaded into an entity to implement specific behavior
         class DrawMod;
+
+        class ResolverMod;
     }
 
     namespace Commands {

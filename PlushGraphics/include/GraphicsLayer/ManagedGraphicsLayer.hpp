@@ -39,6 +39,10 @@ namespace PlushGraphics {
                 (*this)->_addDrawable(drawable);
             }
 
+            void removeDrawable(ManagedDrawable drawable){
+                (*this)->_removeDrawable(drawable);
+            }
+
             std::set<ManagedShader> getNecessaryShaders(){
                 return (*this)->_getNecessaryShaders();
             }

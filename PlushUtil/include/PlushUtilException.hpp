@@ -10,7 +10,8 @@ namespace PlushUtil {
         CANNOT_COPY_ASSIGN_INTO_ORIGINAL_MANAGED_OBJECT,
         MANAGED_OBJECT_EXPIRED,
         FILE_READ_ERROR,
-        ITEM_NOT_LOADED_IN_REGISTRY
+        ITEM_NOT_LOADED_IN_REGISTRY,
+        CANNOT_ACCESS_EMPTY_SLOT
     };
 
     void describeException(PlushUtilException e);

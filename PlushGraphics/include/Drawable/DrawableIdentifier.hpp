@@ -17,6 +17,10 @@ namespace PlushGraphics {
                 return uniqueID < other.uniqueID;
             }
 
+            bool operator==(const DrawableIdentifier other) const{
+                return uniqueID == other.uniqueID;
+            }
+
         private:
             drawableID_t uniqueID;
     };

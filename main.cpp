@@ -1,17 +1,28 @@
+#include <array>
 #include <iostream>
+#include <memory>
 
+#include "Entity/Entity.hpp"
+#include "Entity/EntitySpec.hpp"
+#include "Entity/ManagedEntity.hpp"
+#include "EntityMods/DrawMod.hpp"
+#include "EntityMods/ResolverMod.hpp"
+#include "GlobalEngineState.hpp"
 #include "GraphicsLayer/GraphicsLayerSpec.hpp"
 #include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "OpenGL.h"
+#include "PlushEngine.hpp"
 #include "PlushGraphics.hpp"
 #include "PlushGraphicsException.hpp"
 #include "PlushGraphics/include/GlobalGraphicsState.hpp"
 #include "OpenGL_Type.hpp"
 
 #include "PlushUtilException.hpp"
+#include "Texture2D/ManagedTexture2D.hpp"
 #include "UniformResolver.hpp"
 
 void runProgram(){
+
     std::cout << "Hello, world!\n";
     PlushGraphics::GlobalGraphicsState::initializeOpenGL();
 
@@ -49,37 +60,37 @@ void runProgram(){
     }
 
     PlushGraphics::ModelDataSpec mspec("model1.txt");
-    
     PlushGraphics::ManagedModelData modeldata = PlushGraphics::GlobalGraphicsState::modelDataRegistry.getItem(PlushGraphics::GlobalGraphicsState::modelDataRegistry.loadItem(mspec));
 
-    // PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1);
     PlushGraphics::ModelInstanceSpec instspec(modeldata, shader);
     PlushGraphics::ManagedModelInstance instst = PlushGraphics::GlobalGraphicsState::getModelInstance(PlushGraphics::GlobalGraphicsState::loadModelInstance(instspec));
 
-    // PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2);
     PlushGraphics::Texture2DSpec tspec(PlushGraphics::Texture2DSpec("wall.jpg"));
     PlushGraphics::ManagedTexture2D texture = PlushGraphics::GlobalGraphicsState::getTexture2D(PlushGraphics::GlobalGraphicsState::loadTexture2D(tspec));
-
-    PlushGraphics::ShaderMetadata::ShaderUniformPayload texturePayload(shader.getUniformSlotIdentifiers()[1], PlushGraphics::OpenGL_Value::create_sampler_2D(1));
-    PlushGraphics::ShaderMetadata::ShaderUniformPayload texturePayload2(shader.getUniformSlotIdentifiers()[1], PlushGraphics::OpenGL_Value::create_sampler_2D(2));
-
-
-    // PlushGraphics::UniformResolvers::NoOpResolver t;
-    PlushGraphics::UniformResolvers::PreloadedUniformsResolver p({texturePayload, payload});
-
-    PlushGraphics::DrawableSpec dspec(p, instst);
-    PlushGraphics::ManagedDrawable d1 = PlushGraphics::GlobalGraphicsState::getDrawable(PlushGraphics::GlobalGraphicsState::loadDrawable(dspec));
-
-    PlushGraphics::DrawableSpec dspec2((PlushGraphics::UniformResolvers::PreloadedUniformsResolver({texturePayload2, payload2})), instst);
-    PlushGraphics::ManagedDrawable d2 = PlushGraphics::GlobalGraphicsState::getDrawable(PlushGraphics::GlobalGraphicsState::loadDrawable(dspec2));
 
     PlushGraphics::GraphicsLayerSpec layerspec((PlushGraphics::UniformResolvers::NoOpResolver()));
     PlushGraphics::ManagedGraphicsLayer layer = PlushGraphics::GlobalGraphicsState::getGraphicsLayer(PlushGraphics::GlobalGraphicsState::loadGraphicsLayer(layerspec));
 
     PlushGraphics::ManagedGraphicsLayer layer2 = PlushGraphics::GlobalGraphicsState::getGraphicsLayer(PlushGraphics::GlobalGraphicsState::loadGraphicsLayer(layerspec));
 
-    layer.addDrawable(d1);
-    layer2.addDrawable(d2);
+    PlushEngine::ManagedEntity ent = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()));
+    std::shared_ptr<PlushEngine::EntityMods::DrawMod> draw = std::make_shared<PlushEngine::EntityMods::DrawMod>(ent, instst, layer);
+    draw->setPrimaryTexture(texture);
+    ent.addOperator(draw);
+
+    PlushGraphics::UniformResolvers::PreloadedUniformsResolver res({ payload});
+    std::shared_ptr<PlushEngine::EntityMods::ResolverMod> reser = std::make_shared<PlushEngine::EntityMods::ResolverMod>(ent, res);
+    ent.addOperator(reser);
+
+    PlushEngine::ManagedEntity ent2 = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()));
+    std::shared_ptr<PlushEngine::EntityMods::DrawMod> draw2 = std::make_shared<PlushEngine::EntityMods::DrawMod>(ent2, instst, layer2);
+    draw2->setPrimaryTexture(texture);
+    ent2.addOperator(draw2);
+
+    PlushGraphics::UniformResolvers::PreloadedUniformsResolver res2({ payload2});
+    std::shared_ptr<PlushEngine::EntityMods::ResolverMod> reser2 = std::make_shared<PlushEngine::EntityMods::ResolverMod>(ent2, res2);
+    ent2.addOperator(reser2);
+    
 
     window.addGraphicsLayer(layer);
     win2.addGraphicsLayer(layer2);
@@ -87,14 +98,14 @@ void runProgram(){
     while(!window.getWindowShouldClose()){
         PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1); // needed for tampering with textures in main function
         
-        texture.bindToTextureUnit(1);
+        // texture.bindToTextureUnit(1);
 
         window.performDrawCycle();
         glfwPollEvents();
 
         PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2); // needed for tampering with textures in main function
 
-        texture.bindToTextureUnit(2);
+        // texture.bindToTextureUnit(2);
 
         win2.performDrawCycle();
         glfwPollEvents();

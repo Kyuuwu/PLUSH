@@ -33,6 +33,8 @@ namespace PlushUtil {
     };
 
     template<ImplementsManagedObject ManagedX> class Registry;
+
+    template<typename T> class Slot;
 }
 
 #endif // PLUSHUTIL_HPP
