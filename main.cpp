@@ -96,16 +96,8 @@ void runProgram(){
     win2.addGraphicsLayer(layer2);
 
     while(!window.getWindowShouldClose()){
-        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id1); // needed for tampering with textures in main function
-        
-        // texture.bindToTextureUnit(1);
-
         window.performDrawCycle();
         glfwPollEvents();
-
-        PlushGraphics::GlobalGraphicsState::switchContextToWindow(id2); // needed for tampering with textures in main function
-
-        // texture.bindToTextureUnit(2);
 
         win2.performDrawCycle();
         glfwPollEvents();
