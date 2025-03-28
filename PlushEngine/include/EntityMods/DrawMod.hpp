@@ -7,10 +7,9 @@
 #include "Entity/ManagedEntity.hpp"
 #include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "ModelInstance/ManagedModelInstance.hpp"
-#include "PlushUtil.hpp"
 #include "Shader/ManagedShader.hpp"
 #include "Texture2D/ManagedTexture2D.hpp"
-#include "Slot.hpp"
+#include <optional>
 
 namespace PlushEngine {
     namespace EntityMods {
@@ -28,7 +27,7 @@ namespace PlushEngine {
                 PlushGraphics::ManagedDrawable drawable;
                 PlushGraphics::ManagedGraphicsLayer currentLayer;
 
-                PlushUtil::Slot<PlushGraphics::ManagedTexture2D> primaryTextureSlot;
+                std::optional<PlushGraphics::ManagedTexture2D> primaryTextureSlot;
         };
     }
 }

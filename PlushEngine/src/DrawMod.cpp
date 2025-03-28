@@ -20,7 +20,7 @@ namespace PlushEngine {
         }
 
         void DrawMod::resolveUniformRequirements(PlushGraphics::ManagedShader shader) {
-            if(primaryTextureSlot.isFilled()){
+            if(primaryTextureSlot.has_value()){
                 primaryTextureSlot->bindToTextureUnit(2);
                 PlushGraphics::ShaderMetadata::ShaderUniformPayload texturePayload(
                     PlushGraphics::ShaderMetadata::ShaderUniformSlotIdentifier(

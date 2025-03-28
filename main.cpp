@@ -1,8 +1,6 @@
-#include <array>
 #include <iostream>
 #include <memory>
 
-#include "Entity/Entity.hpp"
 #include "Entity/EntitySpec.hpp"
 #include "Entity/ManagedEntity.hpp"
 #include "EntityMods/DrawMod.hpp"
