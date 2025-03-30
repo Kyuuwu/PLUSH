@@ -5,6 +5,7 @@
 
 namespace PlushEngine {
     using entityID_t = size_t;
+    using sceneID_t = size_t;
 
     class GlobalEngineState;
     // may want World class and/or handle reloading assets in global states 
@@ -53,6 +54,10 @@ namespace PlushEngine {
 
     // should be managed
     class Scene; // manages the layers, shaders, and entities of the current game state
+    class SceneSpec;
+    class SceneIdentifier;
+    class ManagedScene;
+    class SceneRegistry;
 
     class Camera; // manages the type and details of what arrives on screen
 

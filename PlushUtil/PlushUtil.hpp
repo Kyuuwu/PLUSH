@@ -25,11 +25,12 @@ namespace PlushUtil {
     template <Manageable X> class ManagedObject;
 
     template <typename ManagedX> concept ImplementsManagedObject = requires
-    (typename ManagedX::Object obj){
+    (typename ManagedX::Object obj, typename ManagedX::Object::Identifier id){
         typename ManagedX::Object;
         typename ManagedX::Object::Identifier;
         requires std::convertible_to<ManagedX, ManagedObject<typename ManagedX::Object>>;
         {obj.getIdentifier()} -> std::same_as<typename ManagedX::Object::Identifier>;
+        {obj.getIdentifier() < id} -> std::same_as<bool>;
     };
 
     template<ImplementsManagedObject ManagedX> class Registry;

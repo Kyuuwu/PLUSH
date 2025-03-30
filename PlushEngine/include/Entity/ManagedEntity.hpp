@@ -46,6 +46,10 @@ namespace PlushEngine {
             void resolveUniformRequirementsWithAllOperators(PlushGraphics::ManagedShader shader){
                 (*this)->_resolveUniformRequirementsWithAllOperators(shader);
             }
+
+            EntityIdentifier getIdentifier() const{
+                return (*this)->getIdentifier();
+            }
     };
 }
 

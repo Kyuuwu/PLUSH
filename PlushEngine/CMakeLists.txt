@@ -1,6 +1,7 @@
 ADD_LIBRARY(PlushEngine_src src/Entity.cpp
 src/EntityIdentifier.cpp
 src/Scene.cpp
+src/SceneIdentifier.cpp
 src/DrawMod.cpp
 )
 

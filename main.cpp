@@ -34,7 +34,7 @@ void runProgram(){
     PlushGraphics::WindowIdentifier id2 = PlushGraphics::GlobalGraphicsState::windowRegistry.loadItem(spec2);
     PlushGraphics::ManagedWindow win2 = PlushGraphics::GlobalGraphicsState::getWindow(id2);
 
-    window.switchContextToWindow();
+    // window.switchContextToWindow();
 
     PlushGraphics::ShaderSpec spec("shader1");
 
