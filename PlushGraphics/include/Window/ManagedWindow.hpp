@@ -47,6 +47,10 @@ namespace PlushGraphics {
                 (*this)->_addGraphicsLayer(layer);
             }
 
+            void clearGraphicsLayers(){
+                (*this)->_clearGraphicsLayers();
+            }
+
             void performDrawCycle(){
                 (*this)->_performDrawCycle();
             }

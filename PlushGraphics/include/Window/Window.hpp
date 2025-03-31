@@ -1,6 +1,7 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
+#include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "OpenGL.h"
 #include "PlushGraphics.hpp"
 #include "UniformResolver.hpp"
@@ -42,6 +43,10 @@ namespace PlushGraphics {
             void _performDrawCycle();
 
             void _addGraphicsLayer(ManagedGraphicsLayer layer);
+
+            void _clearGraphicsLayers(){
+                graphicsLayers = std::vector<ManagedGraphicsLayer>();
+            }
 
         private:
             WindowIdentifier identifier;

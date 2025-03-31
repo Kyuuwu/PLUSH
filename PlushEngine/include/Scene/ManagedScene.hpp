@@ -27,11 +27,11 @@ namespace PlushEngine {
             }
 
             void runLogicUpdate(){
-                (*this)->runLogicUpdate();
+                (*this)->_runLogicUpdate();
             }
 
             void loadOntoWindow(PlushGraphics::ManagedWindow window){
-                (*this)->loadOntoWindow(window);
+                (*this)->_loadOntoWindow(window);
             }
 
             SceneIdentifier getIdentifier() const{

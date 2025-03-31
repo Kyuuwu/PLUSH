@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <iostream>
 #include <memory>
 
@@ -48,8 +49,6 @@ void runProgram(){
 
     PlushGraphics::ShaderMetadata::ShaderUniformPayload payload(shader.getUniformSlotIdentifiers()[0], PlushGraphics::OpenGL_Value::create_vec4(glm::vec4(0.5,0.2,0.2,1.0)));
 
-    shader.tryToSetUniform(payload);
-
     PlushGraphics::ShaderMetadata::ShaderUniformPayload payload2(shader.getUniformSlotIdentifiers()[0], PlushGraphics::OpenGL_Value::create_vec4(glm::vec4(0.3,0.6,0.2,1.0)));
 
     for(PlushGraphics::ShaderMetadata::ShaderInputSlotIdentifier inputSlot : shader.getInputSlotIdentifiers()){
@@ -93,12 +92,19 @@ void runProgram(){
     window.addGraphicsLayer(layer);
     win2.addGraphicsLayer(layer2);
 
-    while(!window.getWindowShouldClose()){
+    uint32_t i = 0;
+
+    while(!window.getWindowShouldClose() && !win2.getWindowShouldClose()){
         window.performDrawCycle();
         glfwPollEvents();
 
         win2.performDrawCycle();
         glfwPollEvents();
+
+        i++;
+        if(i % 60 == 0){
+            std::cout << "Frame " << i << std::endl;
+        }
     }
 
     PlushGraphics::GlobalGraphicsState::terminateOpenGL();

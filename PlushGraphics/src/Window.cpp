@@ -38,6 +38,8 @@ namespace PlushGraphics {
             throw 2;
         }
 
+        glfwSwapInterval(1); // Use vysnc, for now
+        // Interestingly Vsync does not cause problems for multiwindow, ie 60 fps doesnt become 30 fps, waiting for one screen update per window frame
         glfwSetFramebufferSizeCallback(windowPointer, framebuffer_size_callback);
 
         glViewport(0,0,windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight());

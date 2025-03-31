@@ -16,10 +16,10 @@ namespace PlushEngine {
 
             Scene(SceneSpec spec);
 
-            void runLogicUpdate();
+            void _runLogicUpdate();
 
             /// wipe window and load all `Scene` `GraphicsLayers` onto the window
-            void loadOntoWindow(PlushGraphics::ManagedWindow window);
+            void _loadOntoWindow(PlushGraphics::ManagedWindow window);
 
             SceneIdentifier getIdentifier() const { return identifier; }
 
