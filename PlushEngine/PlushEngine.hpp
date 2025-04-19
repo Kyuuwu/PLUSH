@@ -21,6 +21,13 @@ namespace PlushEngine {
 
     class EntityStatus; // stores all necessary data about the state of an entity (expandable/modular)
 
+    namespace DataStructures {
+        class Position2D;
+        class Position3D;
+        class Rotation2D;
+        class Rotation3D;
+    }
+
     namespace EngineInterfaces{
         /// implements functionality allowing an `Entity` to manage its drawables (physics, effects, etc)
         class BaseEntityMod; 
@@ -44,8 +51,16 @@ namespace PlushEngine {
         class ResolverMod;
     }
 
+    class Command;
     namespace Commands {
     
+    }
+
+    class CommandTargetFilter;
+    typedef std::unique_ptr<CommandTargetFilter> UniquePtrFilter;
+    typedef std::shared_ptr<CommandTargetFilter> SharedPtrFilter;
+    namespace CommandTargetFilters {
+        class TypeFilter;
     }
 
     namespace EngineUniformResolvers {

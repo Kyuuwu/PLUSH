@@ -1,7 +1,6 @@
 #ifndef MANAGEDOBJECT_HPP
 #define MANAGEDOBJECT_HPP
 
-#include <iostream>
 #include <memory>
 #include "PlushUtil.hpp"
 #include "PlushUtilException.hpp"
@@ -102,6 +101,8 @@ namespace PlushUtil{
 
         other.shared_pointer.reset();
         other.weak_pointer.reset();
+
+        return *this;
     }
 
     template <Manageable X>
