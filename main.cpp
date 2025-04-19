@@ -73,20 +73,20 @@ void runProgram(){
     PlushEngine::ManagedEntity ent = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()));
     std::shared_ptr<PlushEngine::EntityMods::DrawMod> draw = std::make_shared<PlushEngine::EntityMods::DrawMod>(ent, instst, layer);
     draw->setPrimaryTexture(texture);
-    ent.addOperator(draw);
+    ent.addEntityMod(draw);
 
     PlushGraphics::UniformResolvers::PreloadedUniformsResolver res({ payload});
     std::shared_ptr<PlushEngine::EntityMods::ResolverMod> reser = std::make_shared<PlushEngine::EntityMods::ResolverMod>(ent, res);
-    ent.addOperator(reser);
+    ent.addEntityMod(reser);
 
     PlushEngine::ManagedEntity ent2 = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()));
     std::shared_ptr<PlushEngine::EntityMods::DrawMod> draw2 = std::make_shared<PlushEngine::EntityMods::DrawMod>(ent2, instst, layer2);
     draw2->setPrimaryTexture(texture);
-    ent2.addOperator(draw2);
+    ent2.addEntityMod(draw2);
 
     PlushGraphics::UniformResolvers::PreloadedUniformsResolver res2({ payload2});
     std::shared_ptr<PlushEngine::EntityMods::ResolverMod> reser2 = std::make_shared<PlushEngine::EntityMods::ResolverMod>(ent2, res2);
-    ent2.addOperator(reser2);
+    ent2.addEntityMod(reser2);
     
 
     window.addGraphicsLayer(layer);

@@ -12,7 +12,7 @@ namespace PlushEngine {
 
     void Scene::_runLogicUpdate() {
         for(ManagedEntity entity : entities){
-            entity.runLogicUpdateOnAllOperators();
+            entity.runLogicUpdateOnAllMods();
         }
     }
 

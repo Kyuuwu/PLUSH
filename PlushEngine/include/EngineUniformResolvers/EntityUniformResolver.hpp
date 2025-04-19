@@ -18,7 +18,7 @@ namespace PlushEngine {
                 }
 
                 void resolveUniformRequirements(PlushGraphics::ManagedShader shader) override{
-                    entity.resolveUniformRequirementsWithAllOperators(shader);
+                    entity.resolveUniformRequirementsWithAllMods(shader);
                 }
 
             private:

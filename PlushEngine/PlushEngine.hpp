@@ -26,6 +26,11 @@ namespace PlushEngine {
         class Position3D;
         class Rotation2D;
         class Rotation3D;
+
+        /// Stores position and rotation in two dimensions.
+        class CoordinateState2D;
+        /// Stores position and rotation in three dimensions. TBD
+        class CoordinateState3D;
     }
 
     namespace EngineInterfaces{
@@ -35,8 +40,13 @@ namespace PlushEngine {
         class Commandable;
         /// Command interface
         class Command;
+        
         /// Interface to control a Drawable (move between layers, toggle vis, change modelinst, etc)
         class ControlsDrawable;
+        /// Interface to control the coordinate state of an entity in 2D
+        class ControlsCoordinateState2D;
+        /// Interface to control the coordinate state of an entity in 3D
+        class ControlsCoordinateState3D;
     }
 
     typedef std::shared_ptr<EngineInterfaces::BaseEntityMod> SharedPtrEntityMod;
@@ -51,7 +61,6 @@ namespace PlushEngine {
         class ResolverMod;
     }
 
-    class Command;
     namespace Commands {
     
     }

@@ -16,13 +16,17 @@ namespace PlushEngine {
 
             Entity(EntitySpec spec);
             
-            void _addOperator(SharedPtrEntityMod op){
-                operators.push_back(op);
+            void _addEntityMod(SharedPtrEntityMod mod){
+                mods.push_back(mod);
             }
 
-            void _runLogicUpdateOnAllOperators(); 
-            void _runPredrawTasksOnAllOperators();
-            void _resolveUniformRequirementsWithAllOperators(PlushGraphics::ManagedShader shader);
+            void _runLogicUpdateOnAllMods(); 
+            void _runPredrawTasksOnAllMods();
+            void _resolveUniformRequirementsWithAllMods(PlushGraphics::ManagedShader shader);
+
+            std::vector<SharedPtrEntityMod> _getEntityMods(){
+                return mods;
+            }
 
             EntityIdentifier getIdentifier() const { return identifier; }
 
@@ -31,7 +35,7 @@ namespace PlushEngine {
 
             EntityStatus status;
 
-            std::vector<SharedPtrEntityMod> operators;
+            std::vector<SharedPtrEntityMod> mods;
     };
 }
 

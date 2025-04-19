@@ -8,14 +8,14 @@ identifier()
     #pragma unused(spec)
 }
 
-void PlushEngine::Entity::_runLogicUpdateOnAllOperators() {
-    for(size_t i = 0; i < operators.size(); i++){
-        operators[i]->runLogicUpdate();
+void PlushEngine::Entity::_runLogicUpdateOnAllMods() {
+    for(size_t i = 0; i < mods.size(); i++){
+        mods[i]->runLogicUpdate();
     }
 }
 
-void PlushEngine::Entity::_resolveUniformRequirementsWithAllOperators(PlushGraphics::ManagedShader shader) {
-    for(auto op : operators){
+void PlushEngine::Entity::_resolveUniformRequirementsWithAllMods(PlushGraphics::ManagedShader shader) {
+    for(auto op : mods){
         op->resolveUniformRequirements(shader);
     }
 }

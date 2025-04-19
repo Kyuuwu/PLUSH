@@ -5,6 +5,7 @@
 #include "ManagedObject.hpp"
 #include "Entity.hpp"
 #include "Shader/ManagedShader.hpp"
+#include <vector>
 
 namespace PlushEngine {
     class ManagedEntity : public PlushUtil::ManagedObject<Entity>{
@@ -31,20 +32,24 @@ namespace PlushEngine {
 
             using Object = Entity;
 
-            void addOperator(SharedPtrEntityMod op){
-                (*this)->_addOperator(op);
+            void addEntityMod(SharedPtrEntityMod mod){
+                (*this)->_addEntityMod(mod);
             }
 
-            void runLogicUpdateOnAllOperators() {
-                (*this)->_runLogicUpdateOnAllOperators();
+            void runLogicUpdateOnAllMods() {
+                (*this)->_runLogicUpdateOnAllMods();
             }
 
-            void runPredrawTasksOnAllOperators(){
-                (*this)->_runPredrawTasksOnAllOperators();
+            void runPredrawTasksOnAllMods(){
+                (*this)->_runPredrawTasksOnAllMods();
             }
 
-            void resolveUniformRequirementsWithAllOperators(PlushGraphics::ManagedShader shader){
-                (*this)->_resolveUniformRequirementsWithAllOperators(shader);
+            void resolveUniformRequirementsWithAllMods(PlushGraphics::ManagedShader shader){
+                (*this)->_resolveUniformRequirementsWithAllMods(shader);
+            }
+
+            std::vector<SharedPtrEntityMod> getEntityMods(){
+                return (*this)->_getEntityMods();
             }
 
             EntityIdentifier getIdentifier() const{

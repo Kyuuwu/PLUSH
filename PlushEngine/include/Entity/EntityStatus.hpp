@@ -7,9 +7,8 @@
 namespace PlushEngine {
     class EntityStatus{
         public:
-            std::optional<DataStructures::Position2D> position2D;
-            std::optional<DataStructures::Position3D> position3D;
-            std::optional<DataStructures::Rotation2D> rotation2D;
+            std::optional<DataStructures::CoordinateState2D> coords2D;
+            std::optional<DataStructures::CoordinateState3D> coords3D;
     };
 }
 

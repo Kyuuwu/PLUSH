@@ -1,7 +1,6 @@
-
-
 #include "PlushEngine.hpp"
 #include <vector>
+
 namespace PlushEngine {
     class CommandTargetFilter{
         public:

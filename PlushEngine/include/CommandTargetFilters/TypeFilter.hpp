@@ -1,5 +1,5 @@
 #include "PlushEngine.hpp"
-#include "Command/CommandTargetFilter.hpp"
+#include "EngineInterfaces/CommandTargetFilter.hpp"
 #include "EngineInterfaces/BaseEntityMod.hpp"
 #include <typeinfo>
 
