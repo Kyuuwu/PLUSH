@@ -3,6 +3,7 @@ src/EntityIdentifier.cpp
 src/Scene.cpp
 src/SceneIdentifier.cpp
 src/DrawMod.cpp
+src/ManagedEntity.cpp
 )
 
 target_link_libraries(PlushEngine_src PUBLIC PlushGraphics_src)

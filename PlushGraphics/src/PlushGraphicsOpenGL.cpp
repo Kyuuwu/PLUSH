@@ -16,8 +16,8 @@ namespace PlushGraphics {
         initialWindowSettings.windowName = "first Window";
         PlushGraphics::WindowSpec builder(UniformResolvers::NoOpResolver(), initialWindowSettings);
 
-        activeWindowIdentifier = windowRegistry.loadItem(builder);
-        PlushGraphics::ManagedWindow window = windowRegistry.getItem(activeWindowIdentifier);
+        activeWindowId = windowRegistry.loadItem(builder);
+        PlushGraphics::ManagedWindow window = windowRegistry.getItem(*activeWindowId);
         rootContext = window->windowPointer;
     }
 

@@ -6,9 +6,18 @@
 #include "EngineUniformResolvers/EntityUniformResolver.hpp"
 #include "Shader/ShaderUniformPayload.hpp"
 #include "Shader/ShaderUniformSlotIdentifier.hpp"
+#include "UniformResolver.hpp"
 
 namespace PlushEngine {
     namespace EntityMods {
+
+        DrawMod::DrawMod(PlushGraphics::ManagedModelInstance modelInstance, PlushGraphics::ManagedGraphicsLayer layer)
+            : drawable(PlushGraphics::GlobalGraphicsState::getDrawable(PlushGraphics::GlobalGraphicsState::loadDrawable(
+                PlushGraphics::DrawableSpec(PlushGraphics::UniformResolvers::NoOpResolver(), modelInstance)))),
+              currentLayer(layer)
+        {
+            currentLayer.addDrawable(drawable);
+        }
 
         DrawMod::DrawMod(ManagedEntity owningEntity, PlushGraphics::ManagedModelInstance modelInstance, PlushGraphics::ManagedGraphicsLayer layer)
             : BaseEntityMod(owningEntity),

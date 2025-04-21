@@ -70,23 +70,14 @@ void runProgram(){
 
     PlushGraphics::ManagedGraphicsLayer layer2 = PlushGraphics::GlobalGraphicsState::getGraphicsLayer(PlushGraphics::GlobalGraphicsState::loadGraphicsLayer(layerspec));
 
-    PlushEngine::ManagedEntity ent = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()));
-    std::shared_ptr<PlushEngine::EntityMods::DrawMod> draw = std::make_shared<PlushEngine::EntityMods::DrawMod>(ent, instst, layer);
-    draw->setPrimaryTexture(texture);
-    ent.addEntityMod(draw);
+    PlushEngine::ManagedEntity ent = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()))
+        .addEntityMod(PlushEngine::EntityMods::DrawMod(instst,layer).withPrimaryTexture(texture))
+        .addEntityMod(PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload})));
 
-    PlushGraphics::UniformResolvers::PreloadedUniformsResolver res({ payload});
-    std::shared_ptr<PlushEngine::EntityMods::ResolverMod> reser = std::make_shared<PlushEngine::EntityMods::ResolverMod>(ent, res);
-    ent.addEntityMod(reser);
-
-    PlushEngine::ManagedEntity ent2 = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()));
-    std::shared_ptr<PlushEngine::EntityMods::DrawMod> draw2 = std::make_shared<PlushEngine::EntityMods::DrawMod>(ent2, instst, layer2);
-    draw2->setPrimaryTexture(texture);
-    ent2.addEntityMod(draw2);
-
-    PlushGraphics::UniformResolvers::PreloadedUniformsResolver res2({ payload2});
-    std::shared_ptr<PlushEngine::EntityMods::ResolverMod> reser2 = std::make_shared<PlushEngine::EntityMods::ResolverMod>(ent2, res2);
-    ent2.addEntityMod(reser2);
+    PlushEngine::ManagedEntity ent2 = 
+        PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()))
+        .addEntityMod(PlushEngine::EntityMods::DrawMod(instst,layer2).withPrimaryTexture(texture))
+        .addEntityMod(PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload2})));
     
 
     window.addGraphicsLayer(layer);

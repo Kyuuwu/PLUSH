@@ -9,6 +9,11 @@ namespace PlushEngine {
     namespace EntityMods {
         class ResolverMod : public EngineInterfaces::BaseEntityMod{
             public:
+                template<typename T>
+                ResolverMod(T&& ur):
+                    resolver(new T(std::forward<T>(ur)))
+                {}
+
                 template<PlushGraphics::UniResDerived T>
                 ResolverMod(ManagedEntity owningEntity, T&& ur):
                     EngineInterfaces::BaseEntityMod(owningEntity),

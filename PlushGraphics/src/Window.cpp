@@ -43,7 +43,8 @@ namespace PlushGraphics {
         glfwSetFramebufferSizeCallback(windowPointer, framebuffer_size_callback);
 
         glViewport(0,0,windowbuilder.getWindowWidth(), windowbuilder.getWindowHeight());
-        PlushGraphics::GlobalGraphicsState::switchContextToWindow(PlushGraphics::GlobalGraphicsState::getActiveWindowIdentifier()); 
+        // PlushGraphics::GlobalGraphicsState::switchContextToWindow(PlushGraphics::GlobalGraphicsState::getActiveWindowIdentifier()); 
+        GlobalGraphicsState::switchContextToActiveWindow();
         // then switch back to active window
     };
 

@@ -40,6 +40,12 @@ namespace PlushGraphics {
                 return (*this)->_getModelInstanceShader();
             }
 
+
+            template<UniResDerived T>
+            void setUniformResolver(T&& _ur){
+                (*this)->_setUniformResolver(std::forward<T>(_ur));
+            }
+
         private:
     };
 }

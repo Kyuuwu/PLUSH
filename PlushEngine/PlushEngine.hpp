@@ -49,6 +49,12 @@ namespace PlushEngine {
         class ControlsCoordinateState3D;
     }
 
+    template<typename T>
+    concept ModDerived =
+        requires {
+            requires std::derived_from<T, EngineInterfaces::BaseEntityMod>;
+        };
+
     typedef std::shared_ptr<EngineInterfaces::BaseEntityMod> SharedPtrEntityMod;
     typedef std::weak_ptr<EngineInterfaces::BaseEntityMod> WeakPtrEntityMod;
     typedef std::unique_ptr<EngineInterfaces::BaseEntityMod> UniquePtrEntityMod;

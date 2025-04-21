@@ -5,6 +5,7 @@
 #include "ManagedObject.hpp"
 #include "Entity.hpp"
 #include "Shader/ManagedShader.hpp"
+#include <memory>
 #include <vector>
 
 namespace PlushEngine {
@@ -32,8 +33,13 @@ namespace PlushEngine {
 
             using Object = Entity;
 
-            void addEntityMod(SharedPtrEntityMod mod){
-                (*this)->_addEntityMod(mod);
+            ManagedEntity& addEntityMod(SharedPtrEntityMod mod);
+
+            template <ModDerived M>
+            ManagedEntity& addEntityMod(M&& mod){
+                SharedPtrEntityMod moved_mod = std::make_shared<M>(std::move(mod));
+                addEntityMod(moved_mod);
+                return *this;
             }
 
             void runLogicUpdateOnAllMods() {

@@ -40,6 +40,16 @@ namespace PlushGraphics {
                 return modelInstance.getShader();
             }
 
+            template<UniResDerived T>
+            void _setUniformResolver(T&& _ur){
+                resolver = SharedPtrUniformResolver(new T(std::move(_ur)));
+            }
+
+            template<UniResDerived T>
+            void _setUniformResolver(const T& _ur){
+                resolver = SharedPtrUniformResolver(new T(_ur));
+            }
+
         private:
             DrawableIdentifier identifier;
 

@@ -29,7 +29,7 @@ namespace PlushEngine {
                     }
                 }
     
-            private:
+            protected:
                 virtual std::vector<SharedPtrEntityMod> filterMods(std::vector<SharedPtrEntityMod> mods){ // currently by copy, could easily be by ref eventually
                     for(SharedPtrFilter _filter : filters){
                         mods = _filter->filterMods(mods); // apply each filter, then return the result

@@ -5,6 +5,7 @@
 #include "PlushGraphics.hpp"
 #include "Shader/ManagedShader.hpp"
 #include "../Entity/ManagedEntity.hpp"
+#include <optional>
 
 namespace PlushEngine {
     namespace EngineInterfaces{
@@ -14,8 +15,10 @@ namespace PlushEngine {
             // and it becomes double depth inheritance.
             // Plus, one inherited function should in all likelihood be left unused
             public:
-                BaseEntityMod() = delete;
                 virtual ~BaseEntityMod() {}
+                // BaseEntityMod(const BaseEntityMod&) = delete;
+                // BaseEntityMod& operator=(const BaseEntityMod&) = delete;
+                // BaseEntityMod& operator=(BaseEntityMod&&) = delete;
 
                 // defaults of all interface methods are no-ops, must be overriden
 
@@ -32,13 +35,23 @@ namespace PlushEngine {
                 // Shouldn't be necessary, since these should be directly instantiable with full function, and are specific to a specific Entity 
                 // virtual UniquePtrEntityOperator duplicateSelf() const = 0; 
 
+                virtual void setOwningEntity(ManagedEntity _ent){
+                    owningEntity = _ent;
+                    processNewOwningEntity();
+                }
+
             protected:
-                BaseEntityMod(ManagedEntity _owningEntity):
-                    owningEntity(_owningEntity){}
-                // prevents instantiation of base class
+                BaseEntityMod() {}
+
+                BaseEntityMod(ManagedEntity _owningEntity): // perhaps obsolete
+                    owningEntity(_owningEntity){
+                        processNewOwningEntity();
+                    }
+                    
+                virtual void processNewOwningEntity(){}
 
                 // std::vector<SharedPtrEntityOperator> getOperatorSharedPtrsFromEntity(ManagedEntity entity);
-                ManagedEntity owningEntity;
+                std::optional<ManagedEntity> owningEntity;
 
         };
     }

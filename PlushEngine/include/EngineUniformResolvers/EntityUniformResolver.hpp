@@ -1,3 +1,6 @@
+#ifndef ENTITYUNIFORMRESOLVER_HPP
+#define ENTITYUNIFORMRESOLVER_HPP
+
 #include "PlushEngine.hpp"
 #include "PlushGraphics.hpp"
 #include "UniformResolver.hpp"
@@ -26,3 +29,5 @@ namespace PlushEngine {
         };
     }
 }
+
+#endif // ENTITYUNIFORMRESOLVER_HPP
