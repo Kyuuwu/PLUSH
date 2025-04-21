@@ -13,6 +13,8 @@ namespace PlushEngine {
         public:
             friend class EntityMod;
 
+            ManagedEntity(); // create a fresh entity through the Global EntityRegistry
+
             ManagedEntity(ManagedEntity&& other) noexcept:
                 PlushUtil::ManagedObject<Entity>(std::move(other))
             {}

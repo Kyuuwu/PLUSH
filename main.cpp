@@ -70,14 +70,23 @@ void runProgram(){
 
     PlushGraphics::ManagedGraphicsLayer layer2 = PlushGraphics::GlobalGraphicsState::getGraphicsLayer(PlushGraphics::GlobalGraphicsState::loadGraphicsLayer(layerspec));
 
-    PlushEngine::ManagedEntity ent = PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()))
-        .addEntityMod(PlushEngine::EntityMods::DrawMod(instst,layer).withPrimaryTexture(texture))
-        .addEntityMod(PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload})));
+    PlushEngine::ManagedEntity ent = 
+        PlushEngine::ManagedEntity()
+        .addEntityMod(
+            PlushEngine::EntityMods::DrawMod(instst,layer).withPrimaryTexture(texture)
+        )
+        .addEntityMod(
+            PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload}))
+        );
 
     PlushEngine::ManagedEntity ent2 = 
-        PlushEngine::GlobalEngineState::getEntity(PlushEngine::GlobalEngineState::loadEntity(PlushEngine::EntitySpec()))
-        .addEntityMod(PlushEngine::EntityMods::DrawMod(instst,layer2).withPrimaryTexture(texture))
-        .addEntityMod(PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload2})));
+        PlushEngine::ManagedEntity()
+        .addEntityMod(
+            PlushEngine::EntityMods::DrawMod(instst,layer2).withPrimaryTexture(texture)
+        )
+        .addEntityMod(
+            PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload2}))
+        );
     
 
     window.addGraphicsLayer(layer);

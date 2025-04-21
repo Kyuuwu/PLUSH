@@ -25,7 +25,7 @@ namespace PlushEngine {
                 void setModelInstance(PlushGraphics::ManagedModelInstance _instance) override;
                 void moveDrawableToLayer(PlushGraphics::ManagedGraphicsLayer _layer) override;
                 void setPrimaryTexture(PlushGraphics::ManagedTexture2D _texture) override;
-                DrawMod&& withPrimaryTexture(PlushGraphics::ManagedTexture2D _texture) {
+                DrawMod&& withPrimaryTexture(PlushGraphics::ManagedTexture2D _texture) && {
                     setPrimaryTexture(_texture);
                     return std::move(*this);
                 }
