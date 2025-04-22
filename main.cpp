@@ -1,12 +1,10 @@
 #include <cstdint>
 #include <iostream>
-#include <memory>
 
-#include "Entity/EntitySpec.hpp"
+#include "EngineInterfaces/ControlsDrawable.hpp"
 #include "Entity/ManagedEntity.hpp"
 #include "EntityMods/DrawMod.hpp"
 #include "EntityMods/ResolverMod.hpp"
-#include "GlobalEngineState.hpp"
 #include "GraphicsLayer/GraphicsLayerSpec.hpp"
 #include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "OpenGL.h"
@@ -19,6 +17,9 @@
 #include "PlushUtilException.hpp"
 #include "Texture2D/ManagedTexture2D.hpp"
 #include "UniformResolver.hpp"
+#include "Commands/NoOpCommand.hpp"
+#include "EngineInterfaces/ControlsDrawable.hpp"
+#include "CommandTargetFilters/DynamicCastFilter.hpp"
 
 void runProgram(){
 
@@ -87,7 +88,6 @@ void runProgram(){
         .addEntityMod(
             PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload2}))
         );
-    
 
     window.addGraphicsLayer(layer);
     win2.addGraphicsLayer(layer2);
@@ -112,6 +112,13 @@ void runProgram(){
 }
 
 int main(int, char**) {
+    PlushEngine::Commands::NoOpCommand comm;
+
+    comm.filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>()).filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>());
+
+    PlushEngine::Commands::NoOpCommand comm2 = PlushEngine::Commands::NoOpCommand().filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>()).filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>());
+
+    return 1;
     try{
         runProgram();
     } catch (PlushUtil::PlushUtilException e){

@@ -1,4 +1,5 @@
-#include "PlushEngine.hpp"
+#ifndef CONTROLSCOORDINATESTATE2D_HPP
+#define CONTROLSCOORDINATESTATE2D_HPP
 
 namespace PlushEngine {
     namespace EngineInterfaces {
@@ -9,3 +10,5 @@ namespace PlushEngine {
         };
     }
 }
+
+#endif // CONTROLSCOORDINATESTATE2D_HPP

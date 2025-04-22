@@ -68,6 +68,8 @@ namespace PlushEngine {
     }
 
     namespace Commands {
+        /// A no-op command
+        class NoOpCommand;
     
     }
 
@@ -75,7 +77,12 @@ namespace PlushEngine {
     typedef std::unique_ptr<CommandTargetFilter> UniquePtrFilter;
     typedef std::shared_ptr<CommandTargetFilter> SharedPtrFilter;
     namespace CommandTargetFilters {
+        /// Filters by the exact (most-derived) class that a Mod was instantiated as
         class TypeFilter;
+
+        /// Filters by whether a Mod can be dynamic_cast to the templated class
+        template<typename TargetClass>
+        class DynamicCastFilter;
     }
 
     namespace EngineUniformResolvers {

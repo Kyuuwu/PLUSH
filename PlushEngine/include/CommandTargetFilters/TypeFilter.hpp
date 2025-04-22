@@ -10,12 +10,12 @@ namespace PlushEngine {
                 TypeFilter(const std::type_info& _type):
                 targetType(_type) {}
 
-                UniquePtrFilter copy() override{
-                    return UniquePtrFilter(new TypeFilter(targetType));
-                }
+                // UniquePtrFilter copy() override{
+                //     return UniquePtrFilter(new TypeFilter(targetType));
+                // }
 
                 bool testMod(SharedPtrEntityMod _mod) override{
-                    EngineInterfaces::BaseEntityMod& temp = *(_mod.get());
+                    EngineInterfaces::BaseEntityMod& temp = *_mod;
 
                     if(typeid(temp) == targetType){
                         return true;

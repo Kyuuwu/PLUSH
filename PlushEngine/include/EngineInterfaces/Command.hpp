@@ -1,3 +1,6 @@
+#ifndef COMMAND_HPP
+#define COMMAND_HPP
+
 #include "Entity/ManagedEntity.hpp"
 #include "PlushEngine.hpp"
 #include "CommandTargetFilter.hpp"
@@ -8,13 +11,17 @@ namespace PlushEngine {
     namespace EngineInterfaces {
         class Command{
             public:
+                virtual ~Command(){}
+
                 virtual Command& expectsNumRecipients(size_t _numRecipients){
                     expectedNumRecipients = _numRecipients;
                     return *this;
                 }
-                virtual Command& filterBy(CommandTargetFilter&& _filter){
-                    filters.push_back(_filter.copy());
-                    return *this;
+
+                template<typename Self, typename Filter>
+                Self&& filterBy(this Self&& self, Filter&& _filter){
+                    self.filters.push_back(_filter.copy());
+                    return self;
                 }
     
                 virtual void executeCommand(ManagedEntity targetEntity){
@@ -57,7 +64,14 @@ namespace PlushEngine {
                     return false;
                 }
 
-                virtual bool isRecipientValid(SharedPtrEntityMod mod) = 0;
+                virtual bool isRecipientValid(SharedPtrEntityMod mod){
+                    // if(dynamic_cast<TargetInterface*>(mod.get()) != nullptr){ // if cross-cast is valid
+                    //     return true;
+                    // }
+                    #pragma unused(mod)
+                    return false;
+                }
+
                 virtual void executeCommand(SharedPtrEntityMod mod) = 0;
 
                 size_t expectedNumRecipients = 0; // 0 ie any number of recipients
@@ -65,3 +79,5 @@ namespace PlushEngine {
         };
     }
 }
+
+#endif // COMMAND_HPP

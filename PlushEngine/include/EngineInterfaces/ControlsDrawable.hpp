@@ -11,6 +11,12 @@ namespace PlushEngine {
                 virtual void setModelInstance(PlushGraphics::ManagedModelInstance _modelInstance) = 0;
                 virtual void moveDrawableToLayer(PlushGraphics::ManagedGraphicsLayer _layer) = 0;
                 virtual void setPrimaryTexture(PlushGraphics::ManagedTexture2D _texture) = 0;
+
+                template<typename Self>
+                Self&& withPrimaryTexture(this Self&& self, PlushGraphics::ManagedTexture2D _texture){
+                    self.setPrimaryTexture(_texture);
+                    return self;
+                }
         };
     }
 }
