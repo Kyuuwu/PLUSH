@@ -41,15 +41,8 @@ namespace PlushEngine {
                     for(SharedPtrFilter _filter : filters){
                         mods = _filter->filterMods(mods); // apply each filter, then return the result
                     }
-                    std::vector<SharedPtrEntityMod> validMods;
 
-                    for(SharedPtrEntityMod _mod : mods){ // filter by interface filter before or after? idk uwu
-                        if(isRecipientValid(_mod)){
-                            validMods.push_back(_mod);
-                        }
-                    }
-
-                    return validMods;
+                    return mods;
                 }
 
                 virtual bool isRecipientsListValid(const std::vector<SharedPtrEntityMod>& recipientMods){
@@ -64,13 +57,13 @@ namespace PlushEngine {
                     return false;
                 }
 
-                virtual bool isRecipientValid(SharedPtrEntityMod mod){
-                    // if(dynamic_cast<TargetInterface*>(mod.get()) != nullptr){ // if cross-cast is valid
-                    //     return true;
-                    // }
-                    #pragma unused(mod)
-                    return false;
-                }
+                // virtual bool isRecipientValid(SharedPtrEntityMod mod){
+                //     // if(dynamic_cast<TargetInterface*>(mod.get()) != nullptr){ // if cross-cast is valid
+                //     //     return true;
+                //     // }
+                //     #pragma unused(mod)
+                //     return false;
+                // }
 
                 virtual void executeCommand(SharedPtrEntityMod mod) = 0;
 

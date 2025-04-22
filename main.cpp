@@ -112,13 +112,6 @@ void runProgram(){
 }
 
 int main(int, char**) {
-    PlushEngine::Commands::NoOpCommand comm;
-
-    comm.filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>()).filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>());
-
-    PlushEngine::Commands::NoOpCommand comm2 = PlushEngine::Commands::NoOpCommand().filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>()).filterBy(PlushEngine::CommandTargetFilters::DynamicCastFilter<PlushEngine::EngineInterfaces::ControlsDrawable>());
-
-    return 1;
     try{
         runProgram();
     } catch (PlushUtil::PlushUtilException e){
