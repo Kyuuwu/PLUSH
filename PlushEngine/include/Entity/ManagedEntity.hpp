@@ -63,6 +63,10 @@ namespace PlushEngine {
             EntityIdentifier getIdentifier() const{
                 return (*this)->getIdentifier();
             }
+
+            EntityStatus& status(){
+                return (*this)->_status();
+            }
     };
 }
 

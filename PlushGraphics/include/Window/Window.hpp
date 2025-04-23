@@ -6,6 +6,7 @@
 #include "PlushGraphics.hpp"
 #include "UniformResolver.hpp"
 #include "WindowIdentifier.hpp"
+#include <cstddef>
 #include <vector>
 #include "WindowSettings.hpp"
 
@@ -13,6 +14,8 @@ namespace PlushGraphics {
     class Window{
         public:
             friend class GlobalGraphicsState;
+            friend class WindowRegistry;
+            friend class ManagedWindow;
 
             using Identifier = WindowIdentifier;
             using Spec = WindowSpec;
@@ -46,6 +49,12 @@ namespace PlushGraphics {
 
             void _clearGraphicsLayers(){
                 graphicsLayers = std::vector<ManagedGraphicsLayer>();
+            }
+
+            void _updateWindowSize(int width, int height);
+
+            double _getAspectRatio(){
+                return settings.windowWidth / settings.windowHeight;
             }
 
         private:

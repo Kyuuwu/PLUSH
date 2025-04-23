@@ -7,8 +7,16 @@
 namespace PlushEngine {
     class EntityStatus{
         public:
-            std::optional<DataStructures::CoordinateState2D> coords2D;
-            std::optional<DataStructures::CoordinateState3D> coords3D;
+            DataStructures::CoordinateState2D& Coords2D() { 
+                if(!_coords2D.has_value()){
+                    _coords2D = DataStructures::CoordinateState2D();
+                }
+                return *_coords2D; 
+            }
+
+        private:
+            std::optional<DataStructures::CoordinateState2D> _coords2D;
+            std::optional<DataStructures::CoordinateState3D> _coords3D;
     };
 }
 

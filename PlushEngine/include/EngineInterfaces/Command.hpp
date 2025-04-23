@@ -13,9 +13,10 @@ namespace PlushEngine {
             public:
                 virtual ~Command(){}
 
-                virtual Command& expectsNumRecipients(size_t _numRecipients){
-                    expectedNumRecipients = _numRecipients;
-                    return *this;
+                template<typename Self>
+                Command& expectsNumRecipients(this Self&& self, size_t _numRecipients){
+                    self.expectedNumRecipients = _numRecipients;
+                    return self;
                 }
 
                 template<typename Self, typename Filter>
@@ -29,9 +30,12 @@ namespace PlushEngine {
 
                     mods = filterMods(mods);
 
+                    // std::cout << "Num matched: " << mods.size() << std::endl;
+                    // std::cout << "Num wanted: " << expectedNumRecipients << std::endl;
+
                     if(isRecipientsListValid(mods)){
                         for(SharedPtrEntityMod _mod : mods){
-                            executeCommand(_mod);
+                            executeCommandOnMod(_mod);
                         }
                     }
                 }
@@ -65,7 +69,7 @@ namespace PlushEngine {
                 //     return false;
                 // }
 
-                virtual void executeCommand(SharedPtrEntityMod mod) = 0;
+                virtual void executeCommandOnMod(SharedPtrEntityMod mod) = 0;
 
                 size_t expectedNumRecipients = 0; // 0 ie any number of recipients
                 std::vector<SharedPtrFilter> filters;

@@ -3,7 +3,7 @@
 
 #include "OpenGL_Type.hpp"
 #include "PlushGraphics.hpp"
-#include "glad/glad.h"
+#include "OpenGL.h"
 #include "glm/glm.hpp"
 #include <sstream>
 

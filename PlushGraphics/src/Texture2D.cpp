@@ -1,10 +1,10 @@
 #include "Texture2D/Texture2D.hpp"
 #include "Texture2D/Texture2DSpec.hpp"
+#include "OpenGL.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include "glad/glad.h"
 #include <iostream>
 #include "PlushUtilException.hpp"
 

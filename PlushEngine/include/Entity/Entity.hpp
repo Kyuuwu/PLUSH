@@ -29,6 +29,7 @@ namespace PlushEngine {
             }
 
             EntityIdentifier getIdentifier() const { return identifier; }
+            EntityStatus& _status(){return status;}
 
         private:
             EntityIdentifier identifier;

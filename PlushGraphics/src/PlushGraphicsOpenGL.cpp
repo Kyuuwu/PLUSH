@@ -3,6 +3,7 @@
 #include "UniformResolver.hpp"
 #include "Window/WindowSpec.hpp"
 #include <iostream>
+#include "UniformResolvers/NoOpResolver.hpp"
 
 namespace PlushGraphics {
     void GlobalGraphicsState::initializeOpenGL(){

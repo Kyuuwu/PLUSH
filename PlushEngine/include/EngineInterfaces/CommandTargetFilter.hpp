@@ -24,7 +24,7 @@ namespace PlushEngine {
                     }
                 }
 
-                return mods;
+                return filteredMods;
             }
     };
 }

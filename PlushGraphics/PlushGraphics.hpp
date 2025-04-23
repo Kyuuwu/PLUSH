@@ -40,8 +40,14 @@ namespace PlushGraphics {
         };
 
     namespace UniformResolvers {
-        class NoOpResolver; // UniformResolver which makes no attempt to resolve uniforms, or do anything else
-        class PreloadedUniformsResolver; // UniformResolver which attempts to resolve uniforms using a provided list
+        /// UniformResolver which makes no attempt to resolve uniforms, or do anything else
+        class NoOpResolver; 
+        
+        /// UniformResolver which attempts to resolve uniforms using a provided list
+        class PreloadedUniformsResolver; 
+
+        /// UniformResolver which provides uniforms related to a ManagedWindow's current state
+        class WindowUniformResolver;
     }
 
     class ManagedGraphicsLayer;

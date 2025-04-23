@@ -6,7 +6,7 @@
 #include "EngineUniformResolvers/EntityUniformResolver.hpp"
 #include "Shader/ShaderUniformPayload.hpp"
 #include "Shader/ShaderUniformSlotIdentifier.hpp"
-#include "UniformResolver.hpp"
+#include "UniformResolvers/NoOpResolver.hpp"
 
 namespace PlushEngine {
     namespace EntityMods {

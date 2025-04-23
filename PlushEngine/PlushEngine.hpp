@@ -65,11 +65,16 @@ namespace PlushEngine {
         class DrawMod;
 
         class ResolverMod;
+
+        /// simple control of position and rotation in 2D
+        class Placement2DMod;
     }
 
     namespace Commands {
         /// A no-op command
         class NoOpCommand;
+
+        class SetAngleCommand;
     
     }
 

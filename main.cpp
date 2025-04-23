@@ -1,3 +1,5 @@
+#include "EngineInterfaces/BaseEntityMod.hpp"
+#include "OpenGL.h"
 #include <cstdint>
 #include <iostream>
 
@@ -7,7 +9,7 @@
 #include "EntityMods/ResolverMod.hpp"
 #include "GraphicsLayer/GraphicsLayerSpec.hpp"
 #include "GraphicsLayer/ManagedGraphicsLayer.hpp"
-#include "OpenGL.h"
+#include "ModelInstance/ManagedModelInstance.hpp"
 #include "PlushEngine.hpp"
 #include "PlushGraphics.hpp"
 #include "PlushGraphicsException.hpp"
@@ -15,11 +17,18 @@
 #include "OpenGL_Type.hpp"
 
 #include "PlushUtilException.hpp"
+#include "Shader/ShaderSpec.hpp"
 #include "Texture2D/ManagedTexture2D.hpp"
 #include "UniformResolver.hpp"
 #include "Commands/NoOpCommand.hpp"
 #include "EngineInterfaces/ControlsDrawable.hpp"
 #include "CommandTargetFilters/DynamicCastFilter.hpp"
+#include "EntityMods/Placement2DMod.hpp"
+#include "Commands/SetAngleCommand.hpp"
+#include "CommandTargetFilters/TypeFilter.hpp"
+#include "UniformResolvers/NoOpResolver.hpp"
+#include "UniformResolvers/PreloadedUniformResolver.hpp"
+#include "UniformResolvers/WindowUniformResolver.hpp"
 
 void runProgram(){
 
@@ -32,7 +41,7 @@ void runProgram(){
     PlushGraphics::WindowSettings window2settings;
     window2settings.windowName = "nyanya";
     window2settings.clearColor = glm::vec4(0.7, 0.3, 0.3, 1.0);
-    PlushGraphics::WindowSpec spec2(PlushGraphics::UniformResolvers::NoOpResolver(), window2settings);
+    PlushGraphics::WindowSpec spec2(PlushGraphics::UniformResolvers::WindowUniformResolver(), window2settings);
     PlushGraphics::WindowIdentifier id2 = PlushGraphics::GlobalGraphicsState::windowRegistry.loadItem(spec2);
     PlushGraphics::ManagedWindow win2 = PlushGraphics::GlobalGraphicsState::getWindow(id2);
 
@@ -41,7 +50,16 @@ void runProgram(){
     PlushGraphics::ShaderSpec spec("shader1");
 
     PlushGraphics::ManagedShader shader = PlushGraphics::GlobalGraphicsState::getShader(PlushGraphics::GlobalGraphicsState::loadShader(spec));
+    PlushGraphics::ManagedShader shader2 = PlushGraphics::GlobalGraphicsState::getShader(PlushGraphics::GlobalGraphicsState::loadShader(
+            PlushGraphics::ShaderSpec("shader2")
+        )
+    );
     
+    PlushGraphics::ManagedShader shader3 = PlushGraphics::GlobalGraphicsState::getShader(PlushGraphics::GlobalGraphicsState::loadShader(
+        PlushGraphics::ShaderSpec("shader3")
+        )
+    );
+
     std::cout << "Identifier: " << shader.getIdentifier().getShaderName() << std::endl;
     for(PlushGraphics::ShaderMetadata::ShaderUniformSlotIdentifier uniSlot : shader.getUniformSlotIdentifiers()){
         std::cout << "    Uniform: " << PlushGraphics::getStringFromType(uniSlot.getSlotType()) 
@@ -63,6 +81,9 @@ void runProgram(){
     PlushGraphics::ModelInstanceSpec instspec(modeldata, shader);
     PlushGraphics::ManagedModelInstance instst = PlushGraphics::GlobalGraphicsState::getModelInstance(PlushGraphics::GlobalGraphicsState::loadModelInstance(instspec));
 
+    PlushGraphics::ModelInstanceSpec inst2spec(modeldata, shader3);
+    PlushGraphics::ManagedModelInstance inst2 = PlushGraphics::GlobalGraphicsState::getModelInstance(PlushGraphics::GlobalGraphicsState::loadModelInstance(inst2spec));
+
     PlushGraphics::Texture2DSpec tspec(PlushGraphics::Texture2DSpec("wall.jpg"));
     PlushGraphics::ManagedTexture2D texture = PlushGraphics::GlobalGraphicsState::getTexture2D(PlushGraphics::GlobalGraphicsState::loadTexture2D(tspec));
 
@@ -83,10 +104,13 @@ void runProgram(){
     PlushEngine::ManagedEntity ent2 = 
         PlushEngine::ManagedEntity()
         .addEntityMod(
-            PlushEngine::EntityMods::DrawMod(instst,layer2).withPrimaryTexture(texture)
+            PlushEngine::EntityMods::DrawMod(inst2,layer2).withPrimaryTexture(texture)
         )
         .addEntityMod(
             PlushEngine::EntityMods::ResolverMod(PlushGraphics::UniformResolvers::PreloadedUniformsResolver({payload2}))
+        )
+        .addEntityMod(
+            PlushEngine::EntityMods::Placement2DMod()
         );
 
     window.addGraphicsLayer(layer);
@@ -95,6 +119,9 @@ void runProgram(){
     uint32_t i = 0;
 
     while(!window.getWindowShouldClose() && !win2.getWindowShouldClose()){
+        PlushEngine::Commands::SetAngleCommand(glfwGetTime())
+            .executeCommand(ent2);
+        
         window.performDrawCycle();
         glfwPollEvents();
 

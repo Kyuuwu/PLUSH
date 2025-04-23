@@ -1,6 +1,6 @@
 #include "OpenGL_Type.hpp"
 #include "PlushGraphicsException.hpp"
-#include "glad/glad.h"
+#include "OpenGL.h"
 
 PlushGraphics::OpenGL_Type PlushGraphics::getTypeFromString(std::string typestring){
     if (typestring == "uint"){

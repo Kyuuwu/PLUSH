@@ -1,6 +1,7 @@
 #ifndef MANAGEDOBJECT_HPP
 #define MANAGEDOBJECT_HPP
 
+#include <iostream>
 #include <memory>
 #include "PlushUtil.hpp"
 #include "PlushUtilException.hpp"
@@ -8,6 +9,9 @@
 namespace PlushUtil{
     template <Manageable X> class ManagedObject{
         public:
+            template<ImplementsManagedObject ManagedX>
+            friend class Registry;
+
             ManagedObject(typename X::Spec spec):
             ManagedObject(std::make_unique<X>(spec)) {}
             // spec constructor
@@ -16,7 +20,7 @@ namespace PlushUtil{
             ManagedObject& operator=(const ManagedObject<X>& other); // copy assign
             ManagedObject(ManagedObject<X>&& other); // move constructor
             ManagedObject& operator=(ManagedObject<X>&& other); // move assign
-            ~ManagedObject(); // destructor
+            virtual ~ManagedObject(); // destructor
 
             ManagedObject clone();
 
@@ -26,6 +30,8 @@ namespace PlushUtil{
 
         protected:
             X* operator->() const; // protected const member access operator
+
+            virtual void runAfterCreationFromSpec(){}
 
         private:
             ManagedObject(std::unique_ptr<X> pointer); // unique ptr constructor for originals

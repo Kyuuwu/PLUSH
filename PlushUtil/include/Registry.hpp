@@ -13,9 +13,9 @@ namespace PlushUtil {
         public:
             ManagedX getItem(typename ManagedX::Object::Identifier identifier);
             bool isItemLoaded(typename ManagedX::Object::Identifier identifier);
-            typename ManagedX::Object::Identifier loadItem(typename ManagedX::Object::Spec spec);
+            virtual typename ManagedX::Object::Identifier loadItem(typename ManagedX::Object::Spec spec);
 
-        private:
+        protected:
             std::vector<ManagedX> items;
             std::map<typename ManagedX::Object::Identifier, size_t> indexMap;
     };
@@ -37,6 +37,7 @@ namespace PlushUtil {
     template<ImplementsManagedObject ManagedX>
     typename ManagedX::Object::Identifier Registry<ManagedX>::loadItem(typename ManagedX::Object::Spec spec){
         ManagedX newItem(spec); // create new item from spec
+        ((ManagedObject<typename ManagedX::Object>&)newItem).runAfterCreationFromSpec();
         
         typename ManagedX::Object::Identifier identifier = newItem.getIdentifier();
 

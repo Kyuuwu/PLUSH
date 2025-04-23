@@ -5,11 +5,13 @@
 #include "WindowSpec.hpp"
 #include "ManagedObject.hpp"
 #include "Window.hpp"
+#include <memory>
 
 namespace PlushGraphics {
     class ManagedWindow : public PlushUtil::ManagedObject<Window>{
         public:
             friend class GlobalGraphicsState;
+            friend class WindowRegistry;
 
             ManagedWindow(ManagedWindow&& other) noexcept:
                 PlushUtil::ManagedObject<Window>(std::move(other))
@@ -54,6 +56,17 @@ namespace PlushGraphics {
             void performDrawCycle(){
                 (*this)->_performDrawCycle();
             }
+
+            void updateWindowSize(int width, int height){
+                (*this)->_updateWindowSize(width, height);
+            }
+
+            double getAspectRatio(){
+                return (*this)->_getAspectRatio();
+            }
+
+            protected:
+                void runAfterCreationFromSpec() override;
     };
 }
 

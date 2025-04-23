@@ -12,10 +12,9 @@
 #include "../include/GlobalGraphicsState.hpp"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
-    glfwMakeContextCurrent(window); // temporarily switch to window pointer off-books
-    glViewport(0,0,width, height);
-    PlushGraphics::GlobalGraphicsState::switchContextToWindow(PlushGraphics::GlobalGraphicsState::getActiveWindowIdentifier()); 
-    // then switch back to active window
+    PlushGraphics::GlobalGraphicsState::windowRegistry
+        .getManagedWindowFromWindowPtr(window)
+            .updateWindowSize(width, height);
 }
 
 namespace PlushGraphics {
@@ -82,5 +81,13 @@ namespace PlushGraphics {
 
     void Window::_addGraphicsLayer(ManagedGraphicsLayer layer) {
         graphicsLayers.push_back(layer);
+    }
+
+    void Window::_updateWindowSize(int width, int height) {
+        glfwMakeContextCurrent(windowPointer); // temporarily switch to window pointer off-books
+        glViewport(0,0,width, height);
+        settings.windowWidth = width;
+        settings.windowHeight = height;
+        GlobalGraphicsState::switchContextToActiveWindow();
     }
 }
