@@ -2,6 +2,7 @@
 #define PLUSHUTIL_HPP
 
 #include <concepts>
+#include <memory>
 namespace PlushUtil {
     enum class PlushUtilException;
 
@@ -36,6 +37,15 @@ namespace PlushUtil {
     template<ImplementsManagedObject ManagedX> class Registry;
 
     template<typename T> class Slot;
+
+    /// Interface for a simple void call
+    class Callable;
+    typedef std::shared_ptr<Callable> SharedPtrCallable;
+    typedef std::unique_ptr<Callable> UniquePtrCallable;
+    template<typename T> concept CallableDerived = requires
+    (){
+        requires std::derived_from<T, Callable>;
+    };
 }
 
 #endif // PLUSHUTIL_HPP

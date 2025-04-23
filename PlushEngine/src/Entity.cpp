@@ -14,6 +14,12 @@ void PlushEngine::Entity::_runLogicUpdateOnAllMods() {
     }
 }
 
+void PlushEngine::Entity::_runPredrawTasksOnAllMods() {
+    for(auto mod : mods){
+        mod->runPredrawTasks();
+    }
+}
+
 void PlushEngine::Entity::_resolveUniformRequirementsWithAllMods(PlushGraphics::ManagedShader shader) {
     for(auto op : mods){
         op->resolveUniformRequirements(shader);

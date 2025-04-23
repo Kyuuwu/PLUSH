@@ -7,6 +7,9 @@
 namespace PlushEngine {
     class EntityStatus{
         public:
+            bool enableDraw = true;
+            bool enableLogicUpdates = true;
+
             DataStructures::CoordinateState2D& Coords2D() { 
                 if(!_coords2D.has_value()){
                     _coords2D = DataStructures::CoordinateState2D();

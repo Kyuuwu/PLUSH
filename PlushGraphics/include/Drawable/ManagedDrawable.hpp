@@ -3,6 +3,7 @@
 
 #include "ManagedObject.hpp"
 #include "Drawable.hpp"
+#include "PlushUtil.hpp"
 #include "Shader/ManagedShader.hpp"
 
 namespace PlushGraphics {
@@ -28,8 +29,16 @@ namespace PlushGraphics {
 
             using Object = Drawable;
 
+            void runPredrawTasks(){
+                (*this)->_runPredrawTasks();
+            }
+
             void draw(){
                 (*this)->_draw();
+            }
+
+            void enableDraw(bool _enableDraw){
+                (*this)->_enableDraw(_enableDraw);
             }
 
             void setModelInstance(ManagedModelInstance modelInstance){
@@ -42,8 +51,19 @@ namespace PlushGraphics {
 
 
             template<UniResDerived T>
-            void setUniformResolver(T&& _ur){
+            ManagedDrawable& setUniformResolver(T&& _ur){
                 (*this)->_setUniformResolver(std::forward<T>(_ur));
+                return *this;
+            }
+
+            void setPredrawCall(PlushUtil::SharedPtrCallable callable){
+                (*this)->_setPredrawCall(callable);
+            }
+
+            template<PlushUtil::CallableDerived C>
+            ManagedDrawable& setPredrawCall(C&& c){
+                (*this)->_setPredrawCall(std::forward<C>(c));
+                return *this;
             }
 
         private:

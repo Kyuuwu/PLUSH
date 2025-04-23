@@ -5,6 +5,7 @@
 #include "Drawable/ManagedDrawable.hpp"
 #include "EngineInterfaces/ControlsDrawable.hpp"
 #include "Entity/ManagedEntity.hpp"
+#include "Entity/ManagedEntityPredrawCall.hpp"
 #include "GraphicsLayer/ManagedGraphicsLayer.hpp"
 #include "ModelInstance/ManagedModelInstance.hpp"
 #include "Shader/ManagedShader.hpp"
@@ -32,7 +33,8 @@ namespace PlushEngine {
 
             protected:
                 void processNewOwningEntity() override{
-                    drawable.setUniformResolver(EngineUniformResolvers::EntityUniformResolver(*owningEntity));
+                    drawable.setUniformResolver(EngineUniformResolvers::EntityUniformResolver(*owningEntity))
+                        .setPredrawCall(ManagedEntityPredrawCall(*owningEntity));
                 }
 
             private:

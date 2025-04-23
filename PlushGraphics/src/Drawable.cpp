@@ -3,6 +3,7 @@
 #include "../include/GlobalGraphicsState.hpp"
 #include "../include/Drawable/DrawableSpec.hpp"
 #include "../include/Drawable/DrawableIdentifier.hpp"
+#include "Callable.hpp"
 
 PlushGraphics::Drawable::Drawable(DrawableSpec spec)
     : modelInstance(spec.modelInstance),
@@ -19,4 +20,8 @@ void PlushGraphics::Drawable::_draw() {
     modelInstance.getShader().acceptUniformResolver(resolver);
     modelInstance.getShader().prepareForDraw();
     modelInstance.draw();
+}
+
+void PlushGraphics::Drawable::_runPredrawTasks() {
+    predrawCall->call();
 }

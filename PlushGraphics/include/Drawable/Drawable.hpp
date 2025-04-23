@@ -3,6 +3,7 @@
 
 #include "ModelInstance/ManagedModelInstance.hpp"
 #include "PlushGraphics.hpp"
+#include "PlushUtil.hpp"
 #include "UniformResolver.hpp"
 #include <memory>
 #include "DrawableIdentifier.hpp"
@@ -32,7 +33,18 @@ namespace PlushGraphics {
                 modelInstance = _modelInstance;
             }
 
+            void _setPredrawCall(PlushUtil::SharedPtrCallable _callable){
+                predrawCall = _callable;
+            }
+
+            template<PlushUtil::CallableDerived C>
+            void _setPredrawCall(C&& _predrawCall){
+                predrawCall = PlushUtil::SharedPtrCallable(new C(std::move(_predrawCall)));
+            }
+
             void _draw();
+
+            void _runPredrawTasks();
 
             DrawableIdentifier getIdentifier() const { return identifier; }
 
@@ -50,12 +62,20 @@ namespace PlushGraphics {
                 resolver = SharedPtrUniformResolver(new T(_ur));
             }
 
+            void _enableDraw(bool _enable){
+                enableDraw = _enable;
+            }
+
         private:
             DrawableIdentifier identifier;
 
             ManagedModelInstance modelInstance;
 
             SharedPtrUniformResolver resolver;
+
+            PlushUtil::SharedPtrCallable predrawCall;
+
+            bool enableDraw = true;
     };
 }
 

@@ -21,6 +21,8 @@ namespace PlushEngine {
 
     class EntityStatus; // stores all necessary data about the state of an entity (expandable/modular)
 
+    class ManagedEntityPredrawCall;
+
     namespace DataStructures {
         class Position2D;
         class Position3D;
